@@ -1554,7 +1554,17 @@
             background:var(--bg-elevated);
             border:1px solid var(--border);
             border-radius:var(--radius);
-            padding:20px;
+            padding:16px;
+        }
+        @media(max-width:767px) {
+            .product-card {
+                margin-left:-20px;
+                margin-right:-20px;
+                border-radius:0;
+                border-left:none;
+                border-right:none;
+                padding:16px 20px;
+            }
         }
         .pc-header {
             display:flex; flex-direction:column; gap:8px;
@@ -1597,7 +1607,7 @@
             aspect-ratio:1/1;
             border-radius:var(--radius);
             overflow:hidden;
-            background:var(--bg-elevated);
+            background:var(--bg);
             border:1px solid var(--border);
         }
         .gallery-main-img {
@@ -1606,7 +1616,7 @@
             transition:background .4s ease;
         }
         .gallery-main-img img {
-            width:100%; height:100%; object-fit:cover;
+            width:100%; height:100%; object-fit:contain;
         }
         .gallery-placeholder {
             font-size:13px; color:var(--text-muted);
@@ -2200,7 +2210,7 @@
                 <div class="product-card-gallery">
                     <div class="gallery-main">
                         <div class="gallery-main-img" id="galleryMainImg">
-                            <img src="slipper-bieg.png" alt="ULTERA SHAPE Beige" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;">
+                            <img src="slipper-bieg.png" alt="ULTERA SHAPE Beige" style="width:100%;height:100%;object-fit:contain;border-radius:inherit;">
                         </div>
                         <div class="gallery-badge">-20%</div>
                     </div>
@@ -2225,17 +2235,17 @@
                     <!-- Color picker -->
                     <div style="margin-top:16px;">
                         <label style="font-size:11px;font-weight:500;color:var(--text-muted);letter-spacing:0.5px;display:block;margin-bottom:8px;">Колір</label>
-                        <div id="formColorPicker" style="display:flex;flex-wrap:wrap;gap:6px;">
-                            <button class="form-color-btn active" data-color="beige" onclick="selectFormColor(this)" style="width:28px;height:28px;border-radius:50%;border:2px solid var(--accent);background:#d4c4a8;cursor:pointer;transition:all .2s;padding:0;"></button>
-                            <button class="form-color-btn" data-color="black" onclick="selectFormColor(this)" style="width:28px;height:28px;border-radius:50%;border:2px solid transparent;background:#1a1a1a;cursor:pointer;transition:all .2s;padding:0;"></button>
-                            <button class="form-color-btn" data-color="orange" onclick="selectFormColor(this)" style="width:28px;height:28px;border-radius:50%;border:2px solid transparent;background:#d4621a;cursor:pointer;transition:all .2s;padding:0;"></button>
-                            <button class="form-color-btn" data-color="burgundy" onclick="selectFormColor(this)" style="width:28px;height:28px;border-radius:50%;border:2px solid transparent;background:#5c1a2a;cursor:pointer;transition:all .2s;padding:0;"></button>
-                            <button class="form-color-btn" data-color="pistachio" onclick="selectFormColor(this)" style="width:28px;height:28px;border-radius:50%;border:2px solid transparent;background:#9ab87a;cursor:pointer;transition:all .2s;padding:0;"></button>
-                            <button class="form-color-btn" data-color="white" onclick="selectFormColor(this)" style="width:28px;height:28px;border-radius:50%;border:2px solid transparent;background:#e8e8e8;cursor:pointer;transition:all .2s;padding:0;"></button>
-                            <button class="form-color-btn" data-color="blue" onclick="selectFormColor(this)" style="width:28px;height:28px;border-radius:50%;border:2px solid transparent;background:#8fb4d4;cursor:pointer;transition:all .2s;padding:0;"></button>
-                            <button class="form-color-btn" data-color="graphite" onclick="selectFormColor(this)" style="width:28px;height:28px;border-radius:50%;border:2px solid transparent;background:#4a4a4a;cursor:pointer;transition:all .2s;padding:0;"></button>
-                            <button class="form-color-btn" data-color="red" onclick="selectFormColor(this)" style="width:28px;height:28px;border-radius:50%;border:2px solid transparent;background:#c41e1e;cursor:pointer;transition:all .2s;padding:0;"></button>
-                            <button class="form-color-btn" data-color="gray" onclick="selectFormColor(this)" style="width:28px;height:28px;border-radius:50%;border:2px solid transparent;background:#b0a899;cursor:pointer;transition:all .2s;padding:0;"></button>
+                        <div id="formColorPicker" style="display:flex;flex-wrap:nowrap;gap:0;justify-content:space-between;">
+                            <button class="form-color-btn active" data-color="beige" onclick="selectFormColor(this)" style="width:30px;height:30px;border-radius:50%;border:2px solid var(--accent);background:#d4c4a8;cursor:pointer;transition:all .2s;padding:0;flex-shrink:0;"></button>
+                            <button class="form-color-btn" data-color="black" onclick="selectFormColor(this)" style="width:30px;height:30px;border-radius:50%;border:2px solid transparent;background:#1a1a1a;cursor:pointer;transition:all .2s;padding:0;flex-shrink:0;"></button>
+                            <button class="form-color-btn" data-color="orange" onclick="selectFormColor(this)" style="width:30px;height:30px;border-radius:50%;border:2px solid transparent;background:#d4621a;cursor:pointer;transition:all .2s;padding:0;flex-shrink:0;"></button>
+                            <button class="form-color-btn" data-color="burgundy" onclick="selectFormColor(this)" style="width:30px;height:30px;border-radius:50%;border:2px solid transparent;background:#5c1a2a;cursor:pointer;transition:all .2s;padding:0;flex-shrink:0;"></button>
+                            <button class="form-color-btn" data-color="pistachio" onclick="selectFormColor(this)" style="width:30px;height:30px;border-radius:50%;border:2px solid transparent;background:#9ab87a;cursor:pointer;transition:all .2s;padding:0;flex-shrink:0;"></button>
+                            <button class="form-color-btn" data-color="white" onclick="selectFormColor(this)" style="width:30px;height:30px;border-radius:50%;border:2px solid transparent;background:#e8e8e8;cursor:pointer;transition:all .2s;padding:0;flex-shrink:0;"></button>
+                            <button class="form-color-btn" data-color="blue" onclick="selectFormColor(this)" style="width:30px;height:30px;border-radius:50%;border:2px solid transparent;background:#8fb4d4;cursor:pointer;transition:all .2s;padding:0;flex-shrink:0;"></button>
+                            <button class="form-color-btn" data-color="graphite" onclick="selectFormColor(this)" style="width:30px;height:30px;border-radius:50%;border:2px solid transparent;background:#4a4a4a;cursor:pointer;transition:all .2s;padding:0;flex-shrink:0;"></button>
+                            <button class="form-color-btn" data-color="red" onclick="selectFormColor(this)" style="width:30px;height:30px;border-radius:50%;border:2px solid transparent;background:#c41e1e;cursor:pointer;transition:all .2s;padding:0;flex-shrink:0;"></button>
+                            <button class="form-color-btn" data-color="gray" onclick="selectFormColor(this)" style="width:30px;height:30px;border-radius:50%;border:2px solid transparent;background:#b0a899;cursor:pointer;transition:all .2s;padding:0;flex-shrink:0;"></button>
                         </div>
                     </div>
 
@@ -2829,6 +2839,9 @@
             <button class="btn-primary" onclick="closeModal()">Закрити</button>
         </div>
     </div>
+
+    <!-- ULTERA Analytics Tracker -->
+    <script src="ultera-tracker.js" defer></script>
 
     <script>
     // ===== STATE =====
@@ -3687,10 +3700,4 @@
 
         const overlay = document.createElement('div');
         overlay.className='ed-ov';
-                document.body.appendChild(overlay);
-
-    })();
-
-    </script>
-</body>
-</html>
+        document.bod
