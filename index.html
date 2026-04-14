@@ -1604,11 +1604,14 @@
         .gallery-main {
             position:relative;
             width:100%;
-            aspect-ratio:1/1;
+            aspect-ratio:3/4;
             border-radius:var(--radius);
             overflow:hidden;
             background:var(--bg);
             border:1px solid var(--border);
+        }
+        @media(min-width:768px){
+            .gallery-main { aspect-ratio:1/1; }
         }
         .gallery-main-img {
             width:100%; height:100%;
@@ -1629,11 +1632,16 @@
             letter-spacing:.5px;
         }
         .gallery-thumbs {
-            display:flex; gap:8px;
+            display:flex; gap:6px;
+            overflow-x:auto;
+            -webkit-overflow-scrolling:touch;
+            scrollbar-width:none;
+            padding-bottom:2px;
         }
+        .gallery-thumbs::-webkit-scrollbar { display:none; }
         .gallery-thumb {
-            flex:1;
-            aspect-ratio:1;
+            flex:0 0 auto;
+            width:56px; height:56px;
             border-radius:8px;
             overflow:hidden;
             border:2px solid var(--border);
@@ -1641,16 +1649,12 @@
             transition:all var(--tr);
             display:flex; align-items:center; justify-content:center;
             padding:0;
-            max-width:80px;
+            cursor:pointer;
         }
         .gallery-thumb:hover { border-color:var(--text-muted); }
         .gallery-thumb.active { border-color:var(--accent); }
-        .gallery-thumb-video {
-            flex-direction:column; gap:2px;
-        }
-        .thumb-video-label {
-            font-size:9px; color:var(--text-muted);
-            font-weight:500; letter-spacing:.5px;
+        @media(min-width:768px){
+            .gallery-thumb { width:64px; height:64px; }
         }
 
         /* Product info */
@@ -2214,14 +2218,13 @@
                         </div>
                         <div class="gallery-badge">-20%</div>
                     </div>
-                    <div class="gallery-thumbs">
-                        <button class="gallery-thumb active" onclick="setThumb(this,'photo1')"><img src="slipper-bieg.png" alt="Фото 1" style="width:100%;height:100%;object-fit:cover;"></button>
-                        <button class="gallery-thumb" onclick="setThumb(this,'photo2')"><img src="liplip.png" alt="Фото 2" style="width:100%;height:100%;object-fit:contain;"></button>
-                        <button class="gallery-thumb" onclick="setThumb(this,'photo3')"><img src="multicolor-slipper.png" alt="Фото 3" style="width:100%;height:100%;object-fit:contain;"></button>
-                        <button class="gallery-thumb gallery-thumb-video" onclick="setThumb(this,'video')">
-                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="var(--text-muted)" stroke-width="1.5"><polygon points="5,3 19,12 5,21" fill="var(--text-muted)"/></svg>
-                            <span class="thumb-video-label">Відео</span>
-                        </button>
+                    <div class="gallery-thumbs" id="galleryThumbs">
+                        <button class="gallery-thumb active" onclick="galleryGoTo(0)"><img src="slipper-bieg.png" alt="Головне фото" style="width:100%;height:100%;object-fit:cover;"></button>
+                        <button class="gallery-thumb" onclick="galleryGoTo(1)"><img src="gallery-beige-1.jpg" alt="Фото 2" style="width:100%;height:100%;object-fit:cover;"></button>
+                        <button class="gallery-thumb" onclick="galleryGoTo(2)"><img src="gallery-beige-2.jpg" alt="Фото 3" style="width:100%;height:100%;object-fit:cover;"></button>
+                        <button class="gallery-thumb" onclick="galleryGoTo(3)"><img src="gallery-beige-3.jpg" alt="Фото 4" style="width:100%;height:100%;object-fit:cover;"></button>
+                        <button class="gallery-thumb" onclick="galleryGoTo(4)"><img src="gallery-beige-4.jpg" alt="Фото 5" style="width:100%;height:100%;object-fit:cover;"></button>
+                        <button class="gallery-thumb" onclick="galleryGoTo(5)"><img src="gallery-beige-5.jpg" alt="Фото 6" style="width:100%;height:100%;object-fit:cover;"></button>
                     </div>
                 </div>
 
@@ -2868,14 +2871,67 @@
         red:'slipper-red.png',
         gray:'slipper-gray.png'
     };
+    // Gallery photos per color (up to 5 additional angles)
+    const GALLERY = {
+        orange:  ['gallery-orange-1.jpg','gallery-orange-2.jpg','gallery-orange-3.jpg','gallery-orange-4.jpg','gallery-orange-5.jpg'],
+        red:     ['gallery-red-1.jpg','gallery-red-2.jpg','gallery-red-3.jpg','gallery-red-4.jpg','gallery-red-5.jpg'],
+        burgundy:['gallery-burgundy-1.jpg','gallery-burgundy-2.jpg','gallery-burgundy-3.jpg','gallery-burgundy-4.jpg','gallery-burgundy-5.jpg'],
+        blue:    ['gallery-blue-1.jpg','gallery-blue-2.jpg','gallery-blue-3.jpg','gallery-blue-4.jpg','gallery-blue-5.jpg'],
+        beige:   ['gallery-beige-1.jpg','gallery-beige-2.jpg','gallery-beige-3.jpg','gallery-beige-4.jpg','gallery-beige-5.jpg'],
+        gray:    ['gallery-gray-1.jpg','gallery-gray-2.jpg','gallery-gray-3.jpg','gallery-gray-4.jpg','gallery-gray-5.jpg'],
+        pistachio:['gallery-pistachio-1.jpg','gallery-pistachio-2.jpg','gallery-pistachio-3.jpg','gallery-pistachio-4.jpg','gallery-pistachio-5.jpg'],
+        black:   ['gallery-black-1.jpg','gallery-black-2.jpg','gallery-black-3.jpg','gallery-black-4.jpg','gallery-black-5.jpg'],
+        graphite:['gallery-graphite-1.jpg','gallery-graphite-2.jpg','gallery-graphite-3.jpg','gallery-graphite-4.jpg','gallery-graphite-5.jpg'],
+        white:   []
+    };
+    let currentGalleryIndex = 0;
+
     function updateGalleryPhoto(clr){
         const mainImg = document.getElementById('galleryMainImg');
         if(!mainImg) return;
+        currentGalleryIndex = 0;
+        // Show main product photo
         if(PHOTO[clr]){
-            mainImg.innerHTML = '<img src="'+PHOTO[clr]+'" alt="ULTERA SHAPE '+C[clr]+'" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;">';
+            mainImg.innerHTML = '<img src="'+PHOTO[clr]+'" alt="ULTERA SHAPE '+C[clr]+'" style="width:100%;height:100%;object-fit:contain;border-radius:inherit;">';
         } else {
             mainImg.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;background:linear-gradient(135deg,'+H[clr]+'22,'+H[clr]+'44);font-size:13px;color:var(--text-muted);border-radius:inherit;">ULTERA SHAPE — '+C[clr]+'</div>';
         }
+        // Rebuild thumbnails for this color
+        rebuildThumbs(clr);
+    }
+
+    function rebuildThumbs(clr){
+        const thumbsWrap = document.getElementById('galleryThumbs');
+        if(!thumbsWrap) return;
+        const photos = GALLERY[clr] || [];
+        let html = '';
+        // Thumb 0: main product photo
+        html += '<button class="gallery-thumb active" onclick="galleryGoTo(0)"><img src="'+(PHOTO[clr]||'')+'" alt="Головне фото" style="width:100%;height:100%;object-fit:cover;"></button>';
+        // Thumbs 1-N: additional gallery photos
+        for(let i=0;i<photos.length;i++){
+            html += '<button class="gallery-thumb" onclick="galleryGoTo('+(i+1)+')"><img src="'+photos[i]+'" alt="Фото '+(i+2)+'" style="width:100%;height:100%;object-fit:cover;"></button>';
+        }
+        thumbsWrap.innerHTML = html;
+    }
+
+    function galleryGoTo(idx){
+        const clr = color;
+        const mainImg = document.getElementById('galleryMainImg');
+        if(!mainImg) return;
+        currentGalleryIndex = idx;
+        if(idx === 0){
+            mainImg.innerHTML = '<img src="'+PHOTO[clr]+'" alt="ULTERA SHAPE '+C[clr]+'" style="width:100%;height:100%;object-fit:contain;border-radius:inherit;">';
+        } else {
+            const photos = GALLERY[clr] || [];
+            const src = photos[idx-1];
+            if(src){
+                mainImg.innerHTML = '<img src="'+src+'" alt="ULTERA SHAPE '+C[clr]+'" style="width:100%;height:100%;object-fit:contain;border-radius:inherit;">';
+            }
+        }
+        // Update active thumb
+        document.querySelectorAll('#galleryThumbs .gallery-thumb').forEach(function(t,i){
+            t.classList.toggle('active', i === idx);
+        });
     }
     let color='beige', size='41', payment='cod';
 
@@ -2963,9 +3019,8 @@
         // Update product card title color name
         var pcName = document.getElementById('pcColorName');
         if(pcName) pcName.textContent = C[color];
-        // Update gallery main image + first thumb
+        // Update gallery main image + all thumbs
         updateGalleryPhoto(color);
-        updateFirstThumb(color);
         // Sync showcase in hero
         if(typeof showcaseShow === 'function') showcaseShow(color);
         // Sync showcase in hero
@@ -2981,10 +3036,7 @@
         showcaseLocked = true;
         updateSummary();
     }
-    function updateFirstThumb(clr){
-        const firstThumb = document.querySelector('.gallery-thumbs .gallery-thumb:first-child img');
-        if(firstThumb && PHOTO[clr]) firstThumb.src = PHOTO[clr];
-    }
+    // updateFirstThumb removed — rebuildThumbs handles all thumbs now
 
     function selectSize(btn){
         document.querySelectorAll('#sizeGrid .size-btn').forEach(b=>b.classList.remove('active'));
@@ -3179,25 +3231,25 @@
         this.value=f;
     });
 
-    // ===== GALLERY THUMBS =====
-    function setThumb(btn, type){
-        document.querySelectorAll('.gallery-thumbs .gallery-thumb').forEach(t=>t.classList.remove('active'));
-        btn.classList.add('active');
-        const mainImg = document.getElementById('galleryMainImg');
-        if(type === 'video'){
-            mainImg.innerHTML = '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;height:100%;gap:12px;cursor:pointer;" onclick="playGalleryVideo()"><svg viewBox="0 0 48 48" width="48" height="48" fill="none"><circle cx="24" cy="24" r="23" stroke="var(--accent)" stroke-width="2"/><polygon points="19,14 36,24 19,34" fill="var(--accent)"/></svg><span style="font-size:13px;color:var(--text-muted)">Відео огляд</span></div>';
-        } else if(type === 'photo1'){
-            updateGalleryPhoto(color);
-        } else if(type === 'photo2'){
-            mainImg.innerHTML = '<img src="liplip.png" alt="ULTERA SHAPE деталі" style="width:100%;height:100%;object-fit:contain;border-radius:inherit;">';
-        } else if(type === 'photo3'){
-            mainImg.innerHTML = '<img src="multicolor-slipper.png" alt="ULTERA SHAPE всі кольори" style="width:100%;height:100%;object-fit:contain;border-radius:inherit;">';
-        }
-    }
-    function playGalleryVideo(){
-        const mainImg = document.getElementById('galleryMainImg');
-        mainImg.innerHTML = '<video autoplay playsinline controls style="width:100%;height:100%;object-fit:cover;border-radius:inherit;"><source src="pisok-light.mp4" type="video/mp4"><source src="pisok-light.webm" type="video/webm"></video>';
-    }
+    // ===== GALLERY SWIPE (mobile) =====
+    (function(){
+        const galleryMain = document.querySelector('.gallery-main');
+        if(!galleryMain) return;
+        let startX=0, startY=0, swiping=false;
+        galleryMain.addEventListener('touchstart',function(e){
+            startX=e.touches[0].clientX; startY=e.touches[0].clientY; swiping=true;
+        },{passive:true});
+        galleryMain.addEventListener('touchend',function(e){
+            if(!swiping) return; swiping=false;
+            const dx=e.changedTouches[0].clientX-startX;
+            const dy=e.changedTouches[0].clientY-startY;
+            if(Math.abs(dx)<40||Math.abs(dy)>Math.abs(dx)) return;
+            const photos=GALLERY[color]||[];
+            const total=photos.length+1;
+            if(dx<0){ galleryGoTo(Math.min(currentGalleryIndex+1,total-1)); }
+            else { galleryGoTo(Math.max(currentGalleryIndex-1,0)); }
+        },{passive:true});
+    })();
 
     // ===== WIZARD CHECKOUT =====
     let cwCurrentStep = 1;
