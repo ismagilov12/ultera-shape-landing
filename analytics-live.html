@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ULTERA SHAPE — Живая аналитика</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0a;--card:#111;--border:#222;--text:#f5f5f5;--dim:#888;--accent:#c8ff00;--accent-dim:rgba(200,255,0,.12);--red:#ff4444;--green:#44ff88;--blue:#4488ff;--orange:#ff8844}
+body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5}
+a{color:var(--accent);text-decoration:none}
+
+/* Layout */
+.dash{display:grid;grid-template-columns:1fr;gap:16px;padding:20px;max-width:1400px;margin:0 auto}
+.dash-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:8px 0}
+.dash-title{font-size:22px;font-weight:700;letter-spacing:2px;color:var(--accent)}
+.dash-controls{display:flex;gap:8px;align-items:center}
+.dash-controls select,.dash-controls button{background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:6px 14px;font-size:13px;cursor:pointer;transition:.2s}
+.dash-controls select:hover,.dash-controls button:hover{border-color:var(--accent)}
+.dash-controls .live-dot{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* Cards */
+.row{display:grid;gap:16px}
+.row-4{grid-template-columns:repeat(4,1fr)}
+.row-2{grid-template-columns:1fr 1fr}
+.row-13{grid-template-columns:1fr 2fr}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;position:relative;overflow:hidden}
+.card-title{font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--dim);margin-bottom:12px;font-weight:600}
+.kpi{font-size:36px;font-weight:700;line-height:1.1}
+.kpi-sub{font-size:12px;color:var(--dim);margin-top:4px}
+.kpi.accent{color:var(--accent)}
+
+/* Heatmap canvas */
+#heatmapContainer{position:relative;width:100%;aspect-ratio:375/812;background:#181818;border-radius:10px;overflow:hidden;max-height:600px}
+#heatmapCanvas{width:100%;height:100%;display:block}
+.heatmap-legend{display:flex;gap:6px;margin-top:8px;font-size:11px;color:var(--dim);align-items:center}
+.heatmap-legend .grad{width:120px;height:8px;border-radius:4px;background:linear-gradient(90deg,rgba(0,0,255,.6),rgba(0,255,0,.6),rgba(255,255,0,.8),rgba(255,0,0,.9))}
+
+/* Funnel */
+.funnel{display:flex;flex-direction:column;gap:6px}
+.funnel-step{display:flex;align-items:center;gap:12px}
+.funnel-bar-wrap{flex:1;background:rgba(200,255,0,.06);border-radius:6px;height:32px;position:relative;overflow:hidden}
+.funnel-bar{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--accent),rgba(200,255,0,.5));transition:width .6s ease}
+.funnel-label{min-width:130px;font-size:13px;font-weight:500}
+.funnel-val{min-width:50px;text-align:right;font-size:13px;font-weight:600;color:var(--accent)}
+.funnel-pct{min-width:40px;text-align:right;font-size:12px;color:var(--dim)}
+
+/* Timeline */
+.timeline{max-height:400px;overflow-y:auto;display:flex;flex-direction:column;gap:4px}
+.timeline::-webkit-scrollbar{width:4px}
+.timeline::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.tl-item{display:flex;align-items:flex-start;gap:10px;padding:6px 8px;border-radius:8px;font-size:12px;transition:background .15s}
+.tl-item:hover{background:rgba(255,255,255,.03)}
+.tl-time{color:var(--dim);min-width:50px;font-variant-numeric:tabular-nums}
+.tl-icon{font-size:14px;min-width:20px;text-align:center}
+.tl-desc{flex:1;color:#ccc}
+.tl-desc strong{color:var(--text);font-weight:500}
+
+/* Scroll depth bar */
+.scroll-bars{display:flex;flex-direction:column;gap:4px}
+.scroll-row{display:flex;align-items:center;gap:8px}
+.scroll-label{min-width:40px;font-size:12px;color:var(--dim);text-align:right}
+.scroll-track{flex:1;height:20px;background:rgba(200,255,0,.06);border-radius:4px;overflow:hidden}
+.scroll-fill{height:100%;border-radius:4px;background:var(--accent);opacity:.7;transition:width .6s ease}
+.scroll-val{min-width:30px;font-size:12px;font-weight:600;color:var(--accent)}
+
+/* Section dwell */
+.dwell-bars{display:flex;flex-direction:column;gap:6px}
+.dwell-row{display:flex;align-items:center;gap:10px}
+.dwell-name{min-width:120px;font-size:13px}
+.dwell-track{flex:1;height:18px;background:rgba(200,255,0,.06);border-radius:4px;overflow:hidden}
+.dwell-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--blue),var(--accent));opacity:.7;transition:width .6s ease}
+.dwell-val{min-width:40px;text-align:right;font-size:12px;color:var(--accent)}
+
+/* Device chart */
+.device-chart{display:flex;gap:16px;align-items:center;justify-content:center;flex-wrap:wrap}
+.device-ring{position:relative;width:140px;height:140px}
+.device-ring canvas{width:100%;height:100%}
+.device-ring-center{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;color:var(--accent)}
+.device-legend{display:flex;flex-direction:column;gap:6px}
+.device-legend-item{display:flex;align-items:center;gap:8px;font-size:13px}
+.device-legend-dot{width:10px;height:10px;border-radius:50%}
+
+/* Sessions table */
+.sessions-table{width:100%;border-collapse:collapse;font-size:12px}
+.sessions-table th{text-align:left;color:var(--dim);font-weight:500;padding:8px 6px;border-bottom:1px solid var(--border);text-transform:uppercase;letter-spacing:.5px;font-size:11px}
+.sessions-table td{padding:8px 6px;border-bottom:1px solid rgba(34,34,34,.5)}
+.sessions-table tr:hover td{background:rgba(255,255,255,.02)}
+.tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500}
+.tag-mobile{background:rgba(255,136,68,.15);color:var(--orange)}
+.tag-desktop{background:rgba(68,136,255,.15);color:var(--blue)}
+.tag-tablet{background:rgba(200,255,0,.15);color:var(--accent)}
+
+/* Responsive */
+@media(max-width:900px){
+  .row-4{grid-template-columns:repeat(2,1fr)}
+  .row-2,.row-13{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .row-4{grid-template-columns:1fr}
+  .dash{padding:12px}
+}
+</style>
+</head>
+<body>
+
+<div class="dash">
+  <!-- Header -->
+  <div class="dash-header">
+    <div class="dash-title">📊 ULTERA ANALYTICS</div>
+    <div class="dash-controls">
+      <span class="live-dot"></span>
+      <span style="font-size:12px;color:var(--dim)" id="liveLabel">Live</span>
+      <select id="periodSelect">
+        <option value="1h">Последний час</option>
+        <option value="24h" selected>24 часа</option>
+        <option value="7d">7 дней</option>
+        <option value="30d">30 дней</option>
+        <option value="all">Всё время</option>
+      </select>
+      <button onclick="loadData()">⟳ Обновить</button>
+    </div>
+  </div>
+
+  <!-- KPI row -->
+  <div class="row row-4">
+    <div class="card">
+      <div class="card-title">Посетители</div>
+      <div class="kpi accent" id="kpiVisitors">—</div>
+      <div class="kpi-sub" id="kpiVisitorsSub">уникальных сессий</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Просмотры</div>
+      <div class="kpi" id="kpiPageviews">—</div>
+      <div class="kpi-sub">загрузок страницы</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Ср. время на сайте</div>
+      <div class="kpi" id="kpiAvgTime">—</div>
+      <div class="kpi-sub" id="kpiAvgTimeSub">секунд</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Конверсия воронки</div>
+      <div class="kpi accent" id="kpiConversion">—</div>
+      <div class="kpi-sub">дошли до заказа</div>
+    </div>
+  </div>
+
+  <!-- Heatmap + Funnel -->
+  <div class="row row-13">
+    <div class="card">
+      <div class="card-title">🔥 Тепловая карта кликов</div>
+      <div id="heatmapContainer">
+        <canvas id="heatmapCanvas"></canvas>
+      </div>
+      <div class="heatmap-legend">
+        <span>Мало</span>
+        <div class="grad"></div>
+        <span>Много</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">🎯 Воронка конверсии</div>
+      <div class="funnel" id="funnelContainer"></div>
+      <div style="margin-top:20px">
+        <div class="card-title">📜 Глубина скролла</div>
+        <div class="scroll-bars" id="scrollBars"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sections dwell + Devices -->
+  <div class="row row-2">
+    <div class="card">
+      <div class="card-title">⏱ Время на секциях (среднее)</div>
+      <div class="dwell-bars" id="dwellBars"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">📱 Устройства</div>
+      <div class="device-chart">
+        <div class="device-ring">
+          <canvas id="deviceCanvas" width="280" height="280"></canvas>
+          <div class="device-ring-center" id="deviceTotal">—</div>
+        </div>
+        <div class="device-legend" id="deviceLegend"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Timeline + Sessions -->
+  <div class="row row-2">
+    <div class="card">
+      <div class="card-title">🕐 Лента событий (live)</div>
+      <div class="timeline" id="timelineContainer">
+        <div style="color:var(--dim);text-align:center;padding:40px">Загрузка данных...</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">👥 Последние сессии</div>
+      <div style="overflow-x:auto">
+        <table class="sessions-table" id="sessionsTable">
+          <thead><tr><th>Сессия</th><th>Устройство</th><th>Время</th><th>Скролл</th><th>Клики</th><th>Воронка</th></tr></thead>
+          <tbody id="sessionsBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Supabase config ──
+const SB_URL = 'https://fsihlzzjewhxpogvjapu.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZzaWhsenpqZXdoeHBvZ3ZqYXB1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUyOTY2MzUsImV4cCI6MjA5MDg3MjYzNX0._hS7TA8EqIHgz7CH6XxGKuDdOnVBb6u40ntEtZ__MjU';
+
+let allEvents = [];
+let autoRefreshTimer;
+
+// ── Fetch from Supabase ──
+async function fetchEvents(period) {
+  let gte = '';
+  const now = new Date();
+  if (period === '1h')  gte = new Date(now - 3600000).toISOString();
+  else if (period === '24h') gte = new Date(now - 86400000).toISOString();
+  else if (period === '7d')  gte = new Date(now - 604800000).toISOString();
+  else if (period === '30d') gte = new Date(now - 2592000000).toISOString();
+
+  let url = SB_URL + '/rest/v1/analytics_events?select=*&order=created_at.desc&limit=5000';
+  if (gte) url += '&created_at=gte.' + gte;
+
+  const r = await fetch(url, {
+    headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+  });
+  return r.json();
+}
+
+// ── Main load ──
+async function loadData() {
+  const period = document.getElementById('periodSelect').value;
+  try {
+    allEvents = await fetchEvents(period);
+  } catch(e) {
+    console.error('Fetch error:', e);
+    return;
+  }
+  renderKPIs();
+  renderHeatmap();
+  renderFunnel();
+  renderScrollDepth();
+  renderDwellTimes();
+  renderDevices();
+  renderTimeline();
+  renderSessions();
+}
+
+// ── KPIs ──
+function renderKPIs() {
+  const sessions = new Set(allEvents.map(e => e.session_id));
+  const pageviews = allEvents.filter(e => e.event_type === 'page_view').length;
+
+  // Average time from page_leave events
+  const leaves = allEvents.filter(e => e.event_type === 'page_leave');
+  let avgTime = 0;
+  if (leaves.length) {
+    const total = leaves.reduce((s, e) => s + (e.event_data?.total_time_ms || 0), 0);
+    avgTime = Math.round(total / leaves.length / 1000);
+  }
+
+  // Conversion: sessions that reached form_submit or form_open
+  const funnelSessions = new Set(
+    allEvents.filter(e => e.event_type === 'funnel_step' && e.event_data?.step === 'form_submit')
+      .map(e => e.session_id)
+  );
+  const convPct = sessions.size > 0 ? (funnelSessions.size / sessions.size * 100).toFixed(1) : '0';
+
+  document.getElementById('kpiVisitors').textContent = sessions.size;
+  document.getElementById('kpiPageviews').textContent = pageviews;
+  document.getElementById('kpiAvgTime').textContent = avgTime > 60 ? Math.floor(avgTime/60) + ':' + String(avgTime%60).padStart(2,'0') : avgTime + 'с';
+  document.getElementById('kpiAvgTimeSub').textContent = avgTime > 60 ? 'мин:сек' : 'секунд';
+  document.getElementById('kpiConversion').textContent = convPct + '%';
+}
+
+// ── Heatmap ──
+function renderHeatmap() {
+  const canvas = document.getElementById('heatmapCanvas');
+  const container = document.getElementById('heatmapContainer');
+  const ctx = canvas.getContext('2d');
+
+  canvas.width = container.offsetWidth * 2;
+  canvas.height = container.offsetHeight * 2;
+  ctx.scale(2, 2);
+  const w = container.offsetWidth;
+  const h = container.offsetHeight;
+  ctx.clearRect(0, 0, w, h);
+
+  // Draw page sections as background
+  ctx.fillStyle = '#181818';
+  ctx.fillRect(0, 0, w, h);
+
+  const sectionLabels = ['Hero', 'Анатомія', 'Фіксація', 'Чому SHAPE', 'Замовлення'];
+  const sH = h / sectionLabels.length;
+  sectionLabels.forEach((lbl, i) => {
+    ctx.fillStyle = i % 2 ? '#1a1a1a' : '#161616';
+    ctx.fillRect(0, i * sH, w, sH);
+    ctx.fillStyle = '#333';
+    ctx.font = '11px Inter, sans-serif';
+    ctx.fillText(lbl, 8, i * sH + 16);
+  });
+
+  // Get click data
+  const clicks = allEvents.filter(e => e.event_type === 'click' && e.event_data?.x_pct != null);
+  if (!clicks.length) {
+    ctx.fillStyle = '#444';
+    ctx.font = '14px Inter';
+    ctx.textAlign = 'center';
+    ctx.fillText('Нет данных кликов', w/2, h/2);
+    ctx.textAlign = 'start';
+    return;
+  }
+
+  // Draw heatmap points
+  const radius = Math.max(15, w * 0.04);
+  clicks.forEach(ev => {
+    const x = (ev.event_data.x_pct / 100) * w;
+    const y = (ev.event_data.y_pct / 100) * h;
+    const grad = ctx.createRadialGradient(x, y, 0, x, y, radius);
+    grad.addColorStop(0, 'rgba(255,255,0,0.35)');
+    grad.addColorStop(0.4, 'rgba(255,100,0,0.15)');
+    grad.addColorStop(1, 'rgba(255,0,0,0)');
+    ctx.fillStyle = grad;
+    ctx.fillRect(x - radius, y - radius, radius * 2, radius * 2);
+  });
+
+  // Hotspot overlay
+  const grid = {};
+  const cellSize = 20;
+  clicks.forEach(ev => {
+    const gx = Math.floor((ev.event_data.x_pct / 100) * w / cellSize);
+    const gy = Math.floor((ev.event_data.y_pct / 100) * h / cellSize);
+    const key = gx + '_' + gy;
+    grid[key] = (grid[key] || 0) + 1;
+  });
+  const maxCount = Math.max(...Object.values(grid), 1);
+  for (const key in grid) {
+    const [gx, gy] = key.split('_').map(Number);
+    const intensity = grid[key] / maxCount;
+    const r = Math.round(255 * Math.min(intensity * 2, 1));
+    const g = Math.round(255 * Math.max(0, 1 - intensity));
+    const b = Math.round(100 * (1 - intensity));
+    ctx.fillStyle = `rgba(${r},${g},${b},${intensity * 0.5})`;
+    ctx.fillRect(gx * cellSize, gy * cellSize, cellSize, cellSize);
+  }
+}
+
+// ── Funnel ──
+function renderFunnel() {
+  const container = document.getElementById('funnelContainer');
+  const sessions = new Set(allEvents.map(e => e.session_id));
+  const total = sessions.size || 1;
+
+  const steps = [
+    { key: 'page_view', label: 'Просмотр страницы', icon: '👁' },
+    { key: 'section_hero', label: 'Увидели Hero', icon: '🏠' },
+    { key: 'section_головна_перевага', label: 'Секция: Анатомія', icon: '🦶' },
+    { key: 'section_order', label: 'Дошли до заказа', icon: '📦' },
+    { key: 'cta_click', label: 'Клик по CTA', icon: '🖱' },
+    { key: 'product_interact', label: 'Взаимодействие', icon: '👆' },
+    { key: 'form_open', label: 'Открыли форму', icon: '📋' },
+    { key: 'form_submit', label: 'Отправили заказ', icon: '✅' },
+  ];
+
+  const funnelEvents = allEvents.filter(e => e.event_type === 'funnel_step');
+  const stepCounts = {};
+  steps.forEach(s => {
+    stepCounts[s.key] = new Set(
+      funnelEvents.filter(e => e.event_data?.step === s.key).map(e => e.session_id)
+    ).size;
+  });
+  // page_view always equals total sessions
+  stepCounts['page_view'] = total;
+
+  let html = '';
+  steps.forEach(s => {
+    const count = stepCounts[s.key] || 0;
+    const pct = (count / total * 100).toFixed(0);
+    const barPct = Math.max(2, count / total * 100);
+    html += `
+      <div class="funnel-step">
+        <span class="funnel-label">${s.icon} ${s.label}</span>
+        <div class="funnel-bar-wrap"><div class="funnel-bar" style="width:${barPct}%"></div></div>
+        <span class="funnel-val">${count}</span>
+        <span class="funnel-pct">${pct}%</span>
+      </div>`;
+  });
+  container.innerHTML = html;
+}
+
+// ── Scroll Depth ──
+function renderScrollDepth() {
+  const container = document.getElementById('scrollBars');
+  const scrollEvents = allEvents.filter(e => e.event_type === 'scroll');
+  const total = new Set(allEvents.map(e => e.session_id)).size || 1;
+
+  const milestones = [25, 50, 75, 90, 100];
+  let html = '';
+  milestones.forEach(m => {
+    const reached = new Set(
+      scrollEvents.filter(e => e.event_data?.depth_pct >= m).map(e => e.session_id)
+    ).size;
+    const pct = (reached / total * 100).toFixed(0);
+    html += `
+      <div class="scroll-row">
+        <span class="scroll-label">${m}%</span>
+        <div class="scroll-track"><div class="scroll-fill" style="width:${pct}%"></div></div>
+        <span class="scroll-val">${pct}%</span>
+      </div>`;
+  });
+  container.innerHTML = html;
+}
+
+// ── Section Dwell Time ──
+function renderDwellTimes() {
+  const container = document.getElementById('dwellBars');
+  const dwellEvents = allEvents.filter(e => e.event_type === 'section_dwell');
+
+  const sectionTotals = {};
+  const sectionCounts = {};
+  dwellEvents.forEach(e => {
+    const s = e.event_data?.section || 'unknown';
+    sectionTotals[s] = (sectionTotals[s] || 0) + (e.event_data?.dwell_ms || 0);
+    sectionCounts[s] = (sectionCounts[s] || 0) + 1;
+  });
+
+  const sections = Object.keys(sectionTotals);
+  if (!sections.length) {
+    container.innerHTML = '<div style="color:var(--dim);text-align:center;padding:20px">Нет данных</div>';
+    return;
+  }
+
+  const avgs = sections.map(s => ({ name: s, avg: sectionTotals[s] / sectionCounts[s] }));
+  avgs.sort((a, b) => b.avg - a.avg);
+  const maxAvg = avgs[0]?.avg || 1;
+
+  const nameMap = {
+    'hero': '🏠 Hero',
+    'головна_перевага': '🦶 Анатомія',
+    'ідеальна_посадка': '🎯 Фіксація',
+    'velcroFit': '🎯 Фіксація',
+    'чому_shape': '⭐ Переваги',
+    'advantages': '⭐ Переваги',
+    'замовлення': '📦 Замовлення',
+    'order': '📦 Замовлення'
+  };
+
+  let html = '';
+  avgs.forEach(s => {
+    const pct = (s.avg / maxAvg * 100).toFixed(0);
+    const sec = (s.avg / 1000).toFixed(1);
+    const label = nameMap[s.name] || s.name;
+    html += `
+      <div class="dwell-row">
+        <span class="dwell-name">${label}</span>
+        <div class="dwell-track"><div class="dwell-fill" style="width:${pct}%"></div></div>
+        <span class="dwell-val">${sec}с</span>
+      </div>`;
+  });
+  container.innerHTML = html;
+}
+
+// ── Devices ──
+function renderDevices() {
+  const sessions = {};
+  allEvents.forEach(e => {
+    if (!sessions[e.session_id]) sessions[e.session_id] = e.device_type || 'unknown';
+  });
+
+  const counts = { mobile: 0, desktop: 0, tablet: 0 };
+  Object.values(sessions).forEach(d => { counts[d] = (counts[d] || 0) + 1; });
+  const total = Object.values(counts).reduce((a, b) => a + b, 0) || 1;
+
+  document.getElementById('deviceTotal').textContent = total;
+
+  // Draw ring
+  const canvas = document.getElementById('deviceCanvas');
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, 280, 280);
+
+  const colors = { mobile: '#ff8844', desktop: '#4488ff', tablet: '#c8ff00' };
+  const labels = { mobile: '📱 Mobile', desktop: '💻 Desktop', tablet: '📟 Tablet' };
+  const data = Object.entries(counts).filter(([_, v]) => v > 0);
+
+  let startAngle = -Math.PI / 2;
+  data.forEach(([device, count]) => {
+    const slice = (count / total) * Math.PI * 2;
+    ctx.beginPath();
+    ctx.arc(140, 140, 110, startAngle, startAngle + slice);
+    ctx.arc(140, 140, 70, startAngle + slice, startAngle, true);
+    ctx.closePath();
+    ctx.fillStyle = colors[device] || '#666';
+    ctx.fill();
+    startAngle += slice;
+  });
+
+  // Legend
+  const legend = document.getElementById('deviceLegend');
+  legend.innerHTML = data.map(([device, count]) => {
+    const pct = (count / total * 100).toFixed(0);
+    const cls = 'tag-' + device;
+    return `<div class="device-legend-item">
+      <div class="device-legend-dot" style="background:${colors[device]}"></div>
+      <span>${labels[device] || device}</span>
+      <span style="color:var(--dim)">${count} (${pct}%)</span>
+    </div>`;
+  }).join('');
+}
+
+// ── Timeline ──
+function renderTimeline() {
+  const container = document.getElementById('timelineContainer');
+  const recent = allEvents.slice(0, 80);
+
+  if (!recent.length) {
+    container.innerHTML = '<div style="color:var(--dim);text-align:center;padding:40px">Нет событий в выбранном периоде</div>';
+    return;
+  }
+
+  const icons = {
+    page_view: '👁', click: '🖱', scroll: '📜', mouse_move: '🐭',
+    section_view: '📍', section_dwell: '⏱', funnel_step: '🎯',
+    page_leave: '🚪'
+  };
+
+  const describe = (e) => {
+    const d = e.event_data || {};
+    switch(e.event_type) {
+      case 'page_view': return 'Открыл страницу';
+      case 'click':
+        return `Клик: <strong>${d.text || d.tag || '?'}</strong> в ${d.section || '?'}`;
+      case 'scroll':
+        return `Скролл до <strong>${d.depth_pct}%</strong>`;
+      case 'section_view':
+        return `Увидел секцию <strong>${d.section}</strong>`;
+      case 'section_dwell':
+        return `Провёл ${(d.dwell_ms/1000).toFixed(1)}с в <strong>${d.section}</strong>`;
+      case 'funnel_step':
+        return `Воронка: <strong>${d.step}</strong>`;
+      case 'page_leave':
+        return `Ушёл (был ${(d.total_time_ms/1000).toFixed(0)}с, скролл ${d.max_scroll_pct}%)`;
+      default: return e.event_type;
+    }
+  };
+
+  container.innerHTML = recent
+    .filter(e => e.event_type !== 'mouse_move')
+    .map(e => {
+      const t = new Date(e.created_at);
+      const time = t.getHours().toString().padStart(2,'0') + ':' + t.getMinutes().toString().padStart(2,'0');
+      return `<div class="tl-item">
+        <span class="tl-time">${time}</span>
+        <span class="tl-icon">${icons[e.event_type] || '•'}</span>
+        <span class="tl-desc">${describe(e)}</span>
+      </div>`;
+    }).join('');
+}
+
+// ── Sessions table ──
+function renderSessions() {
+  const body = document.getElementById('sessionsBody');
+  const grouped = {};
+
+  allEvents.forEach(e => {
+    if (!grouped[e.session_id]) grouped[e.session_id] = { events: [], device: e.device_type, first: e.created_at };
+    grouped[e.session_id].events.push(e);
+    if (e.created_at < grouped[e.session_id].first) grouped[e.session_id].first = e.created_at;
+  });
+
+  const sorted = Object.entries(grouped).sort((a, b) => new Date(b[1].first) - new Date(a[1].first)).slice(0, 20);
+
+  body.innerHTML = sorted.map(([sid, data]) => {
+    const leave = data.events.find(e => e.event_type === 'page_leave');
+    const time = leave ? (leave.event_data?.total_time_ms / 1000).toFixed(0) + 'с' : '—';
+    const scroll = leave ? (leave.event_data?.max_scroll_pct || 0) + '%' : '—';
+    const clicks = data.events.filter(e => e.event_type === 'click').length;
+    const funnel = data.events.filter(e => e.event_type === 'funnel_step').map(e => e.event_data?.step).filter(Boolean);
+    const lastStep = funnel[funnel.length - 1] || '—';
+    const deviceCls = 'tag-' + (data.device || 'desktop');
+    const t = new Date(data.first);
+    const when = t.toLocaleDateString('uk') + ' ' + t.getHours().toString().padStart(2,'0') + ':' + t.getMinutes().toString().padStart(2,'0');
+
+    return `<tr>
+      <td title="${sid}">${when}<br><span style="color:var(--dim);font-size:10px">${sid.slice(0,10)}…</span></td>
+      <td><span class="tag ${deviceCls}">${data.device || '?'}</span></td>
+      <td>${time}</td>
+      <td>${scroll}</td>
+      <td>${clicks}</td>
+      <td style="font-size:11px">${lastStep}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ── Auto refresh ──
+function startAutoRefresh() {
+  clearInterval(autoRefreshTimer);
+  autoRefreshTimer = setInterval(loadData, 15000); // every 15s
+}
+
+// ── Init ──
+document.getElementById('periodSelect').addEventListener('change', loadData);
+loadData();
+startAutoRefresh();
+
+// Resize heatmap on window resize
+let resizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(renderHeatmap, 300);
+});
+</script>
+</body>
+</html>
