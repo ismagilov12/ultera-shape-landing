@@ -3722,7 +3722,7 @@
                     if(p.price) PRODUCT_PRICE = p.price;
                     if(p.price_old) PRODUCT_PRICE_OLD = p.price_old;
                     var pm = photoMap[p.id];
-                    if(pm && pm.main && pm.main.length){
+                    if(pm && pm.main && pm.main.length && pm.main[0].indexOf('supabase.co/storage') === -1){
                         PHOTO_OPT[k] = pm.main[0]; PHOTO[k] = pm.main[0]; SHOWCASE_PHOTO[k] = pm.main[0];
                     }
                     if(pm && pm.gallery && pm.gallery.length){
@@ -3744,7 +3744,7 @@
                         var stars = '';
                         for(var i=0;i<5;i++) stars += i<r.rating ? '★' : '☆';
                         var photoHtml = '';
-                        if(r.photo_url) photoHtml = '<div class="comment-photos"><div class="comment-photo"><img src="'+r.photo_url+'" alt="Фото відгуку"></div></div>';
+                        if(r.photo_url && r.photo_url.indexOf('supabase.co/storage') === -1) photoHtml = '<div class="comment-photos"><div class="comment-photo"><img src="'+r.photo_url+'" alt="Фото відгуку" loading="lazy"></div></div>';
                         return '<div class="comment-item">'
                             +'<div class="comment-avatar">'+(r.author||'?')[0]+'</div>'
                             +'<div class="comment-body">'
@@ -3893,5 +3893,4 @@
         if(cmd.action==='update_html')selected.innerHTML=cmd.value;
         if(cmd.action==='update_color')selected.style.color=cmd.value;
         if(cmd.action==='update_fontSize')selected.style.fontSize=cmd.value+'px';
-        if(cmd.action==='update_fontWeight')selected.style.fontWeight=cmd.value;
-        if(cmd.action==='update_href'){const a=selected.tagName==='A'?selected:selected.cl
+        if(cmd.action==='update_fontWeight')selecte
