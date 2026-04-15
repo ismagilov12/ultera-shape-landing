@@ -2060,9 +2060,9 @@
             <!-- 10 colors showcase -->
             <div class="hero-showcase">
                 <div class="slipper-photo-wrap" id="slipperWrap">
-                    <img src="opt/multicolor-slipper.webp" alt="ULTERA SHAPE — 10 кольорів" data-color="multi" class="active">
+                    <img src="opt/slipper-black.webp" alt="ULTERA SHAPE — чорна шкіра" data-color="black" class="active">
                     <img data-src="opt/slipper-bieg.webp" alt="Beige" data-color="beige">
-                    <img data-src="opt/slipper-black.webp" alt="Black" data-color="black">
+                    <img data-src="opt/multicolor-slipper.webp" alt="10 кольорів" data-color="multi">
                     <img data-src="opt/slipper-orange.webp" alt="Orange" data-color="orange">
                     <img data-src="opt/slipper-burgundy.webp" alt="Burgundy" data-color="burgundy">
                     <img data-src="opt/slipper-phistachio.webp" alt="Pistachio" data-color="pistachio">
@@ -2461,7 +2461,8 @@
                         <div class="comment-stars">★★★★★</div>
                         <p class="comment-text">Ношу вже другий тиждень, не знімаю. Після звичайних тапок — небо і земля, нога реально відпочиває. Замша м'яка, липучка тримає чітко. Єдине — хотів би ще один колір (оливковий).</p>
                         <div class="comment-photos">
-                            <div class="comment-photo"><img src="slipper-bieg.png" alt="Фото відгуку"></div>
+                            <div class="comment-photo"><img src="отзывы/1.webp" alt="Фото відгуку"></div>
+                            <div class="comment-photo"><img src="отзывы/5.webp" alt="Фото відгуку"></div>
                         </div>
                         <div class="comment-footer">
                             <span class="comment-like" onclick="this.classList.toggle('liked')">
@@ -2480,6 +2481,10 @@
                         </div>
                         <div class="comment-stars">★★★★★</div>
                         <p class="comment-text">Купила чоловіку на день народження, тепер хочу собі. Якість видно одразу — замша приємна, підошва не ковзає. Чоловік каже, що нарешті знайшов «свої» тапки.</p>
+                        <div class="comment-photos">
+                            <div class="comment-photo"><img src="отзывы/6.webp" alt="Фото відгуку"></div>
+                            <div class="comment-photo"><img src="отзывы/7.webp" alt="Фото відгуку"></div>
+                        </div>
                         <div class="comment-footer">
                             <span class="comment-like" onclick="this.classList.toggle('liked')">
                                 <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z M4 22H2V11h2"/></svg>
@@ -2498,7 +2503,8 @@
                         <div class="comment-stars">★★★★☆</div>
                         <p class="comment-text">Тапки топ, але звикати до barefoot-форми потрібно пару днів — перший день було незвично. Потім не хочеш нічого іншого. Графіт виглядає дуже стильно.</p>
                         <div class="comment-photos">
-                            <div class="comment-photo"><img src="slipper-graphite.png" alt="Фото відгуку"></div>
+                            <div class="comment-photo"><img src="отзывы/9.webp" alt="Фото відгуку"></div>
+                            <div class="comment-photo"><img src="отзывы/10.webp" alt="Фото відгуку"></div>
                         </div>
                         <div class="comment-footer">
                             <span class="comment-like" onclick="this.classList.toggle('liked')">
@@ -2517,6 +2523,9 @@
                         </div>
                         <div class="comment-stars">★★★★★</div>
                         <p class="comment-text">Замовив оранжеві — колір вогонь. Доставка 2 дні, Нова Пошта. Якість на рівні європейських брендів, а ціна в рази нижча. Рекомендую всім.</p>
+                        <div class="comment-photos">
+                            <div class="comment-photo"><img src="отзывы/11.webp" alt="Фото відгуку"></div>
+                        </div>
                         <div class="comment-footer">
                             <span class="comment-like" onclick="this.classList.toggle('liked')">
                                 <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z M4 22H2V11h2"/></svg>
@@ -2535,7 +2544,7 @@
                         <div class="comment-stars">★★★★★</div>
                         <p class="comment-text">Нарешті тапочки, в яких можна ходити цілий день без болю в спині. Устілка реально анатомічна, не для краси. Взяла фісташкові — колір як на фото.</p>
                         <div class="comment-photos">
-                            <div class="comment-photo"><img src="slipper-phistachio.png" alt="Фото відгуку"></div>
+                            <div class="comment-photo"><img src="отзывы/12.webp" alt="Фото відгуку"></div>
                         </div>
                         <div class="comment-footer">
                             <span class="comment-like" onclick="this.classList.toggle('liked')">
@@ -3885,24 +3894,4 @@
         if(cmd.action==='update_color')selected.style.color=cmd.value;
         if(cmd.action==='update_fontSize')selected.style.fontSize=cmd.value+'px';
         if(cmd.action==='update_fontWeight')selected.style.fontWeight=cmd.value;
-        if(cmd.action==='update_href'){const a=selected.tagName==='A'?selected:selected.closest('a');if(a)a.href=cmd.value}
-        if(cmd.action==='update_bgColor')selected.style.backgroundColor=cmd.value;
-        if(cmd.action==='deselect'){selected.classList.remove('_edt-sel');selected=null}
-        if(cmd.action==='get_final'){
-          window.parent.postMessage({type:'_edt_final',text:selected.textContent,html:selected.innerHTML},'*');
-        }
-      });
-
-      function rgb2hex(rgb){
-        if(!rgb||rgb==='transparent'||rgb.startsWith('#'))return rgb||'#ffffff';
-        const m=rgb.match(/(\d+)/g);
-        if(!m||m.length<3)return '#ffffff';
-        return '#'+m.slice(0,3).map(n=>(+n).toString(16).padStart(2,'0')).join('');
-      }
-
-      // Notify parent we're ready
-      window.parent.postMessage({type:'_edt_ready'},'*');
-    })();
-    </script>
-</body>
-</html>
+        if(cmd.action==='update_href'){const a=selected.tagName==='A'?selected:selected.cl
