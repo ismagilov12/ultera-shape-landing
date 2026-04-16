@@ -2925,6 +2925,17 @@
     };
     let currentGalleryIndex = 0;
 
+    // Built-in local defaults per color — used as fallback if DB URL fails to load
+    const PHOTO_DEFAULT = {
+        beige:'opt/slipper-bieg.webp', black:'opt/slipper-black.webp', orange:'opt/slipper-orange.webp',
+        burgundy:'opt/slipper-burgundy.webp', pistachio:'opt/slipper-phistachio.webp', white:'opt/slipper-white.webp',
+        blue:'opt/slipper-blue.webp', graphite:'opt/slipper-graphite.webp', red:'opt/slipper-red.webp',
+        gray:'opt/slipper-gray.webp'
+    };
+    // Escape quotes for inline onerror attribute
+    function _esc(s){ return (s||'').replace(/'/g,"\\'").replace(/"/g,'&quot;'); }
+    function _imgFallback(clr){ return _esc(PHOTO_DEFAULT[clr] || 'opt/slipper-black.webp'); }
+
     function updateGalleryPhoto(clr){
         const mainImg = document.getElementById('galleryMainImg');
         if(!mainImg) return;
@@ -2932,7 +2943,7 @@
         // Show optimized product photo (fast load), full-res on demand
         const optSrc = PHOTO_OPT[clr] || PHOTO[clr];
         if(optSrc){
-            mainImg.innerHTML = '<img src="'+optSrc+'" alt="ULTERA SHAPE '+C[clr]+'" style="width:100%;height:100%;object-fit:contain;border-radius:inherit;">';
+            mainImg.innerHTML = '<img src="'+optSrc+'" alt="ULTERA SHAPE '+C[clr]+'" style="width:100%;height:100%;object-fit:contain;border-radius:inherit;" onerror="this.onerror=null;this.src=\''+_imgFallback(clr)+'\'">';
         } else {
             mainImg.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;background:linear-gradient(135deg,'+H[clr]+'22,'+H[clr]+'44);font-size:13px;color:var(--text-muted);border-radius:inherit;">ULTERA SHAPE — '+C[clr]+'</div>';
         }
@@ -2949,10 +2960,11 @@
         const dbMain = PHOTO_OPT[clr] || PHOTO[clr] || '';
         const isDbPhoto = dbMain && dbMain.startsWith('http');
         const thumbSrc = isDbPhoto ? dbMain : (PHOTO_THUMB[clr] || dbMain || '');
-        html += '<button class="gallery-thumb active" onclick="galleryGoTo(0)"><img src="'+thumbSrc+'" alt="Головне фото" loading="lazy" style="width:100%;height:100%;object-fit:cover;"></button>';
+        const fb = _imgFallback(clr);
+        html += '<button class="gallery-thumb active" onclick="galleryGoTo(0)"><img src="'+thumbSrc+'" alt="Головне фото" loading="lazy" style="width:100%;height:100%;object-fit:cover;" onerror="this.onerror=null;this.src=\''+fb+'\'"></button>';
         // Thumbs 1-N: additional gallery photos
         for(let i=0;i<photos.length;i++){
-            html += '<button class="gallery-thumb" onclick="galleryGoTo('+(i+1)+')"><img src="'+photos[i]+'" alt="Фото '+(i+2)+'" loading="lazy" style="width:100%;height:100%;object-fit:cover;"></button>';
+            html += '<button class="gallery-thumb" onclick="galleryGoTo('+(i+1)+')"><img src="'+photos[i]+'" alt="Фото '+(i+2)+'" loading="lazy" style="width:100%;height:100%;object-fit:cover;" onerror="this.onerror=null;this.src=\''+fb+'\'"></button>';
         }
         thumbsWrap.innerHTML = html;
     }
@@ -2962,14 +2974,15 @@
         const mainImg = document.getElementById('galleryMainImg');
         if(!mainImg) return;
         currentGalleryIndex = idx;
+        const fb = _imgFallback(clr);
         if(idx === 0){
             const optSrc = PHOTO_OPT[clr] || PHOTO[clr];
-            mainImg.innerHTML = '<img src="'+optSrc+'" alt="ULTERA SHAPE '+C[clr]+'" style="width:100%;height:100%;object-fit:contain;border-radius:inherit;">';
+            mainImg.innerHTML = '<img src="'+optSrc+'" alt="ULTERA SHAPE '+C[clr]+'" style="width:100%;height:100%;object-fit:contain;border-radius:inherit;" onerror="this.onerror=null;this.src=\''+fb+'\'">';
         } else {
             const photos = GALLERY[clr] || [];
             const src = photos[idx-1];
             if(src){
-                mainImg.innerHTML = '<img src="'+src+'" alt="ULTERA SHAPE '+C[clr]+'" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;">';
+                mainImg.innerHTML = '<img src="'+src+'" alt="ULTERA SHAPE '+C[clr]+'" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;" onerror="this.onerror=null;this.src=\''+fb+'\'">';
             }
         }
         // Update active thumb
@@ -3596,10 +3609,13 @@
         if(target){
             var c = target.dataset.color;
             var dbSrc = SHOWCASE_PHOTO[c] || '';
-            var fallback = target.dataset.src || '';
+            var fallback = target.dataset.src || target.getAttribute('data-src') || '';
             var newSrc = dbSrc || fallback;
             // Update src if not set yet OR if DB has a different (newer) photo
-            if(!target.src || target.src === location.href || (dbSrc && !target.src.includes(dbSrc))){
+            if(!target.src || target.src === location.href || (dbSrc && target.src.indexOf(dbSrc) === -1)){
+                if(fallback && newSrc !== fallback){
+                    target.onerror = function(){ target.onerror=null; target.src = fallback; };
+                }
                 target.src = newSrc;
             }
             target.classList.add('active');
@@ -3693,40 +3709,63 @@
 
     // ===== SUPABASE DYNAMIC DATA LOADER =====
     (function(){
-        var SB_URL = 'https://fsihlzzjewhxpogvjapu.supabase.co/rest/v1/';
+        var SB_HOST = 'https://fsihlzzjewhxpogvjapu.supabase.co';
+        var SB_URL = SB_HOST + '/rest/v1/';
         var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZzaWhsenpqZXdoeHBvZ3ZqYXB1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUyOTY2MzUsImV4cCI6MjA5MDg3MjYzNX0._hS7TA8EqIHgz7CH6XxGKuDdOnVBb6u40ntEtZ__MjU';
         var headers = {'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY};
 
+        // Normalize URL: handle full URLs, relative 'shape-photos/...' paths, and empty values.
+        function resUrl(u){
+            if(!u) return '';
+            if(typeof u !== 'string') return '';
+            var s = u.trim();
+            if(!s) return '';
+            if(s.indexOf('http://') === 0 || s.indexOf('https://') === 0) return s;
+            if(s.indexOf('shape-photos/') === 0) return SB_HOST + '/storage/v1/object/public/' + s;
+            if(s.charAt(0) === '/') return SB_HOST + s;
+            return s; // plain filename — treat as local asset
+        }
+
+        function asArray(x){ return Array.isArray(x) ? x : []; }
+
         // Fetch everything in parallel
         Promise.all([
-            fetch(SB_URL+'shape_products?is_active=eq.true&order=sort_order.asc', {headers:headers}).then(function(r){return r.json()}),
-            fetch(SB_URL+'shape_photos?order=sort_order.asc', {headers:headers}).then(function(r){return r.json()}),
-            fetch(SB_URL+'shape_reviews?is_visible=eq.true&order=sort_order.asc', {headers:headers}).then(function(r){return r.json()}),
-            fetch(SB_URL+'shape_content?order=sort_order.asc', {headers:headers}).then(function(r){return r.json()}),
-            fetch(SB_URL+'shape_settings', {headers:headers}).then(function(r){return r.json()})
+            fetch(SB_URL+'shape_products?is_active=eq.true&order=sort_order.asc', {headers:headers}).then(function(r){return r.json()}).catch(function(){return [];}),
+            fetch(SB_URL+'shape_photos?order=sort_order.asc', {headers:headers}).then(function(r){return r.json()}).catch(function(){return [];}),
+            fetch(SB_URL+'shape_reviews?is_visible=eq.true&order=sort_order.asc', {headers:headers}).then(function(r){return r.json()}).catch(function(){return [];}),
+            fetch(SB_URL+'shape_content?order=sort_order.asc', {headers:headers}).then(function(r){return r.json()}).catch(function(){return [];}),
+            fetch(SB_URL+'shape_settings', {headers:headers}).then(function(r){return r.json()}).catch(function(){return [];})
         ]).then(function(results){
-            var prods=results[0], photos=results[1], revs=results[2], secs=results[3], setsArr=results[4];
+            var prods = asArray(results[0]);
+            var photos = asArray(results[1]);
+            var revs = asArray(results[2]);
+            var secs = asArray(results[3]);
+            var setsArr = asArray(results[4]);
 
             // === PRODUCTS & PHOTOS ===
-            if(prods && prods.length){
+            if(prods.length){
                 var photoMap = {};
                 photos.forEach(function(p){
+                    if(!p || !p.product_id || !p.url) return;
+                    var resolved = resUrl(p.url);
+                    if(!resolved) return;
                     if(!photoMap[p.product_id]) photoMap[p.product_id]={main:[],gallery:[]};
-                    photoMap[p.product_id][p.photo_type] = photoMap[p.product_id][p.photo_type] || [];
-                    photoMap[p.product_id][p.photo_type].push(p.url);
+                    var t = p.photo_type === 'main' ? 'main' : 'gallery';
+                    photoMap[p.product_id][t].push(resolved);
                 });
                 prods.forEach(function(p){
                     var k = p.color_key;
-                    C[k] = p.color_name;
-                    H[k] = p.hex_color;
+                    if(!k) return;
+                    if(p.color_name) C[k] = p.color_name;
+                    if(p.hex_color) H[k] = p.hex_color;
                     if(p.price) PRODUCT_PRICE = p.price;
                     if(p.price_old) PRODUCT_PRICE_OLD = p.price_old;
                     var pm = photoMap[p.id];
-                    if(pm && pm.main && pm.main.length && pm.main[0]){
+                    if(pm && pm.main.length && pm.main[0]){
                         PHOTO_OPT[k] = pm.main[0]; PHOTO[k] = pm.main[0]; SHOWCASE_PHOTO[k] = pm.main[0];
                     }
-                    if(pm && pm.gallery && pm.gallery.length){
-                        GALLERY[k] = pm.gallery.filter(function(u){return !!u;});
+                    if(pm && pm.gallery.length){
+                        GALLERY[k] = pm.gallery;
                     }
                 });
                 document.querySelectorAll('[data-price-current]').forEach(function(el){ el.textContent = PRODUCT_PRICE + ' ₴'; });
@@ -3737,20 +3776,21 @@
             }
 
             // === REVIEWS (dynamic from DB) ===
-            if(revs && revs.length){
+            if(revs.length){
                 var feed = document.querySelector('.comments-feed');
                 if(feed){
                     feed.innerHTML = revs.map(function(r){
                         var stars = '';
                         for(var i=0;i<5;i++) stars += i<r.rating ? '★' : '☆';
                         var photoHtml = '';
-                        if(r.photo_url) photoHtml = '<div class="comment-photos"><div class="comment-photo"><img src="'+r.photo_url+'" alt="Фото відгуку" loading="lazy"></div></div>';
+                        var pu = resUrl(r.photo_url);
+                        if(pu) photoHtml = '<div class="comment-photos"><div class="comment-photo"><img src="'+pu+'" alt="Фото відгуку" loading="lazy" onerror="this.parentNode.parentNode.style.display=\'none\'"></div></div>';
                         return '<div class="comment-item">'
-                            +'<div class="comment-avatar">'+(r.author||'?')[0]+'</div>'
+                            +'<div class="comment-avatar">'+((r.author||'?').charAt(0))+'</div>'
                             +'<div class="comment-body">'
-                            +'<div class="comment-head"><span class="comment-name">'+r.author+'</span></div>'
+                            +'<div class="comment-head"><span class="comment-name">'+(r.author||'')+'</span></div>'
                             +'<div class="comment-stars">'+stars+'</div>'
-                            +'<p class="comment-text">'+r.text+'</p>'
+                            +'<p class="comment-text">'+(r.text||'')+'</p>'
                             +photoHtml
                             +'</div></div>';
                     }).join('');
@@ -3838,60 +3878,4 @@
         if(!el)return;
 
         // Deselect previous
-        if(selected)selected.classList.remove('_edt-sel');
-        el.classList.remove('_edt-hover');
-        el.classList.add('_edt-sel');
-        selected=el;
-
-        // Gather element info
-        const section=el.closest('section,[id]');
-        const secId=section?section.id:'';
-        const tag=el.tagName.toLowerCase();
-        const cls=el.className.replace(/_edt[^ ]*/g,'').trim();
-        const computed=getComputedStyle(el);
-
-        // Build CSS path
-        const path=[];let cur=el;
-        while(cur&&cur!==document.body){
-          let s=cur.tagName.toLowerCase();
-          if(cur.id)s+='#'+cur.id;
-          else{const c=cur.className&&typeof cur.className==='string'?cur.className.replace(/_edt[^ ]*/g,'').trim().split(' ').filter(Boolean).slice(0,2).join('.'):'';if(c)s+='.'+c}
-          path.unshift(s);cur=cur.parentElement;
-        }
-
-        window.parent.postMessage({
-          type:'_edt_select',
-          data:{
-            text:el.textContent||'',
-            html:el.innerHTML||'',
-            tag:tag,
-            cls:cls,
-            sectionId:secId,
-            sectionClass:section?section.className.replace(/_edt[^ ]*/g,'').trim():'',
-            path:path.slice(-4).join(' > '),
-            isLink:tag==='a'||!!el.closest('a'),
-            href:tag==='a'?el.href:(el.closest('a')?el.closest('a').href:''),
-            isImg:tag==='img',
-            imgSrc:tag==='img'?el.src:'',
-            imgAlt:tag==='img'?el.alt:'',
-            color:rgb2hex(computed.color),
-            fontSize:parseInt(computed.fontSize)||16,
-            fontWeight:parseInt(computed.fontWeight)||400,
-            bgColor:rgb2hex(computed.backgroundColor),
-            rect:{x:el.getBoundingClientRect().x,y:el.getBoundingClientRect().y,w:el.offsetWidth,h:el.offsetHeight}
-          }
-        },'*');
-      },true);
-
-      // Listen for commands from admin
-      window.addEventListener('message',function(e){
-        if(!e.data||e.data.type!=='_edt_cmd')return;
-        const cmd=e.data;
-        if(!selected)return;
-
-        if(cmd.action==='update_text')selected.textContent=cmd.value;
-        if(cmd.action==='update_html')selected.innerHTML=cmd.value;
-        if(cmd.action==='update_color')selected.style.color=cmd.value;
-        if(cmd.action==='update_fontSize')selected.style.fontSize=cmd.value+'px';
-        if(cmd.action==='update_fontWeight')selected.style.fontWeight=cmd.value;
-        if(cmd.action==='upd
+   
