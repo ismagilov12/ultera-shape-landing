@@ -1610,13 +1610,13 @@
             aspect-ratio:3/4;
             border-radius:var(--radius);
             overflow:hidden;
-            background:#1a1a1a;
-            border:1px solid var(--border);
+            background:#e8e8e8;
         }
         .gallery-main-img {
             width:100%; height:100%;
             display:flex; align-items:center; justify-content:center;
             transition:background .4s ease;
+            background:#e8e8e8;
         }
         .gallery-main-img img {
             width:100%; height:100%; object-fit:contain;
@@ -1645,7 +1645,7 @@
             border-radius:8px;
             overflow:hidden;
             border:2px solid var(--border);
-            background:var(--bg-elevated);
+            background:#e8e8e8;
             transition:all var(--tr);
             display:flex; align-items:center; justify-content:center;
             padding:0;
@@ -2214,7 +2214,7 @@
                 <div class="product-card-gallery">
                     <div class="gallery-main">
                         <div class="gallery-main-img" id="galleryMainImg">
-                            <img src="opt/slipper-bieg.webp" alt="ULTERA SHAPE Beige" style="width:100%;height:100%;object-fit:contain;border-radius:inherit;">
+                            <img src="opt/slipper-bieg.webp" alt="ULTERA SHAPE Beige" style="width:100%;height:100%;object-fit:contain;border-radius:inherit;background:#e8e8e8;">
                         </div>
                         <div class="gallery-badge">-20%</div>
                     </div>
@@ -2943,7 +2943,7 @@
         // Show optimized product photo (fast load), full-res on demand
         const optSrc = PHOTO_OPT[clr] || PHOTO[clr];
         if(optSrc){
-            mainImg.innerHTML = '<img src="'+optSrc+'" alt="ULTERA SHAPE '+C[clr]+'" style="width:100%;height:100%;object-fit:contain;border-radius:inherit;" onerror="this.onerror=null;this.src=\''+_imgFallback(clr)+'\'">';
+            mainImg.innerHTML = '<img src="'+optSrc+'" alt="ULTERA SHAPE '+C[clr]+'" style="width:100%;height:100%;object-fit:contain;border-radius:inherit;background:#e8e8e8;" onerror="this.onerror=null;this.src=\''+_imgFallback(clr)+'\'">';
         } else {
             mainImg.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;background:linear-gradient(135deg,'+H[clr]+'22,'+H[clr]+'44);font-size:13px;color:var(--text-muted);border-radius:inherit;">ULTERA SHAPE — '+C[clr]+'</div>';
         }
@@ -2977,12 +2977,12 @@
         const fb = _imgFallback(clr);
         if(idx === 0){
             const optSrc = PHOTO_OPT[clr] || PHOTO[clr];
-            mainImg.innerHTML = '<img src="'+optSrc+'" alt="ULTERA SHAPE '+C[clr]+'" style="width:100%;height:100%;object-fit:contain;border-radius:inherit;" onerror="this.onerror=null;this.src=\''+fb+'\'">';
+            mainImg.innerHTML = '<img src="'+optSrc+'" alt="ULTERA SHAPE '+C[clr]+'" style="width:100%;height:100%;object-fit:contain;border-radius:inherit;background:#e8e8e8;" onerror="this.onerror=null;this.src=\''+fb+'\'">';
         } else {
             const photos = GALLERY[clr] || [];
             const src = photos[idx-1];
             if(src){
-                mainImg.innerHTML = '<img src="'+src+'" alt="ULTERA SHAPE '+C[clr]+'" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;" onerror="this.onerror=null;this.src=\''+fb+'\'">';
+                mainImg.innerHTML = '<img src="'+src+'" alt="ULTERA SHAPE '+C[clr]+'" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;background:#e8e8e8;" onerror="this.onerror=null;this.src=\''+fb+'\'">';
             }
         }
         // Update active thumb
