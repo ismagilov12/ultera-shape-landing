@@ -3753,6 +3753,19 @@
                     var t = p.photo_type === 'main' ? 'main' : 'gallery';
                     photoMap[p.product_id][t].push(resolved);
                 });
+                // Preload helper: only adopt a DB URL after we confirm it actually loads.
+                // Local defaults display instantly; DB URLs replace them only on success.
+                function preloadAndAdopt(url, onOk){
+                    if(!url) return;
+                    var probe = new Image();
+                    var done = false;
+                    probe.onload = function(){ if(done) return; done = true; onOk(url); };
+                    probe.onerror = function(){ done = true; };
+                    probe.src = url;
+                    // Timeout: if slow/hung, give up silently
+                    setTimeout(function(){ if(!done){ done = true; } }, 8000);
+                }
+
                 prods.forEach(function(p){
                     var k = p.color_key;
                     if(!k) return;
@@ -3761,18 +3774,38 @@
                     if(p.price) PRODUCT_PRICE = p.price;
                     if(p.price_old) PRODUCT_PRICE_OLD = p.price_old;
                     var pm = photoMap[p.id];
+                    // Main photo: preload; adopt only on success so a broken DB URL never replaces working local file
                     if(pm && pm.main.length && pm.main[0]){
-                        PHOTO_OPT[k] = pm.main[0]; PHOTO[k] = pm.main[0]; SHOWCASE_PHOTO[k] = pm.main[0];
+                        preloadAndAdopt(pm.main[0], function(ok){
+                            PHOTO_OPT[k] = ok; PHOTO[k] = ok; SHOWCASE_PHOTO[k] = ok;
+                            if(k === color){
+                                if(typeof updateGalleryPhoto === 'function') updateGalleryPhoto(color);
+                                if(typeof showcaseShow === 'function') showcaseShow(color);
+                            }
+                        });
                     }
+                    // Gallery: filter to only URLs that actually load
                     if(pm && pm.gallery.length){
-                        GALLERY[k] = pm.gallery;
+                        var verified = [];
+                        var remaining = pm.gallery.length;
+                        pm.gallery.forEach(function(u, idx){
+                            preloadAndAdopt(u, function(ok){ verified[idx] = ok; });
+                            // Decrement regardless (simplified — we flush after a short delay)
+                            setTimeout(function(){
+                                remaining--;
+                                if(remaining <= 0){
+                                    var clean = verified.filter(function(x){return !!x;});
+                                    if(clean.length){
+                                        GALLERY[k] = clean;
+                                        if(k === color && typeof updateGalleryPhoto === 'function') updateGalleryPhoto(color);
+                                    }
+                                }
+                            }, 6000);
+                        });
                     }
                 });
                 document.querySelectorAll('[data-price-current]').forEach(function(el){ el.textContent = PRODUCT_PRICE + ' ₴'; });
                 document.querySelectorAll('[data-price-old]').forEach(function(el){ el.textContent = PRODUCT_PRICE_OLD + ' ₴'; });
-                if(typeof updateGalleryPhoto === 'function') updateGalleryPhoto(color);
-                // Refresh showcase hero image with DB photos
-                if(typeof showcaseShow === 'function') showcaseShow(color);
             }
 
             // === REVIEWS (dynamic from DB) ===
@@ -3877,5 +3910,77 @@
         const el=e.target.closest(EDITABLE);
         if(!el)return;
 
-        // Deselect previous
-   
+        if(selected)selected.classList.remove('_edt-sel');
+        el.classList.remove('_edt-hover');
+        el.classList.add('_edt-sel');
+        selected=el;
+
+        const section=el.closest('section,[id]');
+        const secId=section?section.id:'';
+        const tag=el.tagName.toLowerCase();
+        const cls=el.className.replace(/_edt[^ ]*/g,'').trim();
+        const computed=getComputedStyle(el);
+
+        const path=[];let cur=el;
+        while(cur&&cur!==document.body){
+          let s=cur.tagName.toLowerCase();
+          if(cur.id)s+='#'+cur.id;
+          else{const c=cur.className&&typeof cur.className==='string'?cur.className.replace(/_edt[^ ]*/g,'').trim().split(' ').filter(Boolean).slice(0,2).join('.'):'';if(c)s+='.'+c}
+          path.unshift(s);cur=cur.parentElement;
+        }
+
+        window.parent.postMessage({
+          type:'_edt_select',
+          data:{
+            text:el.textContent||'',
+            html:el.innerHTML||'',
+            tag:tag,
+            cls:cls,
+            sectionId:secId,
+            sectionClass:section?section.className.replace(/_edt[^ ]*/g,'').trim():'',
+            path:path.slice(-4).join(' > '),
+            isLink:tag==='a'||!!el.closest('a'),
+            href:tag==='a'?el.href:(el.closest('a')?el.closest('a').href:''),
+            isImg:tag==='img',
+            imgSrc:tag==='img'?el.src:'',
+            imgAlt:tag==='img'?el.alt:'',
+            color:rgb2hex(computed.color),
+            fontSize:parseInt(computed.fontSize)||16,
+            fontWeight:parseInt(computed.fontWeight)||400,
+            bgColor:rgb2hex(computed.backgroundColor),
+            rect:{x:el.getBoundingClientRect().x,y:el.getBoundingClientRect().y,w:el.offsetWidth,h:el.offsetHeight}
+          }
+        },'*');
+      },true);
+
+      // Listen for commands from admin
+      window.addEventListener('message',function(e){
+        if(!e.data||e.data.type!=='_edt_cmd')return;
+        const cmd=e.data;
+        if(cmd.action==='deselect'){
+          if(selected){selected.classList.remove('_edt-sel');selected=null;}
+          return;
+        }
+        if(!selected)return;
+        if(cmd.action==='update_text'){selected.textContent=cmd.value;}
+        else if(cmd.action==='update_color'){selected.style.color=cmd.value;}
+        else if(cmd.action==='update_fontSize'){selected.style.fontSize=cmd.value+'px';}
+        else if(cmd.action==='update_fontWeight'){selected.style.fontWeight=cmd.value;}
+        else if(cmd.action==='update_href'){if(selected.tagName==='A')selected.href=cmd.value;else{var a=selected.closest('a');if(a)a.href=cmd.value;}}
+        else if(cmd.action==='update_imgSrc'&&selected.tagName==='IMG'){selected.src=cmd.value;}
+        else if(cmd.action==='update_imgAlt'&&selected.tagName==='IMG'){selected.alt=cmd.value;}
+      });
+
+      function rgb2hex(rgb){
+        if(!rgb||rgb.indexOf('rgb')===-1)return '#ffffff';
+        var m=rgb.match(/\d+/g);
+        if(!m||m.length<3)return '#ffffff';
+        return '#'+m.slice(0,3).map(function(n){return(+n).toString(16).padStart(2,'0');}).join('');
+      }
+
+      // Signal ready to admin
+      try{window.parent.postMessage({type:'_edt_ready'},'*');}catch(e){}
+    })();
+    </script>
+</body>
+</html>
