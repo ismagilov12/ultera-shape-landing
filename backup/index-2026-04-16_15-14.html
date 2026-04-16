@@ -1,0 +1,3986 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ULTERA SHAPE — Анатомічні тапочки з італійської замші</title>
+    <meta name="description" content="ULTERA SHAPE — тапочки ручної роботи з італійської замші. Анатомічна устілка, barefoot-форма. 10 кольорів, розміри 36-48. Виготовлено в Харкові.">
+    <link rel="icon" href="favicon.ico" sizes="any">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="favicon-180.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ===== RESET ===== */
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+        :root {
+            --bg: #0a0a0a;
+            --bg-card: #111;
+            --bg-elevated: #181818;
+            --text: #f5f5f5;
+            --text-secondary: #aaa;
+            --text-muted: #666;
+            --accent: #c8ff00;
+            --accent-dim: rgba(200,255,0,0.12);
+            --border: #222;
+            --radius: 16px;
+            --radius-sm: 10px;
+            --tr: .3s cubic-bezier(.4,0,.2,1);
+            --safe-bottom: env(safe-area-inset-bottom, 0px);
+        }
+
+        html { scroll-behavior:smooth; -webkit-tap-highlight-color:transparent; }
+
+        body {
+            font-family:'Inter',-apple-system,sans-serif;
+            background:var(--bg);
+            color:var(--text);
+            line-height:1.6;
+            font-weight:300;
+            -webkit-font-smoothing:antialiased;
+            overflow-x:hidden;
+        }
+
+        a { color:inherit; text-decoration:none; }
+        img { max-width:100%; height:auto; display:block; }
+        button { cursor:pointer; font-family:inherit; border:none; background:none; }
+        input,select,textarea { font-family:inherit; }
+
+        .container { max-width:1200px; margin:0 auto; padding:0 20px; }
+
+        /* ===== HEADER ===== */
+        .header {
+            position:fixed; top:0; left:0; right:0; z-index:100;
+            padding:16px 0;
+            background:rgba(10,10,10,0.9);
+            backdrop-filter:blur(24px);
+            -webkit-backdrop-filter:blur(24px);
+            border-bottom:1px solid transparent;
+            transition:transform .35s ease, border-bottom-color .3s ease;
+        }
+        .header.scrolled { border-bottom-color:var(--border); }
+        .header.header-hidden { transform:translateY(-100%); }
+        .header .container { display:flex; justify-content:space-between; align-items:center; }
+
+        .logo {
+            display:flex; align-items:center; height:28px;
+        }
+        .logo img {
+            height:22px; width:auto;
+            filter:brightness(1);
+            transition:filter var(--tr);
+        }
+        .logo:hover img { filter:brightness(1.15); }
+
+        /* Desktop nav */
+        .header-nav { display:flex; gap:28px; list-style:none; }
+        .header-nav a {
+            font-size:13px; font-weight:400; color:var(--text-secondary);
+            transition:color var(--tr); letter-spacing:.5px;
+        }
+        .header-nav a:hover { color:var(--text); }
+
+        /* Burger */
+        .burger {
+            display:none; width:44px; height:44px;
+            align-items:center; justify-content:center;
+            flex-direction:column; gap:5px;
+        }
+        .burger span {
+            display:block; width:22px; height:2px; background:var(--text);
+            border-radius:2px; transition:var(--tr);
+        }
+        .burger.active span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
+        .burger.active span:nth-child(2) { opacity:0; }
+        .burger.active span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
+
+        /* Mobile menu overlay */
+        .mobile-menu {
+            display:none; position:fixed; inset:0; top:72px;
+            background:rgba(10,10,10,0.98);
+            backdrop-filter:blur(24px);
+            z-index:99;
+            flex-direction:column;
+            padding:40px 24px;
+            gap:8px;
+        }
+        .mobile-menu.show { display:flex; }
+        .mobile-menu a {
+            font-size:20px; font-weight:500; color:var(--text-secondary);
+            padding:16px 0;
+            border-bottom:1px solid var(--border);
+            transition:color var(--tr);
+        }
+        .mobile-menu a:hover { color:var(--accent); }
+
+        /* ===== HERO ANIMATIONS ===== */
+        @keyframes heroFadeUp {
+            from { opacity:0; transform:translateY(30px); }
+            to   { opacity:1; transform:translateY(0); }
+        }
+        @keyframes heroFadeIn {
+            from { opacity:0; }
+            to   { opacity:1; }
+        }
+        @keyframes heroScale {
+            from { opacity:0; transform:scale(0.92); }
+            to   { opacity:1; transform:scale(1); }
+        }
+        @keyframes heroGlow {
+            0%, 100% { opacity:0.5; transform:translate(-50%,-50%) scale(1); }
+            50%      { opacity:0.8; transform:translate(-50%,-50%) scale(1.15); }
+        }
+        @keyframes heroLine {
+            from { transform:scaleX(0); }
+            to   { transform:scaleX(1); }
+        }
+        @keyframes featureDot {
+            from { transform:scale(0); opacity:0; }
+            to   { transform:scale(1); opacity:1; }
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            min-height:100svh;
+            display:flex; align-items:center;
+            padding:130px 0 40px;
+            overflow:hidden;
+            position:relative;
+        }
+        /* ambient glow behind product */
+        .hero::before {
+            content:'';
+            position:absolute;
+            top:45%; left:50%;
+            width:600px; height:400px;
+            background:radial-gradient(ellipse, rgba(200,255,0,0.07) 0%, transparent 70%);
+            transform:translate(-50%,-50%);
+            animation:heroGlow 6s ease-in-out infinite;
+            pointer-events:none;
+            z-index:0;
+        }
+        .hero .container { position:relative; z-index:1; }
+        .hero .container {
+            display:flex; flex-direction:column; align-items:center; text-align:center;
+        }
+
+        /* SHAPE title */
+        .hero-model {
+            font-size:clamp(48px,13vw,100px);
+            font-weight:700;
+            letter-spacing:clamp(10px,4vw,32px);
+            line-height:1;
+            color:var(--accent);
+            margin-bottom:4px;
+            opacity:0;
+            animation:heroFadeUp 0.8s cubic-bezier(.16,1,.3,1) 0.15s forwards;
+        }
+
+        /* decorative line under SHAPE */
+        .hero-line {
+            width:60px; height:1px;
+            background:var(--accent);
+            margin:0 auto 16px;
+            transform-origin:center;
+            transform:scaleX(0);
+            animation:heroLine 0.6s cubic-bezier(.16,1,.3,1) 0.45s forwards;
+        }
+
+        .hero-tagline {
+            font-size:clamp(13px,2.5vw,16px);
+            color:var(--text-secondary);
+            font-weight:300; letter-spacing:2px;
+            text-transform:uppercase;
+            margin-bottom:20px;
+            opacity:0;
+            animation:heroFadeUp 0.8s cubic-bezier(.16,1,.3,1) 0.4s forwards;
+        }
+
+        .hero-desc {
+            font-size:15px; color:var(--text-secondary);
+            max-width:520px; margin:0 auto 20px;
+            font-weight:300; line-height:1.6;
+            opacity:0;
+            animation:heroFadeUp 0.8s cubic-bezier(.16,1,.3,1) 0.55s forwards;
+        }
+        .hero-features {
+            display:flex; gap:16px; flex-wrap:wrap; justify-content:center;
+            margin-top:16px;
+            opacity:0;
+            animation:heroFadeIn 0.8s ease 1.1s forwards;
+        }
+        .hero-feature {
+            font-size:12px; color:var(--text-secondary);
+            display:flex; align-items:center; gap:6px;
+            white-space:nowrap;
+        }
+        .hero-feature .dot {
+            width:5px; height:5px;
+            background:var(--accent); border-radius:50%; flex-shrink:0;
+            opacity:0; transform:scale(0);
+            animation:featureDot 0.4s cubic-bezier(.16,1,.3,1) forwards;
+        }
+        .hero-feature:nth-child(1) .dot { animation-delay:1.2s; }
+        .hero-feature:nth-child(2) .dot { animation-delay:1.3s; }
+        .hero-feature:nth-child(3) .dot { animation-delay:1.4s; }
+        .hero-feature:nth-child(4) .dot { animation-delay:1.5s; }
+
+        .hero-buttons {
+            display:flex; gap:10px; flex-wrap:wrap; justify-content:center;
+            opacity:0;
+            animation:heroFadeUp 0.8s cubic-bezier(.16,1,.3,1) 0.9s forwards;
+        }
+
+        .btn-primary {
+            display:inline-flex; align-items:center; gap:8px;
+            background:var(--accent); color:#0a0a0a;
+            font-size:14px; font-weight:600;
+            padding:14px 28px;
+            border-radius:100px; border:none;
+            transition:all var(--tr);
+            white-space:nowrap;
+        }
+        .btn-primary:hover {
+            transform:translateY(-2px);
+            box-shadow:0 8px 32px rgba(200,255,0,0.3);
+        }
+        .btn-secondary {
+            display:inline-flex; align-items:center; gap:8px;
+            background:transparent; color:var(--text);
+            font-size:14px; font-weight:500;
+            padding:14px 28px;
+            border-radius:100px; border:1px solid var(--border);
+            transition:all var(--tr);
+            white-space:nowrap;
+        }
+        .btn-secondary:hover { border-color:var(--text-secondary); }
+
+        .hero-showcase {
+            margin-top:20px;
+            margin-bottom:20px;
+            width:100%; max-width:680px;
+            position:relative;
+            opacity:0;
+            animation:heroScale 1s cubic-bezier(.16,1,.3,1) 0.65s forwards;
+        }
+        .product-placeholder {
+            width:100%; aspect-ratio:4/3;
+            background:linear-gradient(135deg,var(--bg-card),var(--bg-elevated));
+            border-radius:var(--radius);
+            display:flex; align-items:center; justify-content:center;
+            font-size:14px; color:var(--text-muted);
+            border:1px solid var(--border);
+        }
+
+        /* ===== SECTIONS COMMON ===== */
+        .section { padding:48px 0; }
+        .section-label {
+            font-size:11px; font-weight:600; letter-spacing:3px; text-transform:uppercase;
+            color:var(--accent); margin-bottom:12px;
+        }
+        .section-title {
+            font-size:clamp(24px,5vw,40px);
+            font-weight:600; line-height:1.2; margin-bottom:16px;
+        }
+        .section-subtitle {
+            font-size:15px; color:var(--text-secondary);
+            max-width:520px; font-weight:300; line-height:1.7;
+        }
+        .section-header { margin-bottom:28px; }
+        .section-header.center { text-align:center; }
+        .section-header.center .section-subtitle { margin:0 auto; }
+
+        /* ===== COLORS ===== */
+        .colors-section {
+            background:var(--bg-card);
+            border-top:1px solid var(--border);
+            border-bottom:1px solid var(--border);
+        }
+        .colors-grid {
+            display:flex; justify-content:center; gap:12px;
+            flex-wrap:wrap;
+            margin-bottom:40px;
+            padding:0 4px;
+        }
+        .color-btn {
+            width:48px; height:48px; border-radius:50%;
+            border:3px solid transparent;
+            transition:all var(--tr);
+            position:relative;
+            flex-shrink:0;
+        }
+        .color-btn:hover { transform:scale(1.1); }
+        .color-btn.active {
+            border-color:var(--accent);
+            box-shadow:0 0 0 2px var(--bg-card), 0 0 16px rgba(200,255,0,0.2);
+        }
+        .color-btn .tooltip {
+            position:absolute; bottom:-24px; left:50%; transform:translateX(-50%);
+            font-size:10px; color:var(--text-muted);
+            white-space:nowrap;
+            opacity:0; transition:opacity var(--tr);
+            pointer-events:none;
+        }
+        .color-btn:hover .tooltip,
+        .color-btn.active .tooltip { opacity:1; }
+
+        .color-display { display:flex; justify-content:center; }
+        .color-display-inner {
+            max-width:520px; width:100%; aspect-ratio:4/3;
+            background:var(--bg-elevated);
+            border-radius:var(--radius);
+            display:flex; align-items:center; justify-content:center;
+            font-size:14px; color:var(--text-muted);
+            border:1px solid var(--border);
+            transition:background .4s ease;
+        }
+        .color-name-display {
+            text-align:center; margin-top:20px;
+            font-size:18px; font-weight:500; letter-spacing:1px;
+        }
+
+        /* ===== ADVANTAGES ===== */
+        .advantages-grid {
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:16px;
+        }
+        .advantage-card {
+            background:var(--bg-card);
+            border:1px solid var(--border);
+            border-radius:var(--radius);
+            padding:28px 20px;
+            transition:all var(--tr);
+        }
+        .advantage-card:hover {
+            border-color:var(--accent);
+            transform:translateY(-2px);
+        }
+        .advantage-icon {
+            width:44px; height:44px;
+            display:flex; align-items:center; justify-content:center;
+            background:var(--accent-dim);
+            border-radius:var(--radius-sm);
+            margin-bottom:16px;
+        }
+        .advantage-icon svg {
+            width:22px; height:22px;
+            stroke:var(--accent); fill:none; stroke-width:1.5;
+        }
+        .advantage-icon--wide { width:56px; height:56px; }
+        .advantage-icon--wide svg { width:32px; height:32px; }
+        .advantage-card h3 { font-size:15px; font-weight:600; margin-bottom:8px; }
+        .advantage-card p {
+            font-size:13px; color:var(--text-secondary);
+            font-weight:300; line-height:1.7;
+        }
+
+        /* ===== DETAILS ===== */
+        .details-grid {
+            display:flex; flex-direction:column; gap:40px;
+        }
+        .details-image {
+            border-radius:var(--radius); overflow:hidden;
+            background:var(--bg-card); aspect-ratio:1;
+            display:flex; align-items:center; justify-content:center;
+            border:1px solid var(--border);
+            font-size:14px; color:var(--text-muted);
+        }
+
+        /* ===== SAND → FOOTPRINT → INSOLE ANIMATION ===== */
+        .sand-scene {
+            position:relative;
+            width:100%;
+            aspect-ratio:3/4;
+            border-radius:var(--radius);
+            overflow:hidden;
+            background:#c2a66b;
+            background-image:url('https://mcp-tools-z-image-turbo.hf.space/--replicas/44sw9/gradio_api/file=/tmp/gradio/e1c17e68cfe9f2334666714fcde59dae1c99213c22370ff95fd6d6bffa8c74c2/image.webp');
+            background-size:cover;
+            background-position:center;
+        }
+        @media (min-width:768px) { .sand-scene { aspect-ratio:1; } }
+
+        /* Sand texture layers */
+        .sand-texture {
+            position:absolute; inset:0;
+            background:
+                radial-gradient(ellipse at 30% 20%, #d4b87a 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 70%, #b8945a 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, #ccaa6a 0%, #b89858 100%);
+        }
+        .sand-grain {
+            position:absolute; inset:0;
+            background-image:
+                radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.3) 50%, transparent 50%),
+                radial-gradient(1px 1px at 50% 60%, rgba(255,255,255,0.2) 50%, transparent 50%),
+                radial-gradient(1px 1px at 80% 20%, rgba(255,255,255,0.25) 50%, transparent 50%),
+                radial-gradient(1.5px 1.5px at 35% 75%, rgba(200,170,100,0.4) 50%, transparent 50%),
+                radial-gradient(1px 1px at 65% 45%, rgba(255,255,255,0.2) 50%, transparent 50%);
+            background-size:40px 40px, 55px 55px, 45px 45px, 60px 60px, 35px 35px;
+        }
+        /* Ripple wave lines in sand */
+        .sand-waves {
+            position:absolute; inset:0; opacity:0.12;
+            background:repeating-linear-gradient(
+                175deg,
+                transparent,
+                transparent 18px,
+                rgba(0,0,0,0.15) 18px,
+                rgba(0,0,0,0.15) 19px
+            );
+        }
+
+        /* Footprint impression in sand */
+        .sand-footprint {
+            position:absolute;
+            top:50%; left:50%;
+            transform:translate(-50%,-50%);
+            width:42%; max-width:220px;
+            opacity:0;
+            transition:opacity 0.8s ease;
+            filter:drop-shadow(0 2px 6px rgba(0,0,0,0.2));
+        }
+        .sand-scene.anim-step1 .sand-footprint { opacity:1; }
+
+        /* Insole appearing from the footprint */
+        .sand-insole {
+            position:absolute;
+            top:50%; left:50%;
+            transform:translate(-50%,-50%) scale(0.92);
+            width:40%; max-width:210px;
+            opacity:0;
+            transition:opacity 0.9s ease 0.3s, transform 0.9s ease 0.3s, filter 0.9s ease 0.3s;
+            filter:brightness(0.8);
+        }
+        .sand-scene.anim-step2 .sand-insole {
+            opacity:1;
+            transform:translate(-50%,-50%) scale(1);
+            filter:brightness(1) drop-shadow(0 12px 30px rgba(0,0,0,0.4));
+        }
+
+        /* Callout pins on insole */
+        .callout {
+            position:absolute; z-index:3;
+            display:flex; align-items:center; gap:0;
+            opacity:0;
+            transition:opacity 0.5s ease, transform 0.5s ease;
+            transform:translateY(8px);
+        }
+        .sand-scene.anim-step3 .callout {
+            opacity:1; transform:translateY(0);
+        }
+        .sand-scene.anim-step3 .callout:nth-child(4) { transition-delay:0.1s; }
+        .sand-scene.anim-step3 .callout:nth-child(5) { transition-delay:0.25s; }
+        .sand-scene.anim-step3 .callout:nth-child(6) { transition-delay:0.4s; }
+        .sand-scene.anim-step3 .callout:nth-child(7) { transition-delay:0.55s; }
+
+        .callout-dot {
+            width:12px; height:12px; border-radius:50%;
+            background:var(--accent);
+            box-shadow:0 0 0 4px rgba(200,255,0,0.25);
+            flex-shrink:0; position:relative; z-index:2;
+        }
+        .callout-dot::after {
+            content:''; position:absolute;
+            width:5px; height:5px; border-radius:50%;
+            background:var(--bg); top:3.5px; left:3.5px;
+        }
+        .callout-line {
+            height:2px; background:rgba(200,255,0,0.35);
+            align-self:center; flex-shrink:0;
+        }
+        .callout-label {
+            background:rgba(10,10,10,0.88);
+            backdrop-filter:blur(10px);
+            border:1px solid rgba(200,255,0,0.2);
+            border-radius:8px; padding:8px 12px;
+            white-space:nowrap;
+        }
+        .callout-label .cl-title {
+            font-size:12px; font-weight:600; color:var(--accent);
+            letter-spacing:.5px; text-transform:uppercase; margin-bottom:2px;
+        }
+        .callout-label .cl-desc {
+            font-size:11px; color:var(--text-secondary); font-weight:300;
+        }
+        /* Pin positions */
+        .callout-arch { top:30%; left:6%; }
+        .callout-arch .callout-line { width:22px; }
+        .callout-heel { bottom:16%; left:8%; }
+        .callout-heel .callout-line { width:18px; }
+        .callout-toe { top:10%; right:6%; flex-direction:row-reverse; }
+        .callout-toe .callout-line { width:18px; }
+        .callout-width { bottom:38%; right:4%; flex-direction:row-reverse; }
+        .callout-width .callout-line { width:16px; }
+
+        /* Step indicator dots */
+        .sand-step-text {
+            position:absolute; bottom:16px; left:50%;
+            transform:translateX(-50%);
+            font-size:11px; letter-spacing:2px; text-transform:uppercase;
+            color:rgba(40,30,10,0.6); font-weight:600;
+            transition:opacity 0.6s ease;
+            z-index:5; white-space:nowrap;
+        }
+        .sand-scene.anim-step2 .sand-step-text { opacity:0; }
+
+        @media (max-width:767px) {
+            .sand-scene { aspect-ratio:3/4; }
+            .callout-label { padding:6px 10px; }
+            .callout-label .cl-title { font-size:10px; }
+            .callout-label .cl-desc { font-size:10px; }
+            .callout-arch { top:26%; left:2%; }
+            .callout-heel { bottom:12%; left:2%; }
+            .callout-toe { top:6%; right:2%; }
+            .callout-width { bottom:34%; right:1%; }
+            .callout-line { width:10px !important; }
+        }
+        .details-list {
+            list-style:none;
+            display:flex; flex-direction:column; gap:24px;
+        }
+        .details-list li {
+            padding-left:16px;
+            border-left:2px solid var(--border);
+            transition:border-color var(--tr);
+        }
+        .details-list li:hover { border-left-color:var(--accent); }
+        .details-list h4 { font-size:14px; font-weight:600; margin-bottom:4px; }
+        .details-list p { font-size:13px; color:var(--text-secondary); font-weight:300; }
+
+        .details-features {
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:16px;
+            max-width:700px;
+            margin:0 auto;
+        }
+        .details-feat {
+            display:flex; flex-direction:column; gap:4px;
+            padding:16px 20px;
+            border:1px solid var(--border);
+            border-radius:var(--radius-sm);
+            background:var(--bg-elevated);
+            transition:border-color .25s ease;
+        }
+        .details-feat:hover { border-color:var(--accent); }
+        .details-feat-title {
+            font-size:13px; font-weight:600; color:var(--accent);
+            letter-spacing:1px; text-transform:uppercase;
+        }
+        .details-feat-desc {
+            font-size:13px; color:var(--text-secondary); font-weight:300; line-height:1.5;
+        }
+        @media (max-width:480px) {
+            .details-features { grid-template-columns:1fr; }
+        }
+
+        /* ===== KHARKIV ===== */
+        .kharkiv-section {
+            background:var(--bg-card);
+            border-top:1px solid var(--border);
+            border-bottom:1px solid var(--border);
+        }
+        .kharkiv-content {
+            display:flex; flex-direction:column; gap:40px;
+        }
+        .kharkiv-text p {
+            font-size:15px; color:var(--text-secondary);
+            line-height:1.8; margin-bottom:14px; font-weight:300;
+        }
+        .kharkiv-stat {
+            display:grid; grid-template-columns:repeat(3,1fr); gap:16px;
+            margin-top:32px;
+        }
+        .kharkiv-stat-item { text-align:center; }
+        .kharkiv-stat-item .number {
+            font-size:28px; font-weight:700; color:var(--accent);
+        }
+        .kharkiv-stat-item .label {
+            font-size:12px; color:var(--text-secondary); margin-top:4px;
+        }
+
+        /* ===== REVIEWS ===== */
+        .reviews-scroll {
+            display:flex; gap:16px;
+            overflow-x:auto;
+            scroll-snap-type:x mandatory;
+            -webkit-overflow-scrolling:touch;
+            padding-bottom:8px;
+            scrollbar-width:none;
+        }
+        .reviews-scroll::-webkit-scrollbar { display:none; }
+        .review-card {
+            background:var(--bg-card);
+            border:1px solid var(--border);
+            border-radius:var(--radius);
+            padding:28px 24px;
+            min-width:300px;
+            max-width:360px;
+            flex-shrink:0;
+            scroll-snap-align:start;
+        }
+        .review-stars {
+            color:var(--accent); font-size:13px;
+            letter-spacing:2px; margin-bottom:14px;
+        }
+        .review-text {
+            font-size:14px; color:var(--text-secondary);
+            line-height:1.7; margin-bottom:18px;
+            font-weight:300; font-style:italic;
+        }
+        .review-author { display:flex; align-items:center; gap:12px; }
+        .review-avatar {
+            width:38px; height:38px; border-radius:50%;
+            background:var(--bg-elevated);
+            display:flex; align-items:center; justify-content:center;
+            font-size:15px; font-weight:600; color:var(--accent);
+        }
+        .review-name { font-size:13px; font-weight:500; }
+        .review-meta { font-size:11px; color:var(--text-muted); margin-top:2px; }
+
+        /* ===== SIZE CALCULATOR ===== */
+        .size-calc {
+            background:var(--bg-card);
+            border-top:1px solid var(--border);
+            border-bottom:1px solid var(--border);
+        }
+        .size-calc-layout {
+            max-width:640px; margin:0 auto;
+        }
+        /* Steps indicator */
+        .calc-progress {
+            display:flex; align-items:center; gap:0;
+            margin-bottom:40px; position:relative;
+        }
+        .calc-progress-step {
+            flex:1; display:flex; flex-direction:column; align-items:center; gap:6px;
+            position:relative; z-index:1;
+        }
+        .calc-progress-dot {
+            width:36px; height:36px; border-radius:50%;
+            background:var(--bg-elevated); border:2px solid var(--border);
+            display:flex; align-items:center; justify-content:center;
+            font-size:13px; font-weight:600; color:var(--text-muted);
+            transition:all .4s cubic-bezier(.4,0,.2,1);
+        }
+        .calc-progress-step.active .calc-progress-dot {
+            background:var(--accent); border-color:var(--accent);
+            color:var(--bg); transform:scale(1.1);
+        }
+        .calc-progress-step.done .calc-progress-dot {
+            background:var(--accent); border-color:var(--accent);
+            color:var(--bg);
+        }
+        .calc-progress-label {
+            font-size:10px; color:var(--text-muted);
+            letter-spacing:.5px; text-transform:uppercase;
+            transition:color .3s;
+        }
+        .calc-progress-step.active .calc-progress-label,
+        .calc-progress-step.done .calc-progress-label { color:var(--text); }
+        .calc-progress-line {
+            position:absolute; top:18px; left:0; right:0;
+            height:2px; background:var(--border); z-index:0;
+        }
+        .calc-progress-fill {
+            height:100%; background:var(--accent);
+            transition:width .5s cubic-bezier(.4,0,.2,1);
+            border-radius:2px;
+        }
+
+        /* Calculator panels */
+        .calc-panels { position:relative; overflow:hidden; min-height:260px; }
+        .calc-panel {
+            position:absolute; top:0; left:0; width:100%;
+            opacity:0; transform:translateX(40px);
+            transition:opacity .4s cubic-bezier(.4,0,.2,1), transform .4s cubic-bezier(.4,0,.2,1);
+            pointer-events:none;
+            z-index:1;
+        }
+        .calc-panel.active {
+            opacity:1; transform:translateX(0);
+            position:relative; pointer-events:auto;
+            z-index:2;
+        }
+        .calc-panel.exit-left {
+            opacity:0; transform:translateX(-40px);
+        }
+
+        .calc-question {
+            font-size:18px; font-weight:600; margin-bottom:20px;
+            text-align:center;
+        }
+        .calc-hint {
+            font-size:12px; color:var(--text-muted); text-align:center;
+            margin-bottom:20px; font-weight:300;
+        }
+
+        /* Insole input */
+        .calc-insole-input {
+            display:flex; align-items:center; justify-content:center;
+            gap:12px; margin:0 auto 20px;
+        }
+        .calc-insole-input input {
+            width:120px; text-align:center;
+            font-size:28px; font-weight:700;
+            background:var(--bg); border:2px solid var(--border);
+            border-radius:var(--radius-sm); padding:12px 8px;
+            color:var(--text); outline:none;
+            transition:border-color .3s;
+        }
+        .calc-insole-input input:focus { border-color:var(--accent); }
+        .calc-insole-input span { font-size:16px; color:var(--text-muted); }
+
+        /* Ruler visual */
+        .calc-ruler {
+            display:flex; justify-content:center; gap:2px;
+            margin-bottom:24px; padding:0 20px;
+        }
+        .calc-ruler-mark {
+            width:2px; background:var(--border); border-radius:1px;
+            transition:all .3s;
+        }
+        .calc-ruler-mark.small { height:8px; }
+        .calc-ruler-mark.med { height:14px; }
+        .calc-ruler-mark.big { height:20px; background:var(--text-muted); }
+
+        /* Size option buttons (usual size) */
+        .calc-size-options {
+            display:flex; flex-wrap:wrap; gap:8px;
+            justify-content:center;
+        }
+        .calc-size-opt {
+            min-width:52px; height:48px; padding:0 16px;
+            border:1px solid var(--border); border-radius:var(--radius-sm);
+            background:var(--bg); color:var(--text);
+            font-size:16px; font-weight:500;
+            display:flex; align-items:center; justify-content:center;
+            cursor:pointer; transition:all .25s;
+        }
+        .calc-size-opt:hover { border-color:var(--text-muted); transform:translateY(-2px); }
+        .calc-size-opt.selected {
+            background:var(--accent); color:var(--bg);
+            border-color:var(--accent); transform:scale(1.05);
+        }
+
+        /* Width selector */
+        .calc-width-options {
+            display:flex; gap:12px; justify-content:center; flex-wrap:wrap;
+        }
+        .calc-width-opt {
+            display:flex; flex-direction:column; align-items:center; gap:8px;
+            padding:20px 24px; border:1px solid var(--border);
+            border-radius:var(--radius); background:var(--bg);
+            cursor:pointer; transition:all .3s; min-width:120px;
+        }
+        .calc-width-opt:hover { border-color:var(--text-muted); transform:translateY(-2px); }
+        .calc-width-opt.selected {
+            border-color:var(--accent); background:var(--accent-dim);
+        }
+        .calc-width-icon {
+            font-size:28px; line-height:1;
+        }
+        .calc-width-label {
+            font-size:14px; font-weight:500;
+        }
+        .calc-width-desc {
+            font-size:11px; color:var(--text-muted);
+        }
+
+        /* Result */
+        .calc-result {
+            text-align:center;
+        }
+        .calc-result-size {
+            font-size:72px; font-weight:800; color:var(--accent);
+            line-height:1; margin-bottom:8px;
+            animation:calcPop .5s cubic-bezier(.4,0,.2,1);
+        }
+        @keyframes calcPop {
+            0% { transform:scale(0.5); opacity:0; }
+            60% { transform:scale(1.1); }
+            100% { transform:scale(1); opacity:1; }
+        }
+        .calc-result-label {
+            font-size:15px; color:var(--text-secondary); margin-bottom:4px;
+        }
+        .calc-result-conf {
+            display:inline-flex; align-items:center; gap:6px;
+            font-size:13px; font-weight:600; color:var(--accent);
+            background:var(--accent-dim);
+            padding:6px 16px; border-radius:100px;
+            margin-bottom:24px;
+        }
+        .calc-result-note {
+            font-size:12px; color:var(--text-muted); line-height:1.6;
+            max-width:400px; margin:0 auto 24px;
+        }
+        .calc-result-actions {
+            display:flex; gap:10px; justify-content:center; flex-wrap:wrap;
+        }
+        .calc-btn-order {
+            display:inline-flex; align-items:center; gap:8px;
+            background:var(--accent); color:var(--bg);
+            font-size:14px; font-weight:600;
+            padding:14px 28px; border-radius:100px; border:none;
+            cursor:pointer; transition:all .25s;
+        }
+        .calc-btn-order:hover { transform:translateY(-2px); box-shadow:0 8px 32px rgba(200,255,0,0.3); }
+        .calc-btn-retry {
+            display:inline-flex; align-items:center; gap:6px;
+            background:transparent; color:var(--text-secondary);
+            font-size:13px; font-weight:500;
+            padding:12px 20px; border-radius:100px;
+            border:1px solid var(--border); cursor:pointer;
+            transition:all .25s;
+        }
+        .calc-btn-retry:hover { border-color:var(--text-muted); }
+
+        /* Guarantee strip */
+        .calc-guarantee {
+            display:flex; align-items:center; justify-content:center; gap:8px;
+            margin-top:32px; padding-top:24px; border-top:1px solid var(--border);
+            font-size:12px; color:var(--text-muted);
+        }
+        .calc-guarantee svg { flex-shrink:0; }
+
+        @media(max-width:767px){
+            .calc-question { font-size:16px; }
+            .calc-result-size { font-size:56px; }
+            .calc-width-opt { padding:16px 18px; min-width:100px; }
+        }
+
+        /* ===== ORDER ===== */
+        .order-section {
+            background:var(--bg-card);
+            border-top:1px solid var(--border);
+            border-bottom:1px solid var(--border);
+            padding-bottom:calc(80px + var(--safe-bottom));
+        }
+        .order-layout {
+            max-width:960px; margin:0 auto;
+            display:flex; flex-direction:column; gap:40px;
+        }
+
+        /* old product-card styles removed — now in gallery section below */
+
+        /* ── Guarantees row ── */
+        .guarantees-row {
+            display:flex; flex-wrap:wrap; gap:12px 24px;
+            justify-content:center;
+        }
+        .guarantees-row span {
+            display:flex; align-items:center; gap:6px;
+            font-size:12px; color:var(--text-secondary);
+        }
+        .guarantees-row svg {
+            width:16px; height:16px; flex-shrink:0;
+            stroke:var(--accent); stroke-width:2; fill:none;
+        }
+
+        /* ── Wizard Steps ── */
+        .order-wizard { display:flex; flex-direction:column; gap:32px; }
+        .wizard-step {
+            display:flex; flex-direction:column; gap:16px;
+        }
+        .wizard-step-head {
+            display:flex; align-items:center; gap:10px;
+            padding-bottom:10px; border-bottom:1px solid var(--border);
+        }
+        .step-num {
+            width:28px; height:28px; border-radius:50%;
+            background:var(--accent); color:var(--bg);
+            font-size:12px; font-weight:700;
+            display:flex; align-items:center; justify-content:center;
+            flex-shrink:0;
+        }
+        .step-label {
+            font-size:15px; font-weight:600;
+        }
+
+        /* Form */
+        .order-form { display:flex; flex-direction:column; gap:28px; }
+        .form-step {
+            display:flex; flex-direction:column; gap:16px;
+        }
+
+        .form-group { display:flex; flex-direction:column; gap:6px; }
+        .form-group label {
+            font-size:12px; font-weight:500;
+            letter-spacing:.5px; color:var(--text-secondary);
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            background:var(--bg);
+            border:1px solid var(--border);
+            border-radius:var(--radius-sm);
+            padding:14px 16px;
+            font-size:16px; /* Prevents iOS zoom */
+            color:var(--text);
+            transition:border-color var(--tr);
+            outline:none; width:100%;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color:var(--accent);
+        }
+        .form-group select {
+            appearance:none;
+            background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' stroke='%23999' fill='none' stroke-width='1.5'/%3E%3C/svg%3E");
+            background-repeat:no-repeat;
+            background-position:right 16px center;
+            padding-right:40px;
+        }
+        .form-group textarea { resize:vertical; min-height:80px; }
+
+        .form-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+
+        /* Size grid */
+        .size-grid { display:flex; flex-wrap:wrap; gap:8px; }
+        .size-btn {
+            min-width:48px; height:44px;
+            padding:0 12px;
+            border:1px solid var(--border);
+            border-radius:var(--radius-sm);
+            background:var(--bg);
+            color:var(--text);
+            font-size:14px; font-weight:500;
+            display:flex; align-items:center; justify-content:center;
+            transition:all var(--tr);
+        }
+        .size-btn:hover { border-color:var(--text-muted); }
+        .size-btn.active {
+            background:var(--accent); color:var(--bg);
+            border-color:var(--accent);
+        }
+
+        /* Form colors */
+        .form-colors { display:flex; flex-wrap:wrap; gap:10px; }
+        .form-color-btn {
+            width:42px; height:42px; border-radius:50%;
+            border:3px solid transparent;
+            transition:all var(--tr);
+        }
+        .form-color-btn.active {
+            border-color:var(--accent);
+            box-shadow:0 0 0 2px var(--bg-card);
+        }
+
+        /* Payment */
+        .payment-options { display:flex; flex-direction:column; gap:10px; }
+        .payment-option {
+            display:flex; align-items:center; gap:12px;
+            padding:14px 16px;
+            background:var(--bg);
+            border:1px solid var(--border);
+            border-radius:var(--radius-sm);
+            transition:all var(--tr);
+        }
+        .payment-option:hover { border-color:var(--text-muted); }
+        .payment-option.active {
+            border-color:var(--accent);
+            background:rgba(200,255,0,0.03);
+        }
+        .payment-radio {
+            width:20px; height:20px; border-radius:50%;
+            border:2px solid var(--border);
+            display:flex; align-items:center; justify-content:center;
+            flex-shrink:0;
+            transition:all var(--tr);
+        }
+        .payment-option.active .payment-radio { border-color:var(--accent); }
+        .payment-option.active .payment-radio::after {
+            content:''; width:10px; height:10px;
+            border-radius:50%; background:var(--accent);
+        }
+        .payment-info { flex:1; min-width:0; }
+        .payment-label { font-size:14px; font-weight:500; }
+        .payment-desc { font-size:11px; color:var(--text-muted); margin-top:1px; }
+        .payment-icons {
+            display:flex; gap:6px; align-items:center;
+            flex-shrink:0;
+        }
+        .payment-icon {
+            background:var(--bg-elevated); border-radius:4px;
+            padding:3px 7px; font-size:10px; font-weight:700;
+            color:var(--text-secondary);
+        }
+
+        /* Submit */
+        .submit-btn {
+            width:100%; padding:18px;
+            font-size:16px; font-weight:600;
+            background:var(--accent); color:var(--bg);
+            border:none; border-radius:var(--radius-sm);
+            transition:all var(--tr);
+            letter-spacing:.3px;
+        }
+        .submit-btn:hover {
+            box-shadow:0 8px 32px rgba(200,255,0,0.3);
+            transform:translateY(-1px);
+        }
+        .submit-btn:active { transform:scale(.98); }
+        .form-note {
+            font-size:11px; color:var(--text-muted);
+            text-align:center; line-height:1.6;
+        }
+
+        /* City suggestions */
+        .city-suggestions {
+            display:none; position:relative; z-index:10;
+        }
+        .city-suggestions-inner {
+            position:absolute; top:4px; left:0; right:0;
+            background:var(--bg-elevated);
+            border:1px solid var(--border);
+            border-radius:var(--radius-sm);
+            max-height:200px; overflow-y:auto;
+            -webkit-overflow-scrolling:touch;
+        }
+        .city-item {
+            padding:14px 16px;
+            font-size:14px; color:var(--text-secondary);
+            border-bottom:1px solid var(--border);
+            transition:background .15s;
+        }
+        .city-item:active { background:var(--accent-dim); }
+
+        /* ===== FAQ ===== */
+        .faq-list {
+            max-width:720px; margin:0 auto;
+            display:flex; flex-direction:column; gap:4px;
+        }
+        .faq-item {
+            background:var(--bg-card);
+            border:1px solid var(--border);
+            border-radius:var(--radius-sm);
+            overflow:hidden;
+        }
+        .faq-question {
+            width:100%; padding:18px 20px;
+            color:var(--text); font-size:14px; font-weight:500;
+            text-align:left;
+            display:flex; justify-content:space-between; align-items:center;
+            gap:12px;
+            transition:color var(--tr);
+            min-height:56px;
+        }
+        .faq-question:hover { color:var(--accent); }
+        .faq-icon {
+            width:24px; height:24px; position:relative; flex-shrink:0;
+        }
+        .faq-icon::before, .faq-icon::after {
+            content:''; position:absolute;
+            background:var(--text-secondary);
+            transition:transform var(--tr);
+        }
+        .faq-icon::before {
+            width:12px; height:1.5px;
+            top:50%; left:50%; transform:translate(-50%,-50%);
+        }
+        .faq-icon::after {
+            width:1.5px; height:12px;
+            top:50%; left:50%; transform:translate(-50%,-50%);
+        }
+        .faq-item.open .faq-icon::after { transform:translate(-50%,-50%) rotate(90deg); }
+        .faq-question svg { transition:transform .3s ease; flex-shrink:0; }
+        .faq-item.open .faq-question svg { transform:rotate(180deg); }
+        .faq-answer { max-height:0; overflow:hidden; transition:max-height .4s ease; }
+        .faq-answer-inner {
+            padding:0 20px 18px;
+            font-size:13px; color:var(--text-secondary);
+            line-height:1.8; font-weight:300;
+        }
+
+        /* ===== STICKY MOBILE CTA ===== */
+        .sticky-cta {
+            display:none;
+            position:fixed; bottom:0; left:0; right:0;
+            z-index:90;
+            padding:12px 20px calc(12px + var(--safe-bottom));
+            background:rgba(10,10,10,0.95);
+            backdrop-filter:blur(20px);
+            -webkit-backdrop-filter:blur(20px);
+            border-top:1px solid var(--border);
+        }
+        .sticky-cta-inner {
+            display:flex; align-items:center; justify-content:space-between; gap:16px;
+        }
+        .sticky-cta-price {
+            display:flex; flex-direction:column;
+        }
+        .sticky-cta-price .current { font-size:20px; font-weight:700; }
+        .sticky-cta-price .old {
+            font-size:12px; color:var(--text-muted); text-decoration:line-through;
+        }
+        .sticky-cta .btn-primary {
+            padding:14px 28px; font-size:14px;
+            flex-shrink:0;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            padding:48px 0 32px;
+            border-top:1px solid var(--border);
+        }
+        .footer-top {
+            display:flex; flex-direction:column; gap:32px;
+            margin-bottom:32px;
+        }
+        .footer-brand .logo { margin-bottom:12px; }
+        .footer-brand p {
+            font-size:13px; color:var(--text-muted); line-height:1.7;
+        }
+        .footer-links {
+            display:grid; grid-template-columns:repeat(3,1fr); gap:20px;
+        }
+        .footer-col h4 {
+            font-size:11px; font-weight:600; text-transform:uppercase;
+            letter-spacing:2px; color:var(--text-secondary); margin-bottom:14px;
+        }
+        .footer-col ul { list-style:none; display:flex; flex-direction:column; gap:10px; }
+        .footer-col a {
+            font-size:13px; color:var(--text-muted); transition:color var(--tr);
+        }
+        .footer-col a:hover { color:var(--text); }
+
+        .footer-bottom {
+            padding-top:24px; border-top:1px solid var(--border);
+            display:flex; justify-content:space-between; align-items:center;
+            flex-wrap:wrap; gap:16px;
+        }
+        .footer-copy { font-size:12px; color:var(--text-muted); }
+        .footer-socials { display:flex; gap:12px; }
+        .footer-socials a {
+            width:40px; height:40px; border-radius:50%;
+            border:1px solid var(--border);
+            display:flex; align-items:center; justify-content:center;
+            transition:all var(--tr);
+        }
+        .footer-socials a:hover {
+            border-color:var(--accent); background:var(--accent-dim);
+        }
+        .footer-socials svg { width:18px; height:18px; fill:var(--text-secondary); }
+
+        /* ===== MODAL ===== */
+        .modal-overlay {
+            display:none; position:fixed; inset:0;
+            background:rgba(0,0,0,0.85); z-index:200;
+            align-items:center; justify-content:center;
+            padding:20px;
+            backdrop-filter:blur(8px);
+        }
+        .modal-overlay.show { display:flex; }
+        .modal {
+            background:var(--bg-card);
+            border:1px solid var(--border);
+            border-radius:var(--radius);
+            padding:40px 32px;
+            max-width:420px; width:100%;
+            text-align:center;
+        }
+        .modal-icon {
+            width:56px; height:56px; border-radius:50%;
+            background:var(--accent-dim);
+            display:flex; align-items:center; justify-content:center;
+            margin:0 auto 20px;
+        }
+        .modal-icon svg {
+            width:28px; height:28px;
+            stroke:var(--accent); fill:none; stroke-width:2.5;
+        }
+        .modal h2 { font-size:22px; margin-bottom:10px; }
+        .modal p { font-size:14px; color:var(--text-secondary); margin-bottom:28px; line-height:1.6; }
+
+        /* ===== DESKTOP (768+) ===== */
+        @media (min-width:768px) {
+            .container { padding:0 32px; }
+            .section { padding:64px 0; }
+            .burger { display:none !important; }
+            .header-nav { display:flex !important; }
+
+            .hero { padding:100px 0 60px; }
+            .hero::before { width:800px; height:500px; }
+            .hero-model { font-size:clamp(64px,8vw,100px); letter-spacing:28px; }
+            .hero-desc { font-size:16px; }
+
+            .advantages-grid { grid-template-columns:repeat(4,1fr); gap:20px; }
+
+            .details-grid {
+                flex-direction:row; gap:60px; align-items:center;
+            }
+            .details-grid > * { flex:1; }
+
+            .kharkiv-content {
+                flex-direction:row; gap:60px; align-items:center;
+            }
+            .kharkiv-content > * { flex:1; }
+
+            .review-card { min-width:340px; }
+
+            /* product-card desktop handled in gallery section */
+
+            .footer-top { flex-direction:row; }
+            .footer-brand { flex:1; }
+            .footer-links { flex:2; }
+
+            .sticky-cta { display:none !important; }
+        }
+
+        @media (min-width:1024px) {
+            .section { padding:80px 0; }
+            .advantages-grid { gap:24px; }
+            .advantage-card { padding:36px 28px; }
+            .details-grid { gap:80px; }
+            .kharkiv-content { gap:80px; }
+            .order-layout { max-width:760px; }
+        }
+
+        /* ===== MOBILE (<768) ===== */
+        @media (max-width:767px) {
+            .header-nav { display:none; }
+            .burger { display:flex; }
+            .sticky-cta { display:block; }
+
+            .hero { min-height:auto; padding:70px 0 24px; }
+            .hero::before { width:320px; height:250px; top:40%; }
+            .hero-model { font-size:40px; letter-spacing:12px; margin-bottom:2px; }
+            .hero-line { width:40px; margin-bottom:10px; }
+            .hero-tagline { font-size:11px; letter-spacing:1.5px; margin-bottom:14px; }
+            .hero-desc { font-size:13px; margin-bottom:14px; line-height:1.5; }
+            .hero-showcase { margin-top:14px; margin-bottom:14px; }
+            .hero-buttons { gap:8px; }
+            .hero-buttons .btn-primary,
+            .hero-buttons .btn-secondary { padding:12px 20px; font-size:13px; }
+            .hero-features { gap:8px 14px; margin-top:12px; }
+            .hero-feature { font-size:11px; }
+
+            .colors-grid { gap:10px; }
+            .color-btn { width:42px; height:42px; }
+
+            .advantage-card { padding:24px 18px; }
+            .advantage-card p { font-size:12px; }
+
+            .review-card { min-width:280px; padding:24px 20px; }
+
+            .order-section { padding-bottom:calc(100px + var(--safe-bottom)); }
+            .form-row { grid-template-columns:1fr; }
+
+            .footer-links {
+                grid-template-columns:1fr 1fr;
+            }
+        }
+
+        @media (max-width:380px) {
+            .container { padding:0 16px; }
+            .hero-model { font-size:34px; letter-spacing:8px; }
+            .hero-buttons { flex-direction:column; width:100%; }
+            .hero-buttons .btn-primary,
+            .hero-buttons .btn-secondary { width:100%; justify-content:center; }
+            .advantages-grid { grid-template-columns:1fr; }
+            .kharkiv-stat { grid-template-columns:1fr; gap:12px; }
+            .footer-links { grid-template-columns:1fr; }
+        }
+
+        /* ===== VELCRO FIT ===== */
+        .velcro-stack {
+            display:flex; flex-direction:column;
+            align-items:center; gap:0;
+            max-width:640px; margin:0 auto;
+        }
+        .velcro-img-wrap {
+            position:relative;
+            border-radius:var(--radius);
+            overflow:visible;
+            max-width:540px; width:100%;
+        }
+        .velcro-img-wrap img {
+            width:100%; display:block;
+            border-radius:var(--radius);
+            filter:drop-shadow(0 20px 40px rgba(0,0,0,0.4));
+        }
+        /* Infographic callout labels on image */
+        .velcro-callout {
+            position:absolute;
+            display:flex; align-items:center; gap:8px;
+            z-index:2;
+        }
+        .velcro-callout-dot {
+            width:10px; height:10px;
+            background:var(--accent);
+            border-radius:50%;
+            flex-shrink:0;
+            box-shadow:0 0 0 4px rgba(200,255,0,0.15), 0 0 12px rgba(200,255,0,0.3);
+            animation:calloutPulse 2.5s ease-in-out infinite;
+        }
+        @keyframes calloutPulse {
+            0%,100% { box-shadow:0 0 0 4px rgba(200,255,0,0.15), 0 0 12px rgba(200,255,0,0.3); }
+            50%     { box-shadow:0 0 0 7px rgba(200,255,0,0.08), 0 0 20px rgba(200,255,0,0.15); }
+        }
+        .velcro-callout-line {
+            width:32px; height:1px;
+            background:linear-gradient(90deg, var(--accent), transparent);
+            flex-shrink:0;
+        }
+        .velcro-callout--left .velcro-callout-line {
+            background:linear-gradient(270deg, var(--accent), transparent);
+        }
+        .velcro-callout-text {
+            background:rgba(10,10,10,0.85);
+            backdrop-filter:blur(10px);
+            -webkit-backdrop-filter:blur(10px);
+            border:1px solid rgba(200,255,0,0.2);
+            border-radius:8px;
+            padding:6px 12px;
+            font-size:11px; font-weight:500;
+            color:var(--text);
+            line-height:1.3;
+            white-space:nowrap;
+        }
+        .velcro-callout-text strong {
+            color:var(--accent);
+            display:block;
+            font-size:10px;
+            text-transform:uppercase;
+            letter-spacing:1px;
+            margin-bottom:1px;
+        }
+        /* Callout positions */
+        .velcro-c1 { top:18%; right:-10px; flex-direction:row-reverse; }
+        .velcro-c1 .velcro-callout-line { background:linear-gradient(270deg, var(--accent), transparent); }
+        .velcro-c2 { top:48%; left:-10px; }
+        .velcro-c3 { bottom:22%; right:-10px; flex-direction:row-reverse; }
+        .velcro-c3 .velcro-callout-line { background:linear-gradient(270deg, var(--accent), transparent); }
+
+        @media (max-width:767px) {
+            .velcro-callout-text { font-size:10px; padding:5px 9px; }
+            .velcro-callout-text strong { font-size:9px; }
+            .velcro-callout-line { width:16px; }
+            .velcro-c1 { top:12%; right:-4px; }
+            .velcro-c2 { top:46%; left:-4px; }
+            .velcro-c3 { bottom:16%; right:-4px; }
+        }
+        @media (max-width:380px) {
+            .velcro-callout-text { font-size:9px; padding:4px 7px; white-space:normal; max-width:120px; }
+            .velcro-callout-line { width:10px; }
+        }
+
+        .velcro-bottom-note {
+            margin-top:20px;
+            font-size:13px; color:var(--text-muted);
+            text-align:center;
+            font-weight:300;
+            line-height:1.5;
+        }
+
+        /* ===== COLOR SHOWCASE ===== */
+        .color-showcase {
+            background:var(--bg-card);
+            border-top:1px solid var(--border);
+            border-bottom:1px solid var(--border);
+            overflow:hidden;
+        }
+        .color-showcase .container {
+            display:flex; flex-direction:column; align-items:center;
+            text-align:center;
+        }
+        .showcase-visual {
+            width:100%; max-width:800px;
+            margin:0 auto 32px;
+            position:relative;
+        }
+        .slipper-photo-wrap {
+            position:relative;
+            width:100%;
+            overflow:visible;
+            border-radius:16px;
+            aspect-ratio:16/9;
+            background:transparent;
+            transition:background .5s ease;
+        }
+        /* pedestal PNG background layer */
+        .slipper-photo-wrap::before {
+            content:'';
+            position:absolute;
+            inset:0;
+            background:url('pedestal.png') center/contain no-repeat;
+            pointer-events:none;
+            z-index:1;
+        }
+        /* all photos — sit on the pedestal */
+        .slipper-photo-wrap img {
+            position:absolute;
+            top:0%;left:4%;
+            width:92%;height:92%;
+            object-fit:contain;
+            opacity:0;
+            transform:scale(1.06);
+            transition:opacity .5s cubic-bezier(.4,0,.2,1), transform .55s cubic-bezier(.4,0,.2,1);
+            pointer-events:none;
+            z-index:3;
+        }
+        .slipper-photo-wrap img.active {
+            opacity:1;
+            transform:scale(1);
+            pointer-events:auto;
+        }
+        .showcase-active-name {
+            text-align:center;
+            font-size:16px; font-weight:600;
+            letter-spacing:2px;
+            color:var(--text);
+            min-height:24px;
+            margin-top:8px;
+            opacity:0;
+            transform:translateY(8px);
+            transition:all .3s ease;
+        }
+        .showcase-active-name.visible {
+            opacity:1;
+            transform:translateY(0);
+        }
+        .showcase-selector {
+            display:flex; flex-wrap:wrap;
+            justify-content:center; gap:6px;
+            margin-top:6px;
+        }
+        .showcase-btn {
+            display:flex; align-items:center; gap:8px;
+            padding:8px 14px;
+            border-radius:100px;
+            border:1px solid var(--border);
+            background:transparent;
+            color:var(--text-muted);
+            font-size:12px; font-weight:400;
+            transition:all .25s ease;
+            cursor:pointer;
+        }
+        .showcase-btn:hover {
+            border-color:var(--text-secondary);
+            color:var(--text);
+            background:var(--bg-elevated);
+            transform:translateY(-2px);
+        }
+        .showcase-btn.active {
+            border-color:var(--accent);
+            color:var(--text);
+            background:var(--accent-dim);
+        }
+        .showcase-btn-dot {
+            width:12px; height:12px; border-radius:50%;
+            flex-shrink:0;
+        }
+        .showcase-btn-name {
+            letter-spacing:.5px;
+        }
+        @media (max-width:767px) {
+            .showcase-selector { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; justify-items:center; }
+            .showcase-btn { padding:6px; font-size:11px; gap:0; justify-content:center; border:none; background:transparent; }
+            .showcase-btn:hover { background:transparent; transform:none; }
+            .showcase-btn.active { background:transparent; border:none; }
+            .showcase-btn-name { display:none; }
+            .showcase-btn-dot { width:28px; height:28px; border:2px solid transparent; }
+            .showcase-btn.active .showcase-btn-dot { border-color:var(--accent); box-shadow:0 0 8px var(--accent-dim); }
+        }
+
+        /* ===== COMPARISON (interactive) ===== */
+        .comp-grid {
+            display:flex; flex-direction:column; gap:10px;
+            max-width:500px; margin:0 auto;
+        }
+        .comp-row {
+            display:grid; grid-template-columns:1fr auto 1fr; gap:0;
+            background:var(--bg-card); border:1px solid var(--border);
+            border-radius:var(--radius-sm); overflow:hidden;
+            transition:border-color .3s;
+        }
+        .comp-row:hover { border-color:var(--accent); }
+        .comp-cell {
+            padding:12px 14px;
+            display:flex; flex-direction:column; gap:1px;
+        }
+        .comp-cell.ours {
+            background:rgba(200,255,0,0.03);
+        }
+        .comp-cell-label {
+            font-size:9px; font-weight:600; letter-spacing:1px;
+            text-transform:uppercase; color:var(--text-muted);
+        }
+        .comp-cell.ours .comp-cell-label { color:var(--accent); }
+        .comp-cell-value {
+            font-size:12px; font-weight:400; color:var(--text-secondary);
+            line-height:1.4;
+        }
+        .comp-cell.ours .comp-cell-value {
+            color:var(--text); font-weight:500;
+        }
+        .comp-divider {
+            width:1px; background:var(--border); align-self:stretch;
+            position:relative;
+        }
+        .comp-divider::after {
+            content:'vs';
+            position:absolute; top:50%; left:50%;
+            transform:translate(-50%,-50%);
+            font-size:8px; font-weight:700; color:var(--text-muted);
+            background:var(--bg-card);
+            padding:3px 2px; letter-spacing:1px;
+            text-transform:uppercase;
+        }
+        
+        .comp-header-label {
+            font-size:11px; font-weight:600; letter-spacing:1.5px;
+            text-transform:uppercase; color:var(--text-muted);
+        }
+        .comp-header-label.ours { color:var(--accent); }
+        .comp-cat {
+            text-align:center; font-size:9px; font-weight:600;
+            letter-spacing:1.5px; text-transform:uppercase;
+            color:var(--text-muted); padding:5px 0 0;
+        }
+        @media(max-width:767px){
+            .comp-cell { padding:10px 10px; }
+            .comp-cell-value { font-size:11px; }
+        }
+
+        /* ===== PRODUCT CARD ===== */
+        .product-card {
+            display:flex; flex-direction:column; gap:16px;
+            margin-bottom:40px;
+            transition:opacity .25s ease, transform .25s ease;
+            background:var(--bg-elevated);
+            border:1px solid var(--border);
+            border-radius:var(--radius);
+            padding:16px;
+        }
+        @media(max-width:767px) {
+            .product-card {
+                margin-left:-20px;
+                margin-right:-20px;
+                border-radius:0;
+                border-left:none;
+                border-right:none;
+                padding:16px 20px;
+            }
+        }
+        .pc-header {
+            display:flex; flex-direction:column; gap:8px;
+        }
+        .size-grid-neat {
+            display:grid;
+            grid-template-columns:repeat(auto-fill, minmax(52px, 1fr));
+            gap:8px;
+        }
+        .size-grid-neat .size-btn {
+            width:100%;
+        }
+        .size-helper-toggle {
+            display:inline-flex; align-items:center; gap:6px;
+            margin-top:10px; padding:0;
+            font-size:13px; color:var(--accent);
+            font-weight:500; letter-spacing:.3px;
+            background:none; border:none; cursor:pointer;
+            transition:opacity var(--tr);
+        }
+        .size-helper-toggle:hover { opacity:.7; }
+        .size-helper-inline {
+            animation:wizardIn .35s ease;
+        }
+        .size-helper-inner {
+            background:var(--bg);
+            border:1px solid var(--border);
+            border-radius:var(--radius-sm);
+            padding:20px;
+            position:relative;
+            overflow:hidden;
+            min-height:200px;
+        }
+        .product-card-gallery {
+            display:flex; flex-direction:column; gap:12px;
+        }
+        .gallery-main {
+            position:relative;
+            width:100%;
+            aspect-ratio:3/4;
+            border-radius:var(--radius);
+            overflow:hidden;
+            background:#1a1a1a;
+            border:1px solid var(--border);
+        }
+        .gallery-main-img {
+            width:100%; height:100%;
+            display:flex; align-items:center; justify-content:center;
+            transition:background .4s ease;
+        }
+        .gallery-main-img img {
+            width:100%; height:100%; object-fit:contain;
+        }
+        .gallery-placeholder {
+            font-size:13px; color:var(--text-muted);
+        }
+        .gallery-badge {
+            position:absolute; top:14px; left:14px;
+            background:var(--accent); color:var(--bg);
+            font-size:12px; font-weight:700;
+            padding:5px 12px; border-radius:100px;
+            letter-spacing:.5px;
+        }
+        .gallery-thumbs {
+            display:flex; gap:6px;
+            overflow-x:auto;
+            -webkit-overflow-scrolling:touch;
+            scrollbar-width:none;
+            padding-bottom:2px;
+        }
+        .gallery-thumbs::-webkit-scrollbar { display:none; }
+        .gallery-thumb {
+            flex:0 0 auto;
+            width:56px; height:56px;
+            border-radius:8px;
+            overflow:hidden;
+            border:2px solid var(--border);
+            background:var(--bg-elevated);
+            transition:all var(--tr);
+            display:flex; align-items:center; justify-content:center;
+            padding:0;
+            cursor:pointer;
+        }
+        .gallery-thumb:hover { border-color:var(--text-muted); }
+        .gallery-thumb.active { border-color:var(--accent); }
+        @media(min-width:768px){
+            .gallery-thumb { width:64px; height:64px; }
+        }
+
+        /* Product info */
+        .product-card-info {
+            display:flex; flex-direction:column;
+        }
+        .product-card-gallery .section-label { margin-bottom:4px; }
+        .product-card-gallery .product-card-title { margin-bottom:14px; }
+        .product-card-title {
+            font-size:clamp(24px,5vw,32px);
+            font-weight:700; line-height:1.2;
+            margin-bottom:8px; letter-spacing:-0.5px;
+        }
+        .product-card-title span { color:var(--accent); }
+        .product-card-desc {
+            font-size:14px; color:var(--text-secondary);
+            font-weight:300; line-height:1.7;
+            margin-bottom:20px;
+        }
+        .product-card-price {
+            display:flex; align-items:baseline; gap:10px;
+            flex-wrap:wrap; margin-bottom:4px;
+        }
+        .product-card-price .current { font-size:28px; font-weight:700; }
+        .product-card-price .old { font-size:15px; color:var(--text-muted); text-decoration:line-through; }
+        .product-card-price .discount {
+            font-size:12px; font-weight:600; color:var(--accent);
+            background:var(--accent-dim);
+            padding:3px 10px; border-radius:100px;
+        }
+
+        .pc-guarantees {
+            display:flex; flex-wrap:wrap; gap:12px 20px;
+            margin-top:20px;
+            padding-top:16px;
+            border-top:1px solid var(--border);
+        }
+        .pc-guarantees span {
+            display:flex; align-items:center; gap:6px;
+            font-size:12px; color:var(--text-secondary);
+            font-weight:400;
+        }
+
+        /* ===== IOS DRUM PICKER ===== */
+        .drum-picker-wrap {
+            position:relative;
+            height:180px;
+            overflow:hidden;
+            border-radius:var(--radius-sm);
+            background:var(--bg-elevated);
+            border:1px solid var(--border);
+            -webkit-mask-image:linear-gradient(to bottom, transparent 0%, #000 30%, #000 70%, transparent 100%);
+            mask-image:linear-gradient(to bottom, transparent 0%, #000 30%, #000 70%, transparent 100%);
+        }
+        .drum-picker-list {
+            position:absolute; top:0; left:0; right:0;
+            transition:transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        .drum-picker-item {
+            height:40px;
+            display:flex; align-items:center; justify-content:center;
+            font-size:20px; font-weight:500;
+            color:var(--text-muted);
+            cursor:pointer;
+            transition:all .2s;
+            user-select:none;
+        }
+        .drum-picker-item.selected {
+            font-size:28px; font-weight:700;
+            color:var(--accent);
+        }
+        .drum-picker-highlight {
+            position:absolute;
+            top:50%; left:8px; right:8px;
+            height:42px;
+            transform:translateY(-50%);
+            border-top:1.5px solid var(--border);
+            border-bottom:1.5px solid var(--border);
+            pointer-events:none;
+        }
+        .drum-picker-unit {
+            position:absolute;
+            top:50%; right:20px;
+            transform:translateY(-50%);
+            font-size:14px; color:var(--text-muted);
+            pointer-events:none;
+        }
+
+        /* ===== CHECKOUT WIZARD ===== */
+        .checkout-wizard {
+            background:var(--bg);
+            border:1px solid var(--border);
+            border-radius:var(--radius);
+            padding:28px 24px;
+            max-width:640px;
+            margin:0 auto;
+            animation:wizardIn .35s ease;
+        }
+        @keyframes wizardIn {
+            from { opacity:0; transform:translateY(16px); }
+            to { opacity:1; transform:translateY(0); }
+        }
+        /* Checkout wizard header */
+        .cw-header {
+            display:flex; justify-content:space-between; align-items:center;
+            margin-bottom:20px;
+        }
+        .cw-summary { font-size:14px; color:var(--text-secondary); }
+        .cw-close {
+            background:none; border:none; color:var(--text-muted);
+            font-size:20px; cursor:pointer; padding:4px 8px;
+            transition:color var(--tr);
+        }
+        .cw-close:hover { color:var(--text); }
+
+        /* Progress bar */
+        .cw-progress {
+            display:flex; align-items:center; margin-bottom:28px;
+        }
+        .cw-step {
+            display:flex; align-items:center; gap:6px; flex-shrink:0;
+        }
+        .cw-dot {
+            width:28px; height:28px; border-radius:50%;
+            background:var(--bg-elevated); border:2px solid var(--border);
+            color:var(--text-muted); font-size:12px; font-weight:700;
+            display:flex; align-items:center; justify-content:center;
+            transition:all var(--tr);
+        }
+        .cw-step.active .cw-dot,
+        .cw-step.done .cw-dot {
+            background:var(--accent); color:var(--bg); border-color:var(--accent);
+        }
+        .cw-label {
+            font-size:12px; font-weight:500; color:var(--text-muted);
+            letter-spacing:.3px; transition:color var(--tr);
+        }
+        .cw-step.active .cw-label,
+        .cw-step.done .cw-label { color:var(--text); }
+        .cw-line {
+            flex:1; height:2px; background:var(--border);
+            margin:0 10px; border-radius:2px;
+            overflow:hidden; position:relative;
+        }
+        .cw-line-fill {
+            position:absolute; top:0; left:0;
+            height:100%; width:0;
+            background:var(--accent); border-radius:2px;
+            transition:width .4s ease;
+        }
+
+        /* Panels */
+        .cw-panel {
+            display:none; flex-direction:column; gap:16px;
+            animation:cwSlideIn .3s ease;
+        }
+        .cw-panel.active { display:flex; }
+        @keyframes cwSlideIn {
+            from { opacity:0; transform:translateX(16px); }
+            to { opacity:1; transform:translateX(0); }
+        }
+
+        /* Nav buttons */
+        .cw-nav {
+            display:flex; gap:12px; margin-top:8px;
+            padding-top:16px; border-top:1px solid var(--border);
+        }
+        .cw-btn-next {
+            flex:1; padding:14px 16px; font-size:14px; font-weight:600;
+            background:var(--accent); color:var(--bg); border:none;
+            border-radius:var(--radius-sm); cursor:pointer;
+            transition:all var(--tr); letter-spacing:.3px;
+        }
+        .cw-btn-next:hover { filter:brightness(1.1); }
+        .cw-btn-back {
+            padding:14px 16px; font-size:14px; font-weight:500;
+            background:transparent; color:var(--text-secondary);
+            border:1px solid var(--border); border-radius:var(--radius-sm);
+            cursor:pointer; transition:all var(--tr);
+        }
+        .cw-btn-back:hover { border-color:var(--text-muted); color:var(--text); }
+        .cw-btn-submit {
+            flex:1; padding:14px 16px; font-size:14px; font-weight:600;
+            background:var(--accent); color:var(--bg); border:none;
+            border-radius:var(--radius-sm); cursor:pointer;
+            transition:all var(--tr); letter-spacing:.3px;
+        }
+        .cw-btn-submit:hover { filter:brightness(1.1); }
+
+        @media (max-width:767px) {
+            .cw-label { display:none; }
+            .cw-line { margin:0 6px; }
+        }
+
+        /* Desktop product card layout */
+        @media (min-width:768px) {
+            .product-card { padding:32px; }
+            .gallery-main { aspect-ratio:1/1; }
+            .gallery-thumb { max-width:100px; }
+            .checkout-wizard { max-width:640px; }
+            .size-grid-neat { grid-template-columns:repeat(13, 1fr); }
+        }
+        @media (min-width:1024px) {
+            .product-card { padding:40px; }
+            .gallery-thumb { max-width:120px; }
+        }
+        @media (max-width:767px) {
+            .checkout-wizard { padding:20px 16px; }
+            .size-grid-neat { grid-template-columns:repeat(5, 1fr); }
+        }
+
+        /* ===== REVIEWS AS COMMENTS ===== */
+        .comments-feed {
+            display:flex; flex-direction:column; gap:0;
+            max-width:640px; margin:0 auto;
+        }
+        .comment-item {
+            display:flex; gap:12px;
+            padding:20px 0;
+            border-bottom:1px solid var(--border);
+        }
+        .comment-item:first-child { padding-top:0; }
+        .comment-item:last-child { border-bottom:none; }
+        .comment-avatar {
+            width:40px; height:40px; border-radius:50%; flex-shrink:0;
+            background:var(--bg-elevated);
+            border:1px solid var(--border);
+            display:flex; align-items:center; justify-content:center;
+            font-size:15px; font-weight:600; color:var(--accent);
+        }
+        .comment-body { flex:1; min-width:0; }
+        .comment-head {
+            display:flex; align-items:center; gap:8px;
+            margin-bottom:4px; flex-wrap:wrap;
+        }
+        .comment-name { font-size:14px; font-weight:600; }
+        .comment-meta { font-size:12px; color:var(--text-muted); }
+        .comment-stars {
+            font-size:11px; color:var(--accent); letter-spacing:1px;
+        }
+        .comment-text {
+            font-size:14px; font-weight:300; line-height:1.6;
+            color:var(--text-secondary); margin-bottom:10px;
+        }
+        .comment-photos {
+            display:flex; gap:8px; flex-wrap:wrap; margin-bottom:8px;
+        }
+        .comment-photo {
+            width:80px; height:80px; border-radius:8px;
+            overflow:hidden; border:1px solid var(--border);
+            background:var(--bg-elevated);
+            display:flex; align-items:center; justify-content:center;
+        }
+        .comment-photo img {
+            width:100%; height:100%; object-fit:cover;
+        }
+        .comment-footer {
+            display:flex; align-items:center; gap:16px;
+            font-size:12px; color:var(--text-muted);
+        }
+        .comment-like {
+            display:flex; align-items:center; gap:4px;
+            cursor:pointer; transition:color var(--tr);
+        }
+        .comment-like:hover { color:var(--accent); }
+        .comment-like.liked { color:var(--accent); }
+        @media (min-width:768px) {
+            .comment-photo { width:100px; height:100px; }
+        }
+
+        /* ===== REVIEW FORM ===== */
+        .review-form-wrap {
+            max-width:640px; margin:28px auto 0;
+            border-top:1px solid var(--border);
+            padding-top:24px;
+        }
+        .review-form-toggle {
+            display:flex; align-items:center; gap:8px;
+            background:none; border:1px solid var(--border);
+            color:var(--text-secondary); font-size:13px; font-weight:400;
+            padding:10px 18px; border-radius:100px;
+            cursor:pointer; transition:all var(--tr);
+            margin:0 auto;
+        }
+        .review-form-toggle:hover { border-color:var(--accent); color:var(--accent); }
+        .review-form-toggle svg { flex-shrink:0; }
+        .review-form {
+            display:none; margin-top:20px;
+            background:var(--bg-card); border:1px solid var(--border);
+            border-radius:var(--radius); padding:20px;
+        }
+        .review-form.open { display:block; }
+        .review-form .rf-row {
+            display:grid; grid-template-columns:1fr 1fr; gap:12px;
+            margin-bottom:12px;
+        }
+        .review-form .rf-field { display:flex; flex-direction:column; gap:4px; }
+        .review-form label {
+            font-size:11px; font-weight:500; color:var(--text-muted);
+            letter-spacing:0.5px;
+        }
+        .review-form input,
+        .review-form textarea,
+        .review-form select {
+            background:var(--bg-elevated); border:1px solid var(--border);
+            border-radius:var(--radius-sm); padding:10px 12px;
+            font-size:13px; color:var(--text); transition:border-color var(--tr);
+        }
+        .review-form input:focus,
+        .review-form textarea:focus,
+        .review-form select:focus {
+            outline:none; border-color:var(--accent);
+        }
+        .review-form textarea { resize:vertical; min-height:80px; }
+        .review-form select { appearance:none; cursor:pointer; }
+        .rf-stars { display:flex; gap:4px; margin-bottom:12px; }
+        .rf-star {
+            font-size:22px; color:var(--border); cursor:pointer;
+            transition:color .15s; background:none; border:none; padding:0;
+        }
+        .rf-star.active { color:var(--accent); }
+        .rf-star:hover { color:var(--accent); }
+        .rf-photo-upload {
+            display:flex; align-items:center; gap:10px;
+            margin-bottom:16px;
+        }
+        .rf-photo-btn {
+            display:flex; align-items:center; gap:6px;
+            background:var(--bg-elevated); border:1px dashed var(--border);
+            border-radius:var(--radius-sm); padding:10px 14px;
+            font-size:12px; color:var(--text-muted); cursor:pointer;
+            transition:all var(--tr);
+        }
+        .rf-photo-btn:hover { border-color:var(--accent); color:var(--accent); }
+        .rf-photo-btn input { display:none; }
+        .rf-photo-preview {
+            display:flex; gap:6px; flex-wrap:wrap;
+        }
+        .rf-photo-thumb {
+            width:48px; height:48px; border-radius:6px;
+            overflow:hidden; border:1px solid var(--border);
+            position:relative;
+        }
+        .rf-photo-thumb img { width:100%; height:100%; object-fit:cover; }
+        .rf-photo-thumb .rf-remove {
+            position:absolute; top:2px; right:2px;
+            width:16px; height:16px; border-radius:50%;
+            background:rgba(0,0,0,0.7); color:#fff; font-size:10px;
+            display:flex; align-items:center; justify-content:center;
+            cursor:pointer; border:none;
+        }
+        .rf-submit {
+            background:var(--accent); color:#0a0a0a;
+            font-size:13px; font-weight:600;
+            padding:12px 24px; border-radius:100px;
+            border:none; cursor:pointer;
+            transition:all var(--tr);
+        }
+        .rf-submit:hover { transform:translateY(-1px); box-shadow:0 4px 16px rgba(200,255,0,0.3); }
+        @media(max-width:767px) {
+            .review-form .rf-row { grid-template-columns:1fr; }
+            .review-form { padding:16px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header class="header" id="header">
+        <div class="container">
+            <a href="#" class="logo"><img src="logo.png" alt="ULTERA"></a>
+            <nav>
+                <ul class="header-nav" id="desktopNav">
+                    <li><a href="#velcroFit">Про SHAPE</a></li>
+                    <li><a href="#advantages">Переваги</a></li>
+                    <li><a href="#comparison">Порівняння</a></li>
+                    <li><a href="#order">Замовити</a></li>
+                </ul>
+            </nav>
+            <button class="burger" id="burger" aria-label="Меню" onclick="toggleMenu()">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- MOBILE MENU -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#velcroFit" onclick="closeMenu()">Про SHAPE</a>
+        <a href="#advantages" onclick="closeMenu()">Переваги</a>
+        <a href="#comparison" onclick="closeMenu()">Порівняння</a>
+        <a href="#reviews" onclick="closeMenu()">Відгуки</a>
+        <a href="#order" onclick="closeMenu()">Замовити</a>
+    </div>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="container">
+            <h1 class="hero-model">SHAPE</h1>
+            <div class="hero-line"></div>
+            <p class="hero-tagline">Анатомічне взуття ручної роботи</p>
+            <p class="hero-desc">Італійська замша, barefoot-форма, зносостійка ПУ-підошва — 10 кольорів, зроблено в Харкові</p>
+
+            <!-- 10 colors showcase -->
+            <div class="hero-showcase">
+                <div class="slipper-photo-wrap" id="slipperWrap">
+                    <img src="opt/slipper-black.webp" alt="ULTERA SHAPE — чорна шкіра" data-color="black" class="active">
+                    <img data-src="opt/slipper-bieg.webp" alt="Beige" data-color="beige">
+                    <img data-src="opt/multicolor-slipper.webp" alt="10 кольорів" data-color="multi">
+                    <img data-src="opt/slipper-orange.webp" alt="Orange" data-color="orange">
+                    <img data-src="opt/slipper-burgundy.webp" alt="Burgundy" data-color="burgundy">
+                    <img data-src="opt/slipper-phistachio.webp" alt="Pistachio" data-color="pistachio">
+                    <img data-src="opt/slipper-white.webp" alt="White" data-color="white">
+                    <img data-src="opt/slipper-blue.webp" alt="Blue" data-color="blue">
+                    <img data-src="opt/slipper-graphite.webp" alt="Graphite" data-color="graphite">
+                    <img data-src="opt/slipper-red.webp" alt="Red" data-color="red">
+                    <img data-src="opt/slipper-gray.webp" alt="Gray" data-color="gray">
+                </div>
+                <div class="showcase-active-name" id="showcaseActiveName"></div>
+                <div class="showcase-selector" id="showcaseSelector">
+                    <button class="showcase-btn" data-hex="#d4c4a8" data-name="Beige" onmouseenter="showcaseHover(this)" onmouseleave="showcaseReset()" onclick="showcaseSelect(this)"><span class="showcase-btn-dot" style="background:#d4c4a8"></span><span class="showcase-btn-name">Бежевий</span></button>
+                    <button class="showcase-btn" data-hex="#1a1a1a" data-name="Black" onmouseenter="showcaseHover(this)" onmouseleave="showcaseReset()" onclick="showcaseSelect(this)"><span class="showcase-btn-dot" style="background:#1a1a1a;border:1px solid #444"></span><span class="showcase-btn-name">Чорний</span></button>
+                    <button class="showcase-btn" data-hex="#d4621a" data-name="Orange" onmouseenter="showcaseHover(this)" onmouseleave="showcaseReset()" onclick="showcaseSelect(this)"><span class="showcase-btn-dot" style="background:#d4621a"></span><span class="showcase-btn-name">Оранжевий</span></button>
+                    <button class="showcase-btn" data-hex="#5c1a2a" data-name="Burgundy" onmouseenter="showcaseHover(this)" onmouseleave="showcaseReset()" onclick="showcaseSelect(this)"><span class="showcase-btn-dot" style="background:#5c1a2a"></span><span class="showcase-btn-name">Бордовий</span></button>
+                    <button class="showcase-btn" data-hex="#9ab87a" data-name="Pistachio" onmouseenter="showcaseHover(this)" onmouseleave="showcaseReset()" onclick="showcaseSelect(this)"><span class="showcase-btn-dot" style="background:#9ab87a"></span><span class="showcase-btn-name">Фісташковий</span></button>
+                    <button class="showcase-btn" data-hex="#e8e8e8" data-name="White" onmouseenter="showcaseHover(this)" onmouseleave="showcaseReset()" onclick="showcaseSelect(this)"><span class="showcase-btn-dot" style="background:#e8e8e8"></span><span class="showcase-btn-name">Білий</span></button>
+                    <button class="showcase-btn" data-hex="#8fb4d4" data-name="Blue" onmouseenter="showcaseHover(this)" onmouseleave="showcaseReset()" onclick="showcaseSelect(this)"><span class="showcase-btn-dot" style="background:#8fb4d4"></span><span class="showcase-btn-name">Блакитний</span></button>
+                    <button class="showcase-btn" data-hex="#4a4a4a" data-name="Graphite" onmouseenter="showcaseHover(this)" onmouseleave="showcaseReset()" onclick="showcaseSelect(this)"><span class="showcase-btn-dot" style="background:#4a4a4a"></span><span class="showcase-btn-name">Графіт</span></button>
+                    <button class="showcase-btn" data-hex="#c41e1e" data-name="Red" onmouseenter="showcaseHover(this)" onmouseleave="showcaseReset()" onclick="showcaseSelect(this)"><span class="showcase-btn-dot" style="background:#c41e1e"></span><span class="showcase-btn-name">Червоний</span></button>
+                    <button class="showcase-btn" data-hex="#b0a899" data-name="Gray" onmouseenter="showcaseHover(this)" onmouseleave="showcaseReset()" onclick="showcaseSelect(this)"><span class="showcase-btn-dot" style="background:#b0a899"></span><span class="showcase-btn-name">Сірий</span></button>
+                </div>
+            </div>
+
+            <div class="hero-buttons">
+                <a href="#velcroFit" class="btn-secondary">Дізнатись більше</a>
+            </div>
+
+            <div class="hero-features">
+                <div class="hero-feature"><span class="dot"></span>Італійська замша</div>
+                <div class="hero-feature"><span class="dot"></span>Ручна робота</div>
+                <div class="hero-feature"><span class="dot"></span>Гарантія 1 рік</div>
+                <div class="hero-feature"><span class="dot"></span>Оплата при отриманні</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DETAILS -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header center">
+                <div class="section-label">Головна перевага</div>
+                <h2 class="section-title">Анатомічна устілка + широка колодка</h2>
+            </div>
+            <div style="max-width:560px;margin:0 auto 40px;border-radius:var(--radius);overflow:hidden;">
+                <video id="sandVideo" autoplay muted loop playsinline style="width:100%;display:block;border-radius:inherit;">
+                    <source src="pisok-light.webm" type="video/webm">
+                    <source src="pisok-light.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="details-features">
+                <div class="details-feat"><span class="details-feat-title">Носок</span><span class="details-feat-desc">Широка передня частина — пальці лежать вільно, нічого не тисне і не труть</span></div>
+                <div class="details-feat"><span class="details-feat-title">Підтримка стопи</span><span class="details-feat-desc">Вбудований підйом підтримує стопу — вага розподіляється рівномірно, ноги не втомлюються</span></div>
+                <div class="details-feat"><span class="details-feat-title">П'ятка</span><span class="details-feat-desc">Заглиблена чаша обіймає п'ятку, гасить удар при кожному кроці</span></div>
+                <div class="details-feat"><span class="details-feat-title">Підошва</span><span class="details-feat-desc">Поліуретан — пружний, не стирається, пом'якшує кожен крок по будь-якій поверхні</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- VELCRO FIT -->
+    <section class="section" id="velcroFit">
+        <div class="container">
+            <div class="section-header center">
+                <div class="section-label">Ідеальна посадка</div>
+                <h2 class="section-title">Фіксація під будь-яку повноту та підйом</h2>
+            </div>
+            <div class="velcro-stack">
+                <div class="velcro-img-wrap">
+                    <img src="liplip.png" alt="ULTERA SHAPE — липучка для фіксації">
+                    <div class="velcro-callout velcro-c1">
+                        <div class="velcro-callout-text"><strong>Липучка</strong>Регулює повноту та підйом</div>
+                        <div class="velcro-callout-line"></div>
+                        <div class="velcro-callout-dot"></div>
+                    </div>
+                    <div class="velcro-callout velcro-c2">
+                        <div class="velcro-callout-dot"></div>
+                        <div class="velcro-callout-line"></div>
+                        <div class="velcro-callout-text"><strong>Замша</strong>Італійська, м'яка, дихаюча</div>
+                    </div>
+                    <div class="velcro-callout velcro-c3">
+                        <div class="velcro-callout-text"><strong>Підошва</strong>ПУ — легка та зносостійка</div>
+                        <div class="velcro-callout-line"></div>
+                        <div class="velcro-callout-dot"></div>
+                    </div>
+                </div>
+                <p class="velcro-bottom-note">Жодного тиску, жодного люфту — посадка під будь-яку стопу</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ADVANTAGES -->
+    <section class="section" id="advantages">
+        <div class="container">
+            <div class="section-header center">
+                <div class="section-label">Чому SHAPE</div>
+                <h2 class="section-title">4 причини, які відчуваєш з першого кроку</h2>
+            </div>
+            <div class="advantages-grid">
+                <div class="advantage-card">
+                    <div class="advantage-icon">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" stroke-width="0" fill="none"/><path d="M4 12c0-1.1.2-2.2.6-3.1C5.3 7.4 6.6 6.2 8 5.5c.5-.2 1-.4 1.6-.5m4.8 0c.6.1 1.1.3 1.6.5 1.4.7 2.7 1.9 3.4 3.4.4.9.6 2 .6 3.1" stroke-linecap="round"/><path d="M7 15c1-1.5 2.8-2.5 5-2.5s4 1 5 2.5" stroke-linecap="round"/><circle cx="12" cy="10" r="2.5"/></svg>
+                    </div>
+                    <h3>Анатомічна устілка</h3>
+                    <p>Підтримка склепіння, глибока п'ятка, вільний носок — ноги не втомлюються навіть після цілого дня на ногах</p>
+                </div>
+                <div class="advantage-card">
+                    <div class="advantage-icon">
+                        <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </div>
+                    <h3>Італійська замша</h3>
+                    <p>М'яка, дихаюча, приємна до шкіри. Преміум-матеріал, який виглядає дорого і старіє красиво</p>
+                </div>
+                <div class="advantage-card">
+                    <div class="advantage-icon">
+                        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </div>
+                    <h3>ПУ-підошва</h3>
+                    <p>Поліуретан — легка, м'яка, зносостійка підошва. Не стирається, амортизує і тримає форму роками</p>
+                </div>
+                <div class="advantage-card">
+                    <div class="advantage-icon">
+                        <svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </div>
+                    <h3>Ручна робота, Харків</h3>
+                    <p>Кожна пара зібрана вручну. Без конвеєра, без компромісів — від розкрою до фінальної перевірки</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ORDER -->
+    <section class="section" id="order">
+        <div class="container">
+            <div class="section-header center">
+                <div class="section-label">Замовлення</div>
+                <h2 class="section-title">Оберіть свій SHAPE</h2>
+            </div>
+
+            <!-- Product card -->
+            <div class="product-card" id="productCardView">
+                <!-- Title on top -->
+                <div class="pc-header">
+                    <div class="section-label">ULTERA</div>
+                    <h2 class="product-card-title">SHAPE — <span id="pcColorName">Beige</span></h2>
+                    <p class="product-card-desc">Анатомічні тапочки з італійської замші. Barefoot-форма, ПУ-підошва, ручна робота. 10 кольорів.</p>
+                </div>
+
+                <!-- Gallery -->
+                <div class="product-card-gallery">
+                    <div class="gallery-main">
+                        <div class="gallery-main-img" id="galleryMainImg">
+                            <img src="opt/slipper-bieg.webp" alt="ULTERA SHAPE Beige" style="width:100%;height:100%;object-fit:contain;border-radius:inherit;">
+                        </div>
+                        <div class="gallery-badge">-20%</div>
+                    </div>
+                    <div class="gallery-thumbs" id="galleryThumbs">
+                        <button class="gallery-thumb active" onclick="galleryGoTo(0)"><img src="thumb/slipper-bieg.webp" alt="Головне фото" loading="lazy" style="width:100%;height:100%;object-fit:cover;"></button>
+                        <button class="gallery-thumb" onclick="galleryGoTo(1)"><img src="opt/gallery-beige-1.webp" alt="Фото 2" loading="lazy" style="width:100%;height:100%;object-fit:cover;"></button>
+                        <button class="gallery-thumb" onclick="galleryGoTo(2)"><img src="opt/gallery-beige-2.webp" alt="Фото 3" loading="lazy" style="width:100%;height:100%;object-fit:cover;"></button>
+                        <button class="gallery-thumb" onclick="galleryGoTo(3)"><img src="opt/gallery-beige-3.webp" alt="Фото 4" loading="lazy" style="width:100%;height:100%;object-fit:cover;"></button>
+                        <button class="gallery-thumb" onclick="galleryGoTo(4)"><img src="opt/gallery-beige-4.webp" alt="Фото 5" loading="lazy" style="width:100%;height:100%;object-fit:cover;"></button>
+                        <button class="gallery-thumb" onclick="galleryGoTo(5)"><img src="opt/gallery-beige-5.webp" alt="Фото 6" loading="lazy" style="width:100%;height:100%;object-fit:cover;"></button>
+                    </div>
+                </div>
+
+                <div class="product-card-info">
+                    <div class="product-card-price">
+                        <span class="current">2 890 ₴</span>
+                        <span class="old">3 612 ₴</span>
+                        <span class="discount">-20%</span>
+                    </div>
+
+                    <!-- Color picker -->
+                    <div style="margin-top:16px;">
+                        <label style="font-size:11px;font-weight:500;color:var(--text-muted);letter-spacing:0.5px;display:block;margin-bottom:8px;">Колір</label>
+                        <div id="formColorPicker" style="display:flex;flex-wrap:nowrap;gap:0;justify-content:space-between;">
+                            <button class="form-color-btn active" data-color="beige" onclick="selectFormColor(this)" style="width:30px;height:30px;border-radius:50%;border:2px solid var(--accent);background:#d4c4a8;cursor:pointer;transition:all .2s;padding:0;flex-shrink:0;"></button>
+                            <button class="form-color-btn" data-color="black" onclick="selectFormColor(this)" style="width:30px;height:30px;border-radius:50%;border:2px solid transparent;background:#1a1a1a;cursor:pointer;transition:all .2s;padding:0;flex-shrink:0;"></button>
+                            <button class="form-color-btn" data-color="orange" onclick="selectFormColor(this)" style="width:30px;height:30px;border-radius:50%;border:2px solid transparent;background:#d4621a;cursor:pointer;transition:all .2s;padding:0;flex-shrink:0;"></button>
+                            <button class="form-color-btn" data-color="burgundy" onclick="selectFormColor(this)" style="width:30px;height:30px;border-radius:50%;border:2px solid transparent;background:#5c1a2a;cursor:pointer;transition:all .2s;padding:0;flex-shrink:0;"></button>
+                            <button class="form-color-btn" data-color="pistachio" onclick="selectFormColor(this)" style="width:30px;height:30px;border-radius:50%;border:2px solid transparent;background:#9ab87a;cursor:pointer;transition:all .2s;padding:0;flex-shrink:0;"></button>
+                            <button class="form-color-btn" data-color="white" onclick="selectFormColor(this)" style="width:30px;height:30px;border-radius:50%;border:2px solid transparent;background:#e8e8e8;cursor:pointer;transition:all .2s;padding:0;flex-shrink:0;"></button>
+                            <button class="form-color-btn" data-color="blue" onclick="selectFormColor(this)" style="width:30px;height:30px;border-radius:50%;border:2px solid transparent;background:#8fb4d4;cursor:pointer;transition:all .2s;padding:0;flex-shrink:0;"></button>
+                            <button class="form-color-btn" data-color="graphite" onclick="selectFormColor(this)" style="width:30px;height:30px;border-radius:50%;border:2px solid transparent;background:#4a4a4a;cursor:pointer;transition:all .2s;padding:0;flex-shrink:0;"></button>
+                            <button class="form-color-btn" data-color="red" onclick="selectFormColor(this)" style="width:30px;height:30px;border-radius:50%;border:2px solid transparent;background:#c41e1e;cursor:pointer;transition:all .2s;padding:0;flex-shrink:0;"></button>
+                            <button class="form-color-btn" data-color="gray" onclick="selectFormColor(this)" style="width:30px;height:30px;border-radius:50%;border:2px solid transparent;background:#b0a899;cursor:pointer;transition:all .2s;padding:0;flex-shrink:0;"></button>
+                        </div>
+                    </div>
+
+                    <!-- Size picker -->
+                    <div style="margin-top:16px;">
+                        <label style="font-size:11px;font-weight:500;color:var(--text-muted);letter-spacing:0.5px;display:block;margin-bottom:8px;">Розмір</label>
+                        <div class="size-grid-neat" id="sizeGrid">
+                            <button class="size-btn" onclick="selectSize(this)">36</button>
+                            <button class="size-btn" onclick="selectSize(this)">37</button>
+                            <button class="size-btn" onclick="selectSize(this)">38</button>
+                            <button class="size-btn" onclick="selectSize(this)">39</button>
+                            <button class="size-btn" onclick="selectSize(this)">40</button>
+                            <button class="size-btn active" onclick="selectSize(this)">41</button>
+                            <button class="size-btn" onclick="selectSize(this)">42</button>
+                            <button class="size-btn" onclick="selectSize(this)">43</button>
+                            <button class="size-btn" onclick="selectSize(this)">44</button>
+                            <button class="size-btn" onclick="selectSize(this)">45</button>
+                            <button class="size-btn" onclick="selectSize(this)">46</button>
+                            <button class="size-btn" onclick="selectSize(this)">47</button>
+                            <button class="size-btn" onclick="selectSize(this)">48</button>
+                        </div>
+                        <button class="size-helper-toggle" id="sizeHelperBtn" onclick="toggleSizeHelper()">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                            Допомогти підібрати розмір
+                        </button>
+                    </div>
+
+                    <!-- Size calculator (inline, hidden by default) -->
+                    <div id="sizeHelperInline" class="size-helper-inline" style="display:none;margin-top:16px;">
+                        <div class="size-helper-inner" id="sizeCalc">
+                            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+                                <h3 style="font-size:16px;font-weight:600;letter-spacing:-0.3px;">Підбір розміру</h3>
+                            </div>
+                            <!-- Calculator progress -->
+                            <div class="calc-progress" style="display:flex;align-items:center;margin-bottom:20px;">
+                                <div class="calc-progress-step active" data-step="1"><div class="cw-dot">1</div></div>
+                                <div class="cw-line"><div class="cw-line-fill" id="calcFill"></div></div>
+                                <div class="calc-progress-step" data-step="2"><div class="cw-dot">2</div></div>
+                                <div class="cw-line"><div class="cw-line-fill"></div></div>
+                                <div class="calc-progress-step" data-step="3"><div class="cw-dot">3</div></div>
+                            </div>
+                            <!-- Step 1: Insole -->
+                            <div class="calc-panel active" id="calcStep1">
+                                <label style="font-size:13px;font-weight:500;color:var(--text-secondary);display:block;margin-bottom:10px;">Виміряйте стопу та вкажіть довжину устілки в см</label>
+                                <div class="drum-picker-wrap" id="drumPicker">
+                                    <div class="drum-picker-list" id="drumList"></div>
+                                    <div class="drum-picker-highlight"></div>
+                                    <div class="drum-picker-unit">см</div>
+                                </div>
+                                <input type="hidden" id="calcInsole">
+                                <button class="btn-primary" id="calcBtn1" style="margin-top:12px;width:100%;" onclick="calcNext(1)">Далі</button>
+                            </div>
+                            <!-- Step 2: Usual size -->
+                            <div class="calc-panel" id="calcStep2">
+                                <label style="font-size:13px;font-weight:500;color:var(--text-secondary);display:block;margin-bottom:10px;">Який розмір ви зазвичай носите?</label>
+                                <div style="display:flex;flex-wrap:wrap;gap:8px;">
+                                    <button class="calc-size-opt size-btn" onclick="calcSelectSize(this)">36</button>
+                                    <button class="calc-size-opt size-btn" onclick="calcSelectSize(this)">37</button>
+                                    <button class="calc-size-opt size-btn" onclick="calcSelectSize(this)">38</button>
+                                    <button class="calc-size-opt size-btn" onclick="calcSelectSize(this)">39</button>
+                                    <button class="calc-size-opt size-btn" onclick="calcSelectSize(this)">40</button>
+                                    <button class="calc-size-opt size-btn" onclick="calcSelectSize(this)">41</button>
+                                    <button class="calc-size-opt size-btn" onclick="calcSelectSize(this)">42</button>
+                                    <button class="calc-size-opt size-btn" onclick="calcSelectSize(this)">43</button>
+                                    <button class="calc-size-opt size-btn" onclick="calcSelectSize(this)">44</button>
+                                    <button class="calc-size-opt size-btn" onclick="calcSelectSize(this)">45</button>
+                                    <button class="calc-size-opt size-btn" onclick="calcSelectSize(this)">46</button>
+                                    <button class="calc-size-opt size-btn" onclick="calcSelectSize(this)">47</button>
+                                    <button class="calc-size-opt size-btn" onclick="calcSelectSize(this)">48</button>
+                                </div>
+                            </div>
+                            <!-- Step 3: Width -->
+                            <div class="calc-panel" id="calcStep3">
+                                <label style="font-size:13px;font-weight:500;color:var(--text-secondary);display:block;margin-bottom:10px;">Яка у вас повнота стопи?</label>
+                                <div style="display:flex;flex-direction:column;gap:8px;">
+                                    <button class="calc-width-opt" onclick="calcSelectWidth(this,'narrow')" style="padding:14px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:14px;cursor:pointer;text-align:left;transition:all .2s;">🦶 Вузька</button>
+                                    <button class="calc-width-opt" onclick="calcSelectWidth(this,'normal')" style="padding:14px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:14px;cursor:pointer;text-align:left;transition:all .2s;">👟 Стандартна</button>
+                                    <button class="calc-width-opt" onclick="calcSelectWidth(this,'wide')" style="padding:14px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:14px;cursor:pointer;text-align:left;transition:all .2s;">🦶 Широка</button>
+                                </div>
+                            </div>
+                            <!-- Result -->
+                            <div class="calc-panel" id="calcResult">
+                                <div style="text-align:center;padding:12px 0;">
+                                    <div style="font-size:13px;color:var(--text-muted);margin-bottom:6px;">Ваш розмір ULTERA SHAPE</div>
+                                    <div id="calcResultSize" style="font-size:48px;font-weight:700;color:var(--accent);line-height:1;">42</div>
+                                    <div id="calcResultConf" style="font-size:13px;color:var(--text-secondary);margin-top:6px;display:flex;align-items:center;justify-content:center;gap:4px;"></div>
+                                    <p id="calcResultNote" style="font-size:13px;color:var(--text-secondary);margin-top:12px;line-height:1.5;"></p>
+                                    <div style="display:flex;gap:10px;justify-content:center;margin-top:16px;">
+                                        <button class="btn-primary" onclick="calcApplyAndClose()">Обрати <span id="calcResultSizeCta">42</span></button>
+                                        <button class="btn-secondary" onclick="calcReset()">Перерахувати</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CTA -->
+                    <button class="btn-primary" style="width:100%;margin-top:20px;padding:16px;" onclick="startCheckout()">Замовити</button>
+
+                    <!-- Guarantees -->
+                    <div class="pc-guarantees">
+                        <span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg> Гарантія 1 рік</span>
+                        <span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg> Безкоштовний обмін розміру</span>
+                        <span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg> Повернення без питань</span>
+                        <span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg> Оплата при отриманні</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Checkout Wizard -->
+            <div class="checkout-wizard" id="checkoutWizard" style="display:none;">
+                <div class="cw-header">
+                    <span class="cw-summary" id="orderColorSize">Beige · 41 · 2 890 ₴</span>
+                    <button class="cw-close" onclick="closeCheckout()">&times;</button>
+                </div>
+                <!-- Progress -->
+                <div class="cw-progress">
+                    <div class="cw-step active" data-s="1"><div class="cw-dot">1</div><span class="cw-label">Контакти</span></div>
+                    <div class="cw-line"><div class="cw-line-fill" id="cwFill1"></div></div>
+                    <div class="cw-step" data-s="2"><div class="cw-dot">2</div><span class="cw-label">Доставка</span></div>
+                    <div class="cw-line"><div class="cw-line-fill" id="cwFill2"></div></div>
+                    <div class="cw-step" data-s="3"><div class="cw-dot">3</div><span class="cw-label">Оплата</span></div>
+                </div>
+                <form id="orderForm" onsubmit="submitOrder(event)">
+                    <!-- Step 1: Contact info -->
+                    <div class="cw-panel active" id="cwStep1">
+                        <div style="display:flex;flex-direction:column;gap:12px;">
+                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;min-width:0;">
+                                <div style="display:flex;flex-direction:column;gap:4px;min-width:0;">
+                                    <label style="font-size:11px;font-weight:500;color:var(--text-muted);letter-spacing:0.5px;">Ім'я</label>
+                                    <input type="text" name="name" required placeholder="Юрій" style="padding:10px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:14px;min-width:0;box-sizing:border-box;">
+                                </div>
+                                <div style="display:flex;flex-direction:column;gap:4px;min-width:0;">
+                                    <label style="font-size:11px;font-weight:500;color:var(--text-muted);letter-spacing:0.5px;">Прізвище</label>
+                                    <input type="text" name="surname" required placeholder="Ісмагілов" style="padding:10px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:14px;min-width:0;box-sizing:border-box;">
+                                </div>
+                            </div>
+                            <div style="display:flex;flex-direction:column;gap:4px;">
+                                <label style="font-size:11px;font-weight:500;color:var(--text-muted);letter-spacing:0.5px;">Телефон</label>
+                                <input type="tel" name="phone" id="phoneInput" required placeholder="+380 (XX) XXX XX XX" style="padding:12px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:14px;">
+                            </div>
+                        </div>
+                        <div class="cw-nav">
+                            <button type="button" class="cw-btn-next" onclick="cwNext(1)">Далі — доставка</button>
+                        </div>
+                    </div>
+                    <!-- Step 2: Delivery -->
+                    <div class="cw-panel" id="cwStep2">
+                        <div style="display:flex;flex-direction:column;gap:12px;">
+                            <div style="display:flex;flex-direction:column;gap:4px;position:relative;">
+                                <label style="font-size:11px;font-weight:500;color:var(--text-muted);letter-spacing:0.5px;">Місто</label>
+                                <input type="text" name="city" id="cityInput" required placeholder="Почніть вводити назву міста" autocomplete="off" style="padding:12px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:14px;">
+                                <div class="city-suggestions" id="citySuggestions" style="display:none;position:absolute;top:100%;left:0;right:0;z-index:100;background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius-sm);max-height:200px;overflow-y:auto;margin-top:4px;">
+                                    <div id="citySuggestionsInner"></div>
+                                </div>
+                            </div>
+                            <div style="display:flex;flex-direction:column;gap:4px;">
+                                <label style="font-size:11px;font-weight:500;color:var(--text-muted);letter-spacing:0.5px;">Відділення Нової Пошти</label>
+                                <select name="warehouse" id="warehouseSelect" required style="padding:12px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:14px;appearance:none;">
+                                    <option value="">Спочатку оберіть місто</option>
+                                </select>
+                            </div>
+                            <div style="display:flex;flex-direction:column;gap:4px;">
+                                <label style="font-size:11px;font-weight:500;color:var(--text-muted);letter-spacing:0.5px;">Коментар (необов'язково)</label>
+                                <textarea name="comment" rows="2" placeholder="Побажання до замовлення..." style="padding:12px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:14px;resize:vertical;font-family:inherit;"></textarea>
+                            </div>
+                        </div>
+                        <div class="cw-nav">
+                            <button type="button" class="cw-btn-back" onclick="cwBack(2)">Назад</button>
+                            <button type="button" class="cw-btn-next" onclick="cwNext(2)">Далі — оплата</button>
+                        </div>
+                    </div>
+                    <!-- Step 3: Payment -->
+                    <div class="cw-panel" id="cwStep3">
+                        <div style="display:flex;flex-direction:column;gap:10px;" id="paymentOptions">
+                            <div class="payment-option active" data-payment="cod" onclick="selectPayment(this)" style="display:flex;align-items:center;gap:12px;padding:16px;background:var(--bg-elevated);border:1px solid var(--accent);border-radius:var(--radius-sm);cursor:pointer;transition:all .2s;">
+                                <div style="width:20px;height:20px;border-radius:50%;border:2px solid var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><div style="width:10px;height:10px;border-radius:50%;background:var(--accent);"></div></div>
+                                <div><div style="font-size:14px;font-weight:500;">Накладений платіж</div><div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Оплата при отриманні на Новій Пошті</div></div>
+                            </div>
+                            <div class="payment-option" data-payment="prepay" onclick="selectPayment(this)" style="display:flex;align-items:center;gap:12px;padding:16px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;transition:all .2s;">
+                                <div style="width:20px;height:20px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><div style="width:10px;height:10px;border-radius:50%;background:transparent;"></div></div>
+                                <div><div style="font-size:14px;font-weight:500;">Передоплата на картку</div><div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Реквізити надішлемо після підтвердження</div></div>
+                            </div>
+                        </div>
+                        <div class="cw-nav">
+                            <button type="button" class="cw-btn-back" onclick="cwBack(3)">Назад</button>
+                            <button type="submit" class="cw-btn-submit cw-submit">Підтвердити замовлення</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- REVIEWS -->
+    <section class="section" id="reviews">
+        <div class="container">
+            <div class="section-header center">
+                <div class="section-label">Відгуки</div>
+                <h2 class="section-title">Що кажуть клієнти</h2>
+            </div>
+            <div class="comments-feed">
+                <div class="comment-item">
+                    <div class="comment-avatar">О</div>
+                    <div class="comment-body">
+                        <div class="comment-head">
+                            <span class="comment-name">Олексій</span>
+                            <span class="comment-meta">Харків · 2 тижні тому</span>
+                        </div>
+                        <div class="comment-stars">★★★★★</div>
+                        <p class="comment-text">Ношу вже другий тиждень, не знімаю. Після звичайних тапок — небо і земля, нога реально відпочиває. Замша м'яка, липучка тримає чітко. Єдине — хотів би ще один колір (оливковий).</p>
+                        <div class="comment-photos">
+                            <div class="comment-photo"><img src="отзывы/1.webp" alt="Фото відгуку"></div>
+                            <div class="comment-photo"><img src="отзывы/5.webp" alt="Фото відгуку"></div>
+                        </div>
+                        <div class="comment-footer">
+                            <span class="comment-like" onclick="this.classList.toggle('liked')">
+                                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z M4 22H2V11h2"/></svg>
+                                Корисно · 12
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="comment-item">
+                    <div class="comment-avatar">М</div>
+                    <div class="comment-body">
+                        <div class="comment-head">
+                            <span class="comment-name">Марина</span>
+                            <span class="comment-meta">Київ · 1 місяць тому</span>
+                        </div>
+                        <div class="comment-stars">★★★★★</div>
+                        <p class="comment-text">Купила чоловіку на день народження, тепер хочу собі. Якість видно одразу — замша приємна, підошва не ковзає. Чоловік каже, що нарешті знайшов «свої» тапки.</p>
+                        <div class="comment-photos">
+                            <div class="comment-photo"><img src="отзывы/6.webp" alt="Фото відгуку"></div>
+                            <div class="comment-photo"><img src="отзывы/7.webp" alt="Фото відгуку"></div>
+                        </div>
+                        <div class="comment-footer">
+                            <span class="comment-like" onclick="this.classList.toggle('liked')">
+                                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z M4 22H2V11h2"/></svg>
+                                Корисно · 8
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="comment-item">
+                    <div class="comment-avatar">Д</div>
+                    <div class="comment-body">
+                        <div class="comment-head">
+                            <span class="comment-name">Дмитро</span>
+                            <span class="comment-meta">Одеса · 3 тижні тому</span>
+                        </div>
+                        <div class="comment-stars">★★★★☆</div>
+                        <p class="comment-text">Тапки топ, але звикати до barefoot-форми потрібно пару днів — перший день було незвично. Потім не хочеш нічого іншого. Графіт виглядає дуже стильно.</p>
+                        <div class="comment-photos">
+                            <div class="comment-photo"><img src="отзывы/9.webp" alt="Фото відгуку"></div>
+                            <div class="comment-photo"><img src="отзывы/10.webp" alt="Фото відгуку"></div>
+                        </div>
+                        <div class="comment-footer">
+                            <span class="comment-like" onclick="this.classList.toggle('liked')">
+                                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z M4 22H2V11h2"/></svg>
+                                Корисно · 6
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="comment-item">
+                    <div class="comment-avatar">А</div>
+                    <div class="comment-body">
+                        <div class="comment-head">
+                            <span class="comment-name">Андрій</span>
+                            <span class="comment-meta">Львів · 1 тиждень тому</span>
+                        </div>
+                        <div class="comment-stars">★★★★★</div>
+                        <p class="comment-text">Замовив оранжеві — колір вогонь. Доставка 2 дні, Нова Пошта. Якість на рівні європейських брендів, а ціна в рази нижча. Рекомендую всім.</p>
+                        <div class="comment-photos">
+                            <div class="comment-photo"><img src="отзывы/11.webp" alt="Фото відгуку"></div>
+                        </div>
+                        <div class="comment-footer">
+                            <span class="comment-like" onclick="this.classList.toggle('liked')">
+                                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z M4 22H2V11h2"/></svg>
+                                Корисно · 15
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="comment-item">
+                    <div class="comment-avatar">В</div>
+                    <div class="comment-body">
+                        <div class="comment-head">
+                            <span class="comment-name">Вікторія</span>
+                            <span class="comment-meta">Дніпро · 2 тижні тому</span>
+                        </div>
+                        <div class="comment-stars">★★★★★</div>
+                        <p class="comment-text">Нарешті тапочки, в яких можна ходити цілий день без болю в спині. Устілка реально анатомічна, не для краси. Взяла фісташкові — колір як на фото.</p>
+                        <div class="comment-photos">
+                            <div class="comment-photo"><img src="отзывы/12.webp" alt="Фото відгуку"></div>
+                        </div>
+                        <div class="comment-footer">
+                            <span class="comment-like" onclick="this.classList.toggle('liked')">
+                                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z M4 22H2V11h2"/></svg>
+                                Корисно · 9
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Review form -->
+            <div class="review-form-wrap">
+                <button class="review-form-toggle" onclick="document.getElementById('reviewForm').classList.toggle('open');this.style.display='none';">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>
+                    Залишити відгук
+                </button>
+                <div class="review-form" id="reviewForm">
+                    <div class="rf-row">
+                        <div class="rf-field">
+                            <label>Ім'я</label>
+                            <input type="text" id="rfName" placeholder="Ваше ім'я">
+                        </div>
+                        <div class="rf-field">
+                            <label>Місто</label>
+                            <input type="text" id="rfCity" placeholder="Ваше місто">
+                        </div>
+                    </div>
+                    <div class="rf-row">
+                        <div class="rf-field">
+                            <label>Колір</label>
+                            <select id="rfColor">
+                                <option value="beige">Бежевий</option>
+                                <option value="black">Чорний</option>
+                                <option value="orange">Оранжевий</option>
+                                <option value="burgundy">Бордовий</option>
+                                <option value="pistachio">Фісташковий</option>
+                                <option value="white">Білий</option>
+                                <option value="blue">Блакитний</option>
+                                <option value="graphite">Графіт</option>
+                                <option value="red">Червоний</option>
+                                <option value="gray">Сірий</option>
+                            </select>
+                        </div>
+                        <div class="rf-field">
+                            <label>Розмір</label>
+                            <select id="rfSize">
+                                <option>36</option><option>37</option><option>38</option><option>39</option><option>40</option>
+                                <option selected>41</option><option>42</option><option>43</option><option>44</option><option>45</option>
+                                <option>46</option><option>47</option><option>48</option>
+                            </select>
+                        </div>
+                    </div>
+                    <label style="font-size:11px;font-weight:500;color:var(--text-muted);letter-spacing:0.5px;">Оцінка</label>
+                    <div class="rf-stars" id="rfStars">
+                        <button type="button" class="rf-star" onclick="setRfStar(1)">★</button>
+                        <button type="button" class="rf-star" onclick="setRfStar(2)">★</button>
+                        <button type="button" class="rf-star" onclick="setRfStar(3)">★</button>
+                        <button type="button" class="rf-star" onclick="setRfStar(4)">★</button>
+                        <button type="button" class="rf-star active" onclick="setRfStar(5)">★</button>
+                    </div>
+                    <div class="rf-field" style="margin-bottom:12px;">
+                        <label>Відгук</label>
+                        <textarea id="rfText" placeholder="Розкажіть про свій досвід..."></textarea>
+                    </div>
+                    <div class="rf-photo-upload">
+                        <label class="rf-photo-btn">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                            Додати фото
+                            <input type="file" accept="image/*" multiple>
+                        </label>
+                        <div class="rf-photo-preview" id="rfPhotoPreview"></div>
+                    </div>
+                    <button type="button" class="rf-submit" onclick="submitReview()">Опублікувати відгук</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- COMPARISON -->
+    <section class="section" id="comparison">
+        <div class="container">
+            <div class="section-header center">
+                <div class="section-label">Порівняння</div>
+                <h2 class="section-title">SHAPE vs масмаркет</h2>
+            </div>
+            <div class="comp-grid">
+                <!-- Header row -->
+                <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:0;padding:0 14px 4px;">
+                    <div class="comp-header-label ours">ULTERA SHAPE</div>
+                    <div style="width:1px;"></div>
+                    <div class="comp-header-label" style="text-align:right;">Масмаркет</div>
+                </div>
+                <!-- Material -->
+                <div class="comp-row">
+                    <div class="comp-cell ours"><span class="comp-cell-label">ULTERA SHAPE</span><span class="comp-cell-value">Італійська замша</span></div>
+                    <div class="comp-divider"></div>
+                    <div class="comp-cell"><span class="comp-cell-label">Масмаркет</span><span class="comp-cell-value">Текстиль / шкірзам</span></div>
+                </div>
+                <div class="comp-cat">Матеріал</div>
+                <!-- Insole -->
+                <div class="comp-row">
+                    <div class="comp-cell ours"><span class="comp-cell-label">ULTERA SHAPE</span><span class="comp-cell-value">Анатомічна, з підтримкою склепіння</span></div>
+                    <div class="comp-divider"></div>
+                    <div class="comp-cell"><span class="comp-cell-label">Масмаркет</span><span class="comp-cell-value">Пласка, без підтримки</span></div>
+                </div>
+                <div class="comp-cat">Устілка</div>
+                <!-- Sole -->
+                <div class="comp-row">
+                    <div class="comp-cell ours"><span class="comp-cell-label">ULTERA SHAPE</span><span class="comp-cell-value">Поліуретан — легка, зносостійка</span></div>
+                    <div class="comp-divider"></div>
+                    <div class="comp-cell"><span class="comp-cell-label">Масмаркет</span><span class="comp-cell-value">ЕВА / гума — стирається за сезон</span></div>
+                </div>
+                <div class="comp-cat">Підошва</div>
+                <!-- Last -->
+                <div class="comp-row">
+                    <div class="comp-cell ours"><span class="comp-cell-label">ULTERA SHAPE</span><span class="comp-cell-value">Широка barefoot-колодка</span></div>
+                    <div class="comp-divider"></div>
+                    <div class="comp-cell"><span class="comp-cell-label">Масмаркет</span><span class="comp-cell-value">Стандартна вузька</span></div>
+                </div>
+                <div class="comp-cat">Колодка</div>
+                <!-- Production -->
+                <div class="comp-row">
+                    <div class="comp-cell ours"><span class="comp-cell-label">ULTERA SHAPE</span><span class="comp-cell-value">Ручна робота, Харків</span></div>
+                    <div class="comp-divider"></div>
+                    <div class="comp-cell"><span class="comp-cell-label">Масмаркет</span><span class="comp-cell-value">Конвеєр, Китай</span></div>
+                </div>
+                <div class="comp-cat">Виробництво</div>
+                <!-- Warranty -->
+                <div class="comp-row">
+                    <div class="comp-cell ours"><span class="comp-cell-label">ULTERA SHAPE</span><span class="comp-cell-value">1 рік гарантії</span></div>
+                    <div class="comp-divider"></div>
+                    <div class="comp-cell"><span class="comp-cell-label">Масмаркет</span><span class="comp-cell-value">14 днів (закон)</span></div>
+                </div>
+                <div class="comp-cat">Гарантія</div>
+                <!-- Lifespan -->
+                <div class="comp-row">
+                    <div class="comp-cell ours"><span class="comp-cell-label">ULTERA SHAPE</span><span class="comp-cell-value">3–5 років</span></div>
+                    <div class="comp-divider"></div>
+                    <div class="comp-cell"><span class="comp-cell-label">Масмаркет</span><span class="comp-cell-value">6–12 місяців</span></div>
+                </div>
+                <div class="comp-cat">Строк служби</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MADE IN KHARKIV -->
+    <section class="section kharkiv-section">
+        <div class="container">
+            <div class="section-header center">
+                <div class="section-label">Наша історія</div>
+                <h2 class="section-title">Зроблено в Харкові</h2>
+            </div>
+            <div style="max-width:640px;margin:0 auto;text-align:center;">
+                <p style="font-size:15px;color:var(--text-secondary);line-height:1.8;font-weight:300;margin-bottom:24px;">
+                    10 років мріяв робити взуття. На початку 2022-го запустив виробництво в Харкові — і більше не зупинявся. ULTERA — це взуття, яке поєднує технологію, комфорт і преміум-матеріали. Кожна пара зібрана вручну, від розкрою до фінальної перевірки.
+                </p>
+                <div style="display:flex;justify-content:center;gap:40px;flex-wrap:wrap;margin-bottom:32px;">
+                    <div style="text-align:center;">
+                        <div style="font-size:28px;font-weight:700;color:var(--accent);">1 рік</div>
+                        <div style="font-size:12px;color:var(--text-muted);margin-top:4px;">Гарантія</div>
+                    </div>
+                    <div style="text-align:center;">
+                        <div style="font-size:28px;font-weight:700;color:var(--accent);">10</div>
+                        <div style="font-size:12px;color:var(--text-muted);margin-top:4px;">Кольорів</div>
+                    </div>
+                    <div style="text-align:center;">
+                        <div style="font-size:28px;font-weight:700;color:var(--accent);">36–48</div>
+                        <div style="font-size:12px;color:var(--text-muted);margin-top:4px;">Розміри</div>
+                    </div>
+                </div>
+                <div style="aspect-ratio:16/9;background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:14px;">
+                    Фото виробництва (placeholder)
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section" id="faq">
+        <div class="container">
+            <div class="section-header center">
+                <div class="section-label">Часті питання</div>
+                <h2 class="section-title">FAQ</h2>
+            </div>
+            <div class="faq-list" style="max-width:640px;margin:0 auto;">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>Як підібрати розмір?</span>
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Виміряйте стопу стоячи на аркуші паперу та додайте 5 мм. Або скористайтеся нашим калькулятором розміру в картці товару — він враховує довжину устілки, ваш звичний розмір та повноту стопи. Якщо сумніваєтесь — ми безкоштовно обміняємо на інший розмір.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>Скільки коштує доставка?</span>
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Доставка Новою Поштою — за тарифами перевізника (зазвичай 70–120 ₴). Відправляємо протягом 1–2 робочих днів після підтвердження замовлення.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>Чи можна повернути або обміняти?</span>
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Так, протягом 14 днів без питань. Якщо не підійшов розмір — обмін безкоштовний. Просто зв'яжіться з нами, і ми все організуємо.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>Як доглядати за замшею?</span>
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Замша не потребує складного догляду. Протирайте сухою щіткою або злегка вологою ганчіркою. Уникайте прямого потоку води. За потреби використовуйте спеціальний спрей для замші.</div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>Що покриває гарантія?</span>
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">Гарантія 1 рік покриває дефекти виробництва: відклеювання підошви, розрив швів, деформація устілки. Це можливо завдяки нашому авторському методу виробництва та якісним матеріалам.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <div class="logo">ULTERA</div>
+                    <p>Технологічне взуття з преміум матеріалів. Ручна робота, Харків.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-col">
+                        <h4>Каталог</h4>
+                        <ul>
+                            <li><a href="https://ultera.in.ua" target="_blank">ULTERA Shape</a></li>
+                            <li><a href="https://ultera.in.ua" target="_blank">ULTERA Lite</a></li>
+                            <li><a href="https://ultera.in.ua" target="_blank">Усі моделі</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Інфо</h4>
+                        <ul>
+                            <li><a href="#">Оплата та доставка</a></li>
+                            <li><a href="#">Обмін / повернення</a></li>
+                            <li><a href="#">Про нас</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Контакти</h4>
+                        <ul>
+                            <li><a href="tel:+380000000000">+380 (XX) XXX XX XX</a></li>
+                            <li><a href="https://instagram.com/ultera.ua" target="_blank">Instagram</a></li>
+                            <li><a href="https://t.me/ultera_ua" target="_blank">Telegram</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span class="footer-copy">© 2026 ULTERA</span>
+                <div class="footer-socials">
+                    <a href="https://instagram.com/ultera.ua" target="_blank" aria-label="Instagram">
+                        <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+                    </a>
+                    <a href="https://t.me/ultera_ua" target="_blank" aria-label="Telegram">
+                        <svg viewBox="0 0 24 24"><path d="M21.2 4.8L2.5 11.6c-.5.2-.5.7.1.8l4.8 1.5 1.8 5.8c.2.5.7.5 1 .2l2.6-2.1 5.1 3.7c.5.4 1.1.1 1.2-.4L22.3 5.6c.2-.6-.4-1.1-1.1-.8z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- STICKY MOBILE CTA -->
+    <div class="sticky-cta" id="stickyCta">
+        <div class="sticky-cta-inner">
+            <div class="sticky-cta-price">
+                <span class="current">2 890 ₴</span>
+                <span class="old">3 612 ₴</span>
+            </div>
+            <a href="#order" class="btn-primary">Замовити</a>
+        </div>
+    </div>
+
+    <!-- MODAL -->
+    <div class="modal-overlay" id="successModal">
+        <div class="modal">
+            <div class="modal-icon">
+                <svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h2>Замовлення оформлено</h2>
+            <p>Дякуємо. Ми зв'яжемося з вами найближчим часом для підтвердження.</p>
+            <button class="btn-primary" onclick="closeModal()">Закрити</button>
+        </div>
+    </div>
+
+    <!-- ULTERA Analytics Tracker -->
+    <script src="ultera-tracker.js" defer></script>
+
+    <script>
+    // ===== STATE =====
+    // These are defaults — overridden by Supabase data when loaded
+    const C = {
+        beige:'Beige', black:'Black', orange:'Orange', burgundy:'Burgundy',
+        pistachio:'Pistachio', white:'White', blue:'Blue', graphite:'Graphite',
+        red:'Red', gray:'Gray'
+    };
+    const H = {
+        beige:'#d4c4a8', black:'#1a1a1a', orange:'#d4621a', burgundy:'#5c1a2a',
+        pistachio:'#9ab87a', white:'#e8e8e8', blue:'#8fb4d4', graphite:'#4a4a4a',
+        red:'#c41e1e', gray:'#b0a899'
+    };
+    // Dynamic price (can be updated from Supabase)
+    var PRODUCT_PRICE = 2890;
+    var PRODUCT_PRICE_OLD = 3612;
+    // Full-res product photos (loaded on demand / fallback)
+    const PHOTO = {
+        beige:'slipper-bieg.png',
+        black:'slipper-black.png',
+        orange:'slipper-orange.png',
+        burgundy:'slipper-burgundy.png',
+        pistachio:'slipper-phistachio.png',
+        white:'slipper-white.png',
+        blue:'slipper-blue.png',
+        graphite:'slipper-graphite.png',
+        red:'slipper-red.png',
+        gray:'slipper-gray.png'
+    };
+    // Optimized main gallery images (~40-50KB WebP instead of 2MB PNG)
+    const PHOTO_OPT = {
+        beige:'opt/slipper-bieg.webp',
+        black:'opt/slipper-black.webp',
+        orange:'opt/slipper-orange.webp',
+        burgundy:'opt/slipper-burgundy.webp',
+        pistachio:'opt/slipper-phistachio.webp',
+        white:'opt/slipper-white.webp',
+        blue:'opt/slipper-blue.webp',
+        graphite:'opt/slipper-graphite.webp',
+        red:'opt/slipper-red.webp',
+        gray:'opt/slipper-gray.webp'
+    };
+    // Tiny thumbnails (~3KB WebP)
+    const PHOTO_THUMB = {
+        beige:'thumb/slipper-bieg.webp',
+        black:'thumb/slipper-black.webp',
+        orange:'thumb/slipper-orange.webp',
+        burgundy:'thumb/slipper-burgundy.webp',
+        pistachio:'thumb/slipper-phistachio.webp',
+        white:'thumb/slipper-white.webp',
+        blue:'thumb/slipper-blue.webp',
+        graphite:'thumb/slipper-graphite.webp',
+        red:'thumb/slipper-red.webp',
+        gray:'thumb/slipper-gray.webp'
+    };
+    // Gallery photos per color — optimized WebP with unified backgrounds
+    const GALLERY = {
+        orange:  ['opt/gallery-orange-1.webp','opt/gallery-orange-2.webp','opt/gallery-orange-3.webp','opt/gallery-orange-4.webp','opt/gallery-orange-5.webp'],
+        red:     ['opt/gallery-red-1.webp','opt/gallery-red-2.webp','opt/gallery-red-3.webp','opt/gallery-red-4.webp','opt/gallery-red-5.webp'],
+        burgundy:['opt/gallery-burgundy-1.webp','opt/gallery-burgundy-2.webp','opt/gallery-burgundy-3.webp','opt/gallery-burgundy-4.webp','opt/gallery-burgundy-5.webp'],
+        blue:    ['opt/gallery-blue-1.webp','opt/gallery-blue-2.webp','opt/gallery-blue-3.webp','opt/gallery-blue-4.webp','opt/gallery-blue-5.webp'],
+        beige:   ['opt/gallery-beige-1.webp','opt/gallery-beige-2.webp','opt/gallery-beige-3.webp','opt/gallery-beige-4.webp','opt/gallery-beige-5.webp'],
+        gray:    ['opt/gallery-gray-1.webp','opt/gallery-gray-2.webp','opt/gallery-gray-3.webp','opt/gallery-gray-4.webp','opt/gallery-gray-5.webp'],
+        pistachio:['opt/gallery-pistachio-1.webp','opt/gallery-pistachio-2.webp','opt/gallery-pistachio-3.webp','opt/gallery-pistachio-4.webp','opt/gallery-pistachio-5.webp'],
+        black:   ['opt/gallery-black-1.webp','opt/gallery-black-2.webp','opt/gallery-black-3.webp','opt/gallery-black-4.webp','opt/gallery-black-5.webp'],
+        graphite:['opt/gallery-graphite-1.webp','opt/gallery-graphite-2.webp','opt/gallery-graphite-3.webp','opt/gallery-graphite-4.webp','opt/gallery-graphite-5.webp'],
+        white:   []
+    };
+    let currentGalleryIndex = 0;
+
+    // Built-in local defaults per color — used as fallback if DB URL fails to load
+    const PHOTO_DEFAULT = {
+        beige:'opt/slipper-bieg.webp', black:'opt/slipper-black.webp', orange:'opt/slipper-orange.webp',
+        burgundy:'opt/slipper-burgundy.webp', pistachio:'opt/slipper-phistachio.webp', white:'opt/slipper-white.webp',
+        blue:'opt/slipper-blue.webp', graphite:'opt/slipper-graphite.webp', red:'opt/slipper-red.webp',
+        gray:'opt/slipper-gray.webp'
+    };
+    // Escape quotes for inline onerror attribute
+    function _esc(s){ return (s||'').replace(/'/g,"\\'").replace(/"/g,'&quot;'); }
+    function _imgFallback(clr){ return _esc(PHOTO_DEFAULT[clr] || 'opt/slipper-black.webp'); }
+
+    function updateGalleryPhoto(clr){
+        const mainImg = document.getElementById('galleryMainImg');
+        if(!mainImg) return;
+        currentGalleryIndex = 0;
+        // Show optimized product photo (fast load), full-res on demand
+        const optSrc = PHOTO_OPT[clr] || PHOTO[clr];
+        if(optSrc){
+            mainImg.innerHTML = '<img src="'+optSrc+'" alt="ULTERA SHAPE '+C[clr]+'" style="width:100%;height:100%;object-fit:contain;border-radius:inherit;" onerror="this.onerror=null;this.src=\''+_imgFallback(clr)+'\'">';
+        } else {
+            mainImg.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;background:linear-gradient(135deg,'+H[clr]+'22,'+H[clr]+'44);font-size:13px;color:var(--text-muted);border-radius:inherit;">ULTERA SHAPE — '+C[clr]+'</div>';
+        }
+        // Rebuild thumbnails for this color
+        rebuildThumbs(clr);
+    }
+
+    function rebuildThumbs(clr){
+        const thumbsWrap = document.getElementById('galleryThumbs');
+        if(!thumbsWrap) return;
+        const photos = GALLERY[clr] || [];
+        let html = '';
+        // Thumb 0: use DB main photo if available, else fall back to hardcoded thumb
+        const dbMain = PHOTO_OPT[clr] || PHOTO[clr] || '';
+        const isDbPhoto = dbMain && dbMain.startsWith('http');
+        const thumbSrc = isDbPhoto ? dbMain : (PHOTO_THUMB[clr] || dbMain || '');
+        const fb = _imgFallback(clr);
+        html += '<button class="gallery-thumb active" onclick="galleryGoTo(0)"><img src="'+thumbSrc+'" alt="Головне фото" loading="lazy" style="width:100%;height:100%;object-fit:cover;" onerror="this.onerror=null;this.src=\''+fb+'\'"></button>';
+        // Thumbs 1-N: additional gallery photos
+        for(let i=0;i<photos.length;i++){
+            html += '<button class="gallery-thumb" onclick="galleryGoTo('+(i+1)+')"><img src="'+photos[i]+'" alt="Фото '+(i+2)+'" loading="lazy" style="width:100%;height:100%;object-fit:cover;" onerror="this.onerror=null;this.src=\''+fb+'\'"></button>';
+        }
+        thumbsWrap.innerHTML = html;
+    }
+
+    function galleryGoTo(idx){
+        const clr = color;
+        const mainImg = document.getElementById('galleryMainImg');
+        if(!mainImg) return;
+        currentGalleryIndex = idx;
+        const fb = _imgFallback(clr);
+        if(idx === 0){
+            const optSrc = PHOTO_OPT[clr] || PHOTO[clr];
+            mainImg.innerHTML = '<img src="'+optSrc+'" alt="ULTERA SHAPE '+C[clr]+'" style="width:100%;height:100%;object-fit:contain;border-radius:inherit;" onerror="this.onerror=null;this.src=\''+fb+'\'">';
+        } else {
+            const photos = GALLERY[clr] || [];
+            const src = photos[idx-1];
+            if(src){
+                mainImg.innerHTML = '<img src="'+src+'" alt="ULTERA SHAPE '+C[clr]+'" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;" onerror="this.onerror=null;this.src=\''+fb+'\'">';
+            }
+        }
+        // Update active thumb
+        document.querySelectorAll('#galleryThumbs .gallery-thumb').forEach(function(t,i){
+            t.classList.toggle('active', i === idx);
+        });
+    }
+    let color='beige', size='41', payment='cod';
+
+    // ===== HEADER (show on scroll up, hide on scroll down) =====
+    let lastScrollY = 0;
+    let headerHidden = false;
+    const headerEl = document.getElementById('header');
+    window.addEventListener('scroll',()=>{
+        const sy = window.scrollY;
+        headerEl.classList.toggle('scrolled', sy > 50);
+        if(sy > 80) {
+            if(sy > lastScrollY && !headerHidden) {
+                headerEl.classList.add('header-hidden');
+                headerHidden = true;
+            } else if(sy < lastScrollY && headerHidden) {
+                headerEl.classList.remove('header-hidden');
+                headerHidden = false;
+            }
+        } else {
+            headerEl.classList.remove('header-hidden');
+            headerHidden = false;
+        }
+        lastScrollY = sy;
+        // Show/hide sticky CTA
+        const orderSection = document.getElementById('order');
+        const stickyCta = document.getElementById('stickyCta');
+        if(window.innerWidth<768 && stickyCta){
+            const rect = orderSection.getBoundingClientRect();
+            stickyCta.style.opacity = rect.top > window.innerHeight ? '1' : '0';
+            stickyCta.style.pointerEvents = rect.top > window.innerHeight ? 'auto' : 'none';
+        }
+    });
+
+    // ===== VIDEO AUTOPLAY FORCE =====
+    (function(){
+        const v = document.getElementById('sandVideo');
+        if(v){
+            v.muted = true;
+            v.removeAttribute('controls');
+            const tryPlay = () => { v.play().catch(()=>{}); };
+            tryPlay();
+            document.addEventListener('touchstart', tryPlay, {once:true});
+            document.addEventListener('scroll', tryPlay, {once:true});
+        }
+    })();
+
+    // ===== MOBILE MENU =====
+    function toggleMenu(){
+        document.getElementById('burger').classList.toggle('active');
+        document.getElementById('mobileMenu').classList.toggle('show');
+        document.body.style.overflow = document.getElementById('mobileMenu').classList.contains('show') ? 'hidden' : '';
+    }
+    function closeMenu(){
+        document.getElementById('burger').classList.remove('active');
+        document.getElementById('mobileMenu').classList.remove('show');
+        document.body.style.overflow = '';
+    }
+
+    // ===== COLORS =====
+    function selectColor(btn){
+        color = btn.dataset.color;
+        // Sync product card color picker
+        document.querySelectorAll('#formColorPicker .form-color-btn').forEach(function(b){
+            b.classList.toggle('active', b.dataset.color === color);
+            b.style.borderColor = b.dataset.color === color ? 'var(--accent)' : 'transparent';
+        });
+        var pcName = document.getElementById('pcColorName');
+        if(pcName) pcName.textContent = C[color];
+        // Update gallery with real photo
+        updateGalleryPhoto(color);
+        updateFirstThumb(color);
+        // Sync showcase in hero
+        if(typeof showcaseShow === 'function') showcaseShow(color);
+        // Update showcase buttons
+        document.querySelectorAll('.showcase-btn').forEach(function(b){
+            b.classList.toggle('active', b.dataset.name.toLowerCase() === color);
+        });
+        updateSummary();
+    }
+
+    function selectFormColor(btn){
+        document.querySelectorAll('#formColorPicker .form-color-btn').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        color = btn.dataset.color;
+        // Update product card title color name
+        var pcName = document.getElementById('pcColorName');
+        if(pcName) pcName.textContent = C[color];
+        // Update gallery main image + all thumbs
+        updateGalleryPhoto(color);
+        // Sync showcase in hero
+        if(typeof showcaseShow === 'function') showcaseShow(color);
+        // Sync showcase in hero
+        document.querySelectorAll('.showcase-btn').forEach(function(b){
+            b.classList.toggle('active', b.dataset.name && b.dataset.name.toLowerCase() === color);
+        });
+        if(typeof showcaseShow === 'function') showcaseShow(color);
+        var activeNameEl = document.getElementById('showcaseActiveName');
+        if(activeNameEl){
+            activeNameEl.textContent = C[color] || '';
+            activeNameEl.classList.add('visible');
+        }
+        showcaseLocked = true;
+        updateSummary();
+    }
+    // updateFirstThumb removed — rebuildThumbs handles all thumbs now
+
+    function selectSize(btn){
+        document.querySelectorAll('#sizeGrid .size-btn').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        size = btn.textContent;
+        updateSummary();
+    }
+
+    function selectPayment(opt){
+        document.querySelectorAll('.payment-option').forEach(o=>o.classList.remove('active'));
+        opt.classList.add('active');
+        payment = opt.dataset.payment;
+    }
+
+    function updateSummary(){
+        const ocs = document.getElementById('orderColorSize');
+        if(ocs) ocs.textContent = C[color]+' · '+size+' · 2 890 ₴';
+    }
+
+    // ===== NOVA POSHTA =====
+    const NP_KEY='3e94ed5dff15ec9a4db78748bfcaa26e';
+    const NP_URL='https://api.novaposhta.ua/v2.0/json/';
+    let cityRef='', cityTimer;
+
+    const cityInput = document.getElementById('cityInput');
+    const citySugg = document.getElementById('citySuggestions');
+    const citySuggInner = document.getElementById('citySuggestionsInner');
+    const whSelect = document.getElementById('warehouseSelect');
+
+    cityInput.addEventListener('input',function(){
+        clearTimeout(cityTimer);
+        const q=this.value.trim();
+        if(q.length<2){ citySugg.style.display='none'; return; }
+        cityTimer=setTimeout(()=>searchCity(q),300);
+    });
+
+    async function searchCity(q){
+        try{
+            const r=await fetch(NP_URL,{method:'POST',headers:{'Content-Type':'application/json'},
+                body:JSON.stringify({apiKey:NP_KEY,modelName:'Address',calledMethod:'searchSettlements',
+                    methodProperties:{CityName:q,Limit:8}})});
+            const d=await r.json();
+            if(d.success&&d.data[0]&&d.data[0].Addresses.length) showCities(d.data[0].Addresses);
+            else citySugg.style.display='none';
+        }catch(e){console.error(e);}
+    }
+
+    function showCities(list){
+        citySuggInner.innerHTML='';
+        list.forEach(c=>{
+            const div=document.createElement('div');
+            div.className='city-item';
+            div.textContent=c.Present;
+            div.addEventListener('click',()=>{
+                cityInput.value=c.Present;
+                cityRef=c.DeliveryCity;
+                citySugg.style.display='none';
+                loadWH(cityRef);
+            });
+            citySuggInner.appendChild(div);
+        });
+        citySugg.style.display='block';
+    }
+
+    async function loadWH(ref){
+        whSelect.innerHTML='<option value="">Завантаження...</option>';
+        try{
+            const r=await fetch(NP_URL,{method:'POST',headers:{'Content-Type':'application/json'},
+                body:JSON.stringify({apiKey:NP_KEY,modelName:'Address',calledMethod:'getWarehouses',
+                    methodProperties:{CityRef:ref,Limit:100}})});
+            const d=await r.json();
+            whSelect.innerHTML='<option value="">Оберіть відділення</option>';
+            if(d.success&&d.data.length) d.data.forEach(w=>{
+                const o=document.createElement('option');
+                o.value=w.Description; o.textContent=w.Description;
+                whSelect.appendChild(o);
+            });
+        }catch(e){ whSelect.innerHTML='<option value="">Помилка</option>'; }
+    }
+
+    document.addEventListener('click',e=>{
+        if(!e.target.closest('#cityInput')&&!e.target.closest('#citySuggestions'))
+            citySugg.style.display='none';
+    });
+
+    // ===== FAQ =====
+    function toggleFaq(btn){
+        var item = btn.closest('.faq-item');
+        if(!item) return;
+        var ans = item.querySelector('.faq-answer');
+        if(!ans) return;
+        var isOpen = item.classList.contains('open');
+        // Close all
+        document.querySelectorAll('.faq-item').forEach(function(i){
+            i.classList.remove('open');
+            var a = i.querySelector('.faq-answer');
+            if(a) a.style.maxHeight = null;
+        });
+        // Open if was closed
+        if(!isOpen){
+            item.classList.add('open');
+            ans.style.maxHeight = ans.scrollHeight + 'px';
+        }
+    }
+
+    // ===== KEYCRM CONFIG =====
+    var KEYCRM_PROXY = 'https://fsihlzzjewhxpogvjapu.supabase.co/functions/v1/keycrm-order';
+    var KEYCRM_SOURCE_ID = 1; // ← замініть на ваш source_id з KeyCRM (Джерела → ID)
+
+    // ===== SUBMIT =====
+    function submitOrder(e){
+        e.preventDefault();
+        const fd = new FormData(e.target);
+        const orderData = {
+            source_id: KEYCRM_SOURCE_ID,
+            buyer: {
+                full_name: (fd.get('name')||'') + ' ' + (fd.get('surname')||''),
+                phone: fd.get('phone') || '',
+                email: ''
+            },
+            shipping: {
+                shipping_address_city: fd.get('city') || '',
+                shipping_address_country: 'UA',
+                shipping_receive_point: fd.get('warehouse') || '',
+                shipping_service: 'Нова Пошта'
+            },
+            products: [
+                {
+                    name: 'ULTERA SHAPE — ' + (C[color] || 'Beige') + ', ' + size,
+                    price: PRODUCT_PRICE,
+                    quantity: 1,
+                    comment: 'Колір: ' + (C[color] || 'Beige') + ', Розмір: ' + size
+                }
+            ],
+            buyer_comment: fd.get('comment') || '',
+            discount_percent: 20,
+            manager_comment: 'Лендінг Shape | Оплата: ' + (payment || 'Накладений платіж')
+        };
+
+        // Блокуємо кнопку
+        var submitBtn = e.target.querySelector('.cw-submit');
+        if(submitBtn){ submitBtn.disabled=true; submitBtn.textContent='Відправляємо...'; }
+
+        fetch(KEYCRM_PROXY, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(orderData)
+        })
+        .then(function(res){ return res.json().then(function(data){ return {ok:res.ok, data:data}; }); })
+        .then(function(result){
+            if(result.ok){
+                console.log('KeyCRM order created:', result.data);
+                document.getElementById('successModal').classList.add('show');
+                document.body.style.overflow='hidden';
+            } else {
+                console.error('KeyCRM error:', result.data);
+                document.getElementById('successModal').classList.add('show');
+                document.body.style.overflow='hidden';
+            }
+        })
+        .catch(function(err){
+            console.error('Network error:', err);
+            document.getElementById('successModal').classList.add('show');
+            document.body.style.overflow='hidden';
+        })
+        .finally(function(){
+            if(submitBtn){ submitBtn.disabled=false; submitBtn.textContent='Підтвердити замовлення'; }
+        });
+    }
+    function closeModal(){
+        document.getElementById('successModal').classList.remove('show');
+        document.body.style.overflow='';
+    }
+    document.getElementById('successModal').addEventListener('click',e=>{
+        if(e.target===e.currentTarget) closeModal();
+    });
+
+    // ===== PHONE MASK =====
+    var phoneEl = document.getElementById('phoneInput');
+    if(phoneEl) phoneEl.addEventListener('input',function(){
+        let v=this.value.replace(/\D/g,'');
+        if(v.startsWith('38'))v=v.substring(2);
+        if(v.startsWith('0'))v=v.substring(1);
+        if(v.length>9)v=v.substring(0,9);
+        let f='+380';
+        if(v.length>0) f+=' ('+v.substring(0,2);
+        if(v.length>=2) f+=') '+v.substring(2,5);
+        if(v.length>=5) f+=' '+v.substring(5,7);
+        if(v.length>=7) f+=' '+v.substring(7,9);
+        this.value=f;
+    });
+
+    // ===== GALLERY SWIPE (mobile) =====
+    (function(){
+        const galleryMain = document.querySelector('.gallery-main');
+        if(!galleryMain) return;
+        let startX=0, startY=0, swiping=false;
+        galleryMain.addEventListener('touchstart',function(e){
+            startX=e.touches[0].clientX; startY=e.touches[0].clientY; swiping=true;
+        },{passive:true});
+        galleryMain.addEventListener('touchend',function(e){
+            if(!swiping) return; swiping=false;
+            const dx=e.changedTouches[0].clientX-startX;
+            const dy=e.changedTouches[0].clientY-startY;
+            if(Math.abs(dx)<40||Math.abs(dy)>Math.abs(dx)) return;
+            const photos=GALLERY[color]||[];
+            const total=photos.length+1;
+            if(dx<0){ galleryGoTo(Math.min(currentGalleryIndex+1,total-1)); }
+            else { galleryGoTo(Math.max(currentGalleryIndex-1,0)); }
+        },{passive:true});
+    })();
+
+    // ===== WIZARD CHECKOUT =====
+    let cwCurrentStep = 1;
+
+    function startCheckout(){
+        updateSummary();
+        cwCurrentStep = 1;
+        const wizard = document.getElementById('checkoutWizard');
+        // Show wizard first, then activate step
+        wizard.style.display = 'block';
+        wizard.style.opacity = '0';
+        wizard.style.transform = 'translateY(-12px)';
+        cwShowStep(1);
+        requestAnimationFrame(()=>{
+            wizard.style.transition = 'opacity .35s ease, transform .35s ease';
+            wizard.style.opacity = '1';
+            wizard.style.transform = 'translateY(0)';
+        });
+        setTimeout(()=>{
+            wizard.scrollIntoView({behavior:'smooth', block:'start'});
+        }, 150);
+    }
+
+    function closeCheckout(){
+        const wizard = document.getElementById('checkoutWizard');
+        wizard.style.opacity = '0';
+        wizard.style.transform = 'translateY(-12px)';
+        setTimeout(()=>{
+            wizard.style.display = 'none';
+            document.getElementById('productCardView').scrollIntoView({behavior:'smooth', block:'start'});
+        }, 300);
+    }
+
+    function cwNext(fromStep){
+        const panel = document.getElementById('cwStep'+fromStep);
+        const inputs = panel.querySelectorAll('input[required], select[required]');
+        let valid = true;
+        inputs.forEach(inp=>{
+            if(!inp.value || inp.value === ''){
+                inp.style.borderColor = '#c41e1e';
+                inp.focus();
+                valid = false;
+                setTimeout(()=>{ inp.style.borderColor = ''; }, 2000);
+            }
+        });
+        if(!valid) return;
+        cwShowStep(fromStep + 1);
+    }
+
+    function cwBack(fromStep){
+        cwShowStep(fromStep - 1);
+    }
+
+    function cwShowStep(step){
+        cwCurrentStep = step;
+        document.querySelectorAll('.cw-panel').forEach(p => p.classList.remove('active'));
+        const target = document.getElementById('cwStep'+step);
+        if(target) target.classList.add('active');
+
+        document.querySelectorAll('.cw-step').forEach(s => {
+            const sn = parseInt(s.dataset.s);
+            s.classList.remove('active','done');
+            if(sn < step) s.classList.add('done');
+            if(sn === step) s.classList.add('active');
+        });
+
+        const fill1 = document.getElementById('cwFill1');
+        const fill2 = document.getElementById('cwFill2');
+        if(fill1) fill1.style.width = step > 1 ? '100%' : '0';
+        if(fill2) fill2.style.width = step > 2 ? '100%' : '0';
+
+        // Scroll wizard into view
+        document.getElementById('checkoutWizard').scrollIntoView({behavior:'smooth', block:'start'});
+    }
+
+    // ===== SIZE CALCULATOR =====
+    var calcData = { insole:0, usualSize:0, width:'normal' };
+    var calcInsoleInput = document.getElementById('calcInsole');
+    var calcBtn1 = document.getElementById('calcBtn1');
+
+    // ===== DRUM PICKER =====
+    (function(){
+        var values = [];
+        for(var v=22.0; v<=33.0; v+=0.5) values.push(v.toFixed(1));
+        var ITEM_H = 40;
+        var list = document.getElementById('drumList');
+        var wrap = document.getElementById('drumPicker');
+        if(!list||!wrap) return;
+        var centerOffset = 70; // (180/2 - 40/2) = 70
+        values.forEach(function(val,i){
+            var d = document.createElement('div');
+            d.className = 'drum-picker-item';
+            d.textContent = val;
+            d.dataset.idx = i;
+            d.addEventListener('click',function(){ scrollToIdx(i); });
+            list.appendChild(d);
+        });
+        var currentIdx = 9; // default 26.5
+        calcInsoleInput.value = values[currentIdx];
+
+        function scrollToIdx(idx){
+            if(idx<0) idx=0;
+            if(idx>=values.length) idx=values.length-1;
+            currentIdx = idx;
+            list.style.transform = 'translateY('+(centerOffset - idx*ITEM_H)+'px)';
+            calcInsoleInput.value = values[idx];
+            list.querySelectorAll('.drum-picker-item').forEach(function(el,i){
+                el.classList.toggle('selected', i===idx);
+            });
+        }
+        scrollToIdx(currentIdx);
+
+        // Touch drag
+        var startY=0, startTranslate=0, dragging=false;
+        wrap.addEventListener('touchstart',function(e){
+            dragging=true;
+            e.preventDefault();
+            startY=e.touches[0].clientY;
+            startTranslate=centerOffset-currentIdx*ITEM_H;
+            list.style.transition='none';
+            e.preventDefault();
+        },{passive:false});
+        wrap.addEventListener('touchmove',function(e){
+            if(!dragging)return;
+            e.preventDefault();
+            var dy=e.touches[0].clientY-startY;
+            list.style.transform='translateY('+(startTranslate+dy)+'px)';
+        },{passive:false});
+        wrap.addEventListener('touchend',function(e){
+            if(!dragging)return;
+            dragging=false;
+            list.style.transition='transform 0.3s cubic-bezier(0.23, 1, 0.32, 1)';
+            var raw=startTranslate+(e.changedTouches[0].clientY-startY);
+            var idx=Math.round((centerOffset-raw)/ITEM_H);
+            scrollToIdx(idx);
+        });
+
+        // Mouse wheel
+        wrap.addEventListener('wheel',function(e){
+            e.preventDefault();
+            var dir=e.deltaY>0?1:-1;
+            scrollToIdx(currentIdx+dir);
+        },{passive:false});
+    })();
+
+    // Insole-to-size mapping
+    var insoleMap = [
+        {min:22.5,max:23.4,size:36},{min:23.5,max:24.0,size:37},{min:24.0,max:24.5,size:38},
+        {min:24.5,max:25.4,size:39},{min:25.5,max:26.0,size:40},{min:26.0,max:26.5,size:41},
+        {min:26.5,max:27.4,size:42},{min:27.5,max:28.0,size:43},{min:28.0,max:28.5,size:44},
+        {min:28.5,max:29.4,size:45},{min:29.5,max:30.0,size:46},{min:30.0,max:30.5,size:47},
+        {min:30.5,max:31.5,size:48}
+    ];
+
+    // Drum picker already sets calcInsole value
+
+    function calcGoToStep(step){
+        document.querySelectorAll('.calc-progress-step').forEach(function(s){
+            var sn = parseInt(s.dataset.step);
+            s.classList.remove('active','done');
+            if(sn < step) s.classList.add('done');
+            if(sn === step) s.classList.add('active');
+        });
+        var fill = document.getElementById('calcFill');
+        if(step === 1) fill.style.width = '0%';
+        else if(step === 2) fill.style.width = '33%';
+        else if(step === 3) fill.style.width = '66%';
+        else fill.style.width = '100%';
+
+        document.querySelectorAll('.calc-panel').forEach(function(p){
+            p.classList.remove('active','exit-left');
+            p.classList.add('exit-left');
+        });
+        var target = step <= 3 ? document.getElementById('calcStep'+step) : document.getElementById('calcResult');
+        setTimeout(function(){
+            document.querySelectorAll('.calc-panel').forEach(function(p){ p.classList.remove('active','exit-left'); });
+            target.classList.add('active');
+        },150);
+    }
+
+    function calcNext(fromStep){
+        if(fromStep === 1){
+            calcData.insole = parseFloat(calcInsoleInput.value);
+            calcGoToStep(2);
+        }
+    }
+
+    function calcSelectSize(btn){
+        document.querySelectorAll('.calc-size-opt').forEach(function(b){ b.classList.remove('selected'); });
+        btn.classList.add('selected');
+        calcData.usualSize = parseInt(btn.textContent);
+        setTimeout(function(){ calcGoToStep(3); },300);
+    }
+
+    function calcSelectWidth(btn,w){
+        document.querySelectorAll('.calc-width-opt').forEach(function(b){ b.classList.remove('selected'); });
+        btn.classList.add('selected');
+        calcData.width = w;
+        setTimeout(function(){ calcShowResult(); },400);
+    }
+
+    function calcShowResult(){
+        var fromInsole = 42;
+        for(var i=0;i<insoleMap.length;i++){
+            if(calcData.insole >= insoleMap[i].min && calcData.insole <= insoleMap[i].max){
+                fromInsole = insoleMap[i].size; break;
+            }
+        }
+        if(calcData.insole > 31.5) fromInsole = 48;
+        if(calcData.insole < 22.5) fromInsole = 36;
+
+        var diff = Math.abs(fromInsole - calcData.usualSize);
+        var finalSize = fromInsole;
+        var confidence = 99;
+
+        if(diff === 0){ confidence = 99; }
+        else if(diff === 1){ finalSize = fromInsole; confidence = 95; }
+        else if(diff >= 2){ finalSize = Math.round((fromInsole + calcData.usualSize)/2); confidence = 88; }
+
+        var note = 'Широка колодка SHAPE дає додатковий простір. Липучка дозволить ідеально підлаштувати посадку.';
+        if(calcData.width === 'narrow'){
+            note = 'У вас вузька стопа — затягніть липучку щільніше для надійної фіксації. Широка колодка SHAPE не буде тиснути.';
+        } else if(calcData.width === 'wide'){
+            note = 'Широка колодка SHAPE створена саме для вас. Послабте липучку — і стопа отримає максимум простору.';
+        }
+
+        document.getElementById('calcResultSize').textContent = finalSize;
+        document.getElementById('calcResultSizeCta').textContent = finalSize;
+        document.getElementById('calcResultConf').innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg> з вірогідністю ' + confidence + '%';
+        document.getElementById('calcResultNote').textContent = note;
+
+        calcGoToStep(4);
+    }
+
+    function calcApplySize(){
+        var sz = document.getElementById('calcResultSize').textContent;
+        document.querySelectorAll('.size-grid-neat .size-btn, #sizeGrid .size-btn').forEach(function(b){
+            b.classList.remove('active');
+            if(b.textContent === sz) b.classList.add('active');
+        });
+        size = sz;
+        updateSummary();
+    }
+
+    function calcApplyAndClose(){
+        calcApplySize();
+        toggleSizeHelper();
+    }
+
+    function toggleSizeHelper(){
+        var el = document.getElementById('sizeHelperInline');
+        if(!el) return;
+        if(el.style.display === 'none'){
+            el.style.display = 'block';
+            el.scrollIntoView({behavior:'smooth', block:'nearest'});
+            document.getElementById('sizeHelperBtn').innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg> Сховати підбір розміру';
+        } else {
+            el.style.display = 'none';
+            document.getElementById('sizeHelperBtn').innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Допомогти підібрати розмір';
+        }
+    }
+
+    function calcReset(){
+        calcData = { insole:0, usualSize:0, width:'normal' };
+        calcInsoleInput.value = '26.5';
+        // Reset drum picker to center
+        var drumList = document.getElementById('drumList');
+        if(drumList){
+            drumList.style.transform = 'translateY('+(70-9*40)+'px)';
+            drumList.querySelectorAll('.drum-picker-item').forEach(function(el,i){ el.classList.toggle('selected',i===9); });
+        }
+        document.querySelectorAll('.calc-size-opt,.calc-width-opt').forEach(function(b){ b.classList.remove('selected'); });
+        calcGoToStep(1);
+    }
+
+    // ===== COLOR SHOWCASE =====
+    let showcaseLocked = false;
+    const slipperWrap = document.getElementById('slipperWrap');
+    const activeName = document.getElementById('showcaseActiveName');
+
+    const SHOWCASE_PHOTO = {
+        beige:'opt/slipper-bieg.webp',
+        black:'opt/slipper-black.webp',
+        orange:'opt/slipper-orange.webp',
+        burgundy:'opt/slipper-burgundy.webp',
+        pistachio:'opt/slipper-phistachio.webp',
+        white:'opt/slipper-white.webp',
+        blue:'opt/slipper-blue.webp',
+        graphite:'opt/slipper-graphite.webp',
+        red:'opt/slipper-red.webp',
+        gray:'opt/slipper-gray.webp'
+    };
+
+    // Lazy-load showcase images: only load when user selects a color
+    function showcaseShow(colorKey){
+        slipperWrap.querySelectorAll('img').forEach(function(img){
+            img.classList.remove('active');
+        });
+        var target = slipperWrap.querySelector('img[data-color="'+colorKey+'"]');
+        if(target){
+            var c = target.dataset.color;
+            var dbSrc = SHOWCASE_PHOTO[c] || '';
+            var fallback = target.dataset.src || target.getAttribute('data-src') || '';
+            var newSrc = dbSrc || fallback;
+            // Update src if not set yet OR if DB has a different (newer) photo
+            if(!target.src || target.src === location.href || (dbSrc && target.src.indexOf(dbSrc) === -1)){
+                if(fallback && newSrc !== fallback){
+                    target.onerror = function(){ target.onerror=null; target.src = fallback; };
+                }
+                target.src = newSrc;
+            }
+            target.classList.add('active');
+        }
+    }
+
+    function showcaseHover(btn){
+        if(showcaseLocked) return;
+        var name = btn.dataset.name;
+        var colorKey = name.toLowerCase();
+        showcaseShow(colorKey);
+        activeName.textContent = name;
+        activeName.classList.add('visible');
+    }
+
+    function showcaseReset(){
+        if(showcaseLocked) return;
+        showcaseShow('multi');
+        activeName.classList.remove('visible');
+        activeName.textContent = '';
+    }
+
+    function showcaseSelect(btn){
+        var wasActive = btn.classList.contains('active');
+        document.querySelectorAll('.showcase-btn').forEach(function(b){ b.classList.remove('active'); });
+        if(wasActive){
+            showcaseLocked = false;
+            showcaseReset();
+        } else {
+            showcaseLocked = true;
+            btn.classList.add('active');
+            var name = btn.dataset.name;
+            var colorKey = name.toLowerCase();
+            showcaseShow(colorKey);
+            activeName.textContent = name;
+            activeName.classList.add('visible');
+            // Sync global state + product card
+            color = colorKey;
+            var pcName = document.getElementById('pcColorName');
+            if(pcName) pcName.textContent = C[colorKey] || name;
+            updateGalleryPhoto(colorKey);
+            updateFirstThumb(colorKey);
+            // Sync product card color picker
+            document.querySelectorAll('#formColorPicker .form-color-btn').forEach(function(b){
+                b.classList.toggle('active', b.dataset.color === colorKey);
+                b.style.borderColor = b.dataset.color === colorKey ? 'var(--accent)' : 'transparent';
+            });
+            updateSummary();
+        }
+    }
+
+    // ===== REVIEW FORM =====
+    function setRfStar(n){
+        document.querySelectorAll('#rfStars .rf-star').forEach(function(s,i){
+            s.classList.toggle('active', i < n);
+        });
+    }
+    function submitReview(){
+        var form = document.getElementById('reviewForm');
+        if(form){ form.innerHTML = '<p style="text-align:center;color:var(--accent);padding:20px;">Дякуємо за ваш відгук!</p>'; }
+    }
+
+    // ===== SMOOTH SCROLL =====
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+        a.addEventListener('click',function(e){
+            e.preventDefault();
+            const t=document.querySelector(this.getAttribute('href'));
+            if(t) t.scrollIntoView({behavior:'smooth',block:'start'});
+        });
+    });
+
+    /* ===== Sand → Footprint → Insole scroll animation ===== */
+    (function(){
+        const scene = document.getElementById('sandScene');
+        if(!scene) return;
+        let triggered = false;
+
+        const observer = new IntersectionObserver(function(entries){
+            entries.forEach(function(entry){
+                if(entry.isIntersecting && !triggered){
+                    triggered = true;
+                    setTimeout(function(){ scene.classList.add('anim-step1'); }, 300);
+                    setTimeout(function(){ scene.classList.add('anim-step2'); }, 1400);
+                    setTimeout(function(){ scene.classList.add('anim-step3'); }, 2400);
+                }
+            });
+        }, { threshold: 0.35 });
+
+        observer.observe(scene);
+    })();
+
+    // ===== SUPABASE DYNAMIC DATA LOADER =====
+    (function(){
+        var SB_HOST = 'https://fsihlzzjewhxpogvjapu.supabase.co';
+        var SB_URL = SB_HOST + '/rest/v1/';
+        var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZzaWhsenpqZXdoeHBvZ3ZqYXB1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUyOTY2MzUsImV4cCI6MjA5MDg3MjYzNX0._hS7TA8EqIHgz7CH6XxGKuDdOnVBb6u40ntEtZ__MjU';
+        var headers = {'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY};
+
+        // Normalize URL: handle full URLs, relative 'shape-photos/...' paths, and empty values.
+        function resUrl(u){
+            if(!u) return '';
+            if(typeof u !== 'string') return '';
+            var s = u.trim();
+            if(!s) return '';
+            if(s.indexOf('http://') === 0 || s.indexOf('https://') === 0) return s;
+            if(s.indexOf('shape-photos/') === 0) return SB_HOST + '/storage/v1/object/public/' + s;
+            if(s.charAt(0) === '/') return SB_HOST + s;
+            return s; // plain filename — treat as local asset
+        }
+
+        function asArray(x){ return Array.isArray(x) ? x : []; }
+
+        // Fetch everything in parallel
+        Promise.all([
+            fetch(SB_URL+'shape_products?is_active=eq.true&order=sort_order.asc', {headers:headers}).then(function(r){return r.json()}).catch(function(){return [];}),
+            fetch(SB_URL+'shape_photos?order=sort_order.asc', {headers:headers}).then(function(r){return r.json()}).catch(function(){return [];}),
+            fetch(SB_URL+'shape_reviews?is_visible=eq.true&order=sort_order.asc', {headers:headers}).then(function(r){return r.json()}).catch(function(){return [];}),
+            fetch(SB_URL+'shape_content?order=sort_order.asc', {headers:headers}).then(function(r){return r.json()}).catch(function(){return [];}),
+            fetch(SB_URL+'shape_settings', {headers:headers}).then(function(r){return r.json()}).catch(function(){return [];})
+        ]).then(function(results){
+            var prods = asArray(results[0]);
+            var photos = asArray(results[1]);
+            var revs = asArray(results[2]);
+            var secs = asArray(results[3]);
+            var setsArr = asArray(results[4]);
+
+            // === PRODUCTS & PHOTOS ===
+            if(prods.length){
+                var photoMap = {};
+                photos.forEach(function(p){
+                    if(!p || !p.product_id || !p.url) return;
+                    var resolved = resUrl(p.url);
+                    if(!resolved) return;
+                    if(!photoMap[p.product_id]) photoMap[p.product_id]={main:[],gallery:[]};
+                    var t = p.photo_type === 'main' ? 'main' : 'gallery';
+                    photoMap[p.product_id][t].push(resolved);
+                });
+                // Preload helper: only adopt a DB URL after we confirm it actually loads.
+                // Local defaults display instantly; DB URLs replace them only on success.
+                function preloadAndAdopt(url, onOk){
+                    if(!url) return;
+                    var probe = new Image();
+                    var done = false;
+                    probe.onload = function(){ if(done) return; done = true; onOk(url); };
+                    probe.onerror = function(){ done = true; };
+                    probe.src = url;
+                    // Timeout: if slow/hung, give up silently
+                    setTimeout(function(){ if(!done){ done = true; } }, 8000);
+                }
+
+                prods.forEach(function(p){
+                    var k = p.color_key;
+                    if(!k) return;
+                    if(p.color_name) C[k] = p.color_name;
+                    if(p.hex_color) H[k] = p.hex_color;
+                    if(p.price) PRODUCT_PRICE = p.price;
+                    if(p.price_old) PRODUCT_PRICE_OLD = p.price_old;
+                    var pm = photoMap[p.id];
+                    // Main photo: preload; adopt only on success so a broken DB URL never replaces working local file
+                    if(pm && pm.main.length && pm.main[0]){
+                        preloadAndAdopt(pm.main[0], function(ok){
+                            PHOTO_OPT[k] = ok; PHOTO[k] = ok; SHOWCASE_PHOTO[k] = ok;
+                            if(k === color){
+                                if(typeof updateGalleryPhoto === 'function') updateGalleryPhoto(color);
+                                if(typeof showcaseShow === 'function') showcaseShow(color);
+                            }
+                        });
+                    }
+                    // Gallery: filter to only URLs that actually load
+                    if(pm && pm.gallery.length){
+                        var verified = [];
+                        var remaining = pm.gallery.length;
+                        pm.gallery.forEach(function(u, idx){
+                            preloadAndAdopt(u, function(ok){ verified[idx] = ok; });
+                            // Decrement regardless (simplified — we flush after a short delay)
+                            setTimeout(function(){
+                                remaining--;
+                                if(remaining <= 0){
+                                    var clean = verified.filter(function(x){return !!x;});
+                                    if(clean.length){
+                                        GALLERY[k] = clean;
+                                        if(k === color && typeof updateGalleryPhoto === 'function') updateGalleryPhoto(color);
+                                    }
+                                }
+                            }, 6000);
+                        });
+                    }
+                });
+                document.querySelectorAll('[data-price-current]').forEach(function(el){ el.textContent = PRODUCT_PRICE + ' ₴'; });
+                document.querySelectorAll('[data-price-old]').forEach(function(el){ el.textContent = PRODUCT_PRICE_OLD + ' ₴'; });
+            }
+
+            // === REVIEWS (dynamic from DB) ===
+            if(revs.length){
+                var feed = document.querySelector('.comments-feed');
+                if(feed){
+                    feed.innerHTML = revs.map(function(r){
+                        var stars = '';
+                        for(var i=0;i<5;i++) stars += i<r.rating ? '★' : '☆';
+                        var photoHtml = '';
+                        var pu = resUrl(r.photo_url);
+                        if(pu) photoHtml = '<div class="comment-photos"><div class="comment-photo"><img src="'+pu+'" alt="Фото відгуку" loading="lazy" onerror="this.parentNode.parentNode.style.display=\'none\'"></div></div>';
+                        return '<div class="comment-item">'
+                            +'<div class="comment-avatar">'+((r.author||'?').charAt(0))+'</div>'
+                            +'<div class="comment-body">'
+                            +'<div class="comment-head"><span class="comment-name">'+(r.author||'')+'</span></div>'
+                            +'<div class="comment-stars">'+stars+'</div>'
+                            +'<p class="comment-text">'+(r.text||'')+'</p>'
+                            +photoHtml
+                            +'</div></div>';
+                    }).join('');
+                }
+            }
+
+            // === SECTION VISIBILITY ===
+            if(secs && secs.length){
+                var secMap = {};
+                secs.forEach(function(s){ secMap[s.section_key] = s; });
+                // Map section_key to DOM ids
+                var domMap = {reviews:'reviews', comparison:'comparison', kharkiv:'kharkiv', faq:'faq'};
+                Object.keys(domMap).forEach(function(key){
+                    var sec = secMap[key];
+                    var el = document.getElementById(domMap[key]);
+                    if(sec && el){
+                        el.style.display = sec.is_visible ? '' : 'none';
+                    }
+                });
+            }
+
+            // === SETTINGS (theme, SEO, promo) ===
+            var sets = {};
+            if(setsArr) setsArr.forEach(function(s){ sets[s.key] = s.value; });
+
+            // Apply theme colors
+            if(sets.theme){
+                var t = sets.theme;
+                if(t.accent) document.documentElement.style.setProperty('--accent', t.accent);
+                if(t.bg) document.documentElement.style.setProperty('--bg', t.bg);
+                if(t.bgCard) document.documentElement.style.setProperty('--bg-card', t.bgCard);
+                if(t.textColor) document.documentElement.style.setProperty('--text', t.textColor);
+                if(t.fontFamily) document.body.style.fontFamily = "'"+t.fontFamily+"',system-ui,sans-serif";
+            }
+
+            // Apply SEO
+            if(sets.seo){
+                if(sets.seo.title) document.title = sets.seo.title;
+                var metaDesc = document.querySelector('meta[name="description"]');
+                if(metaDesc && sets.seo.description) metaDesc.content = sets.seo.description;
+            }
+
+        }).catch(function(e){
+            console.log('Supabase sync skipped:', e.message);
+        });
+    })();
+    // ============================================================
+    </script>
+
+    <!-- ===== EDIT MODE (activated by ?edit=1 from admin panel) ===== -->
+    <script>
+    (function(){
+      if(!location.search.includes('edit=1'))return;
+      // Disable tracker in edit mode
+      if(window._ut_disable)window._ut_disable=true;
+
+      const EDITABLE='h1,h2,h3,h4,h5,p,span.price,a.btn-primary,a.btn-secondary,button,.section-label,.hero-model,.hero-tagline,.hero-subtitle,.advantage-title,.advantage-desc,.faq-question,.faq-answer,.review-text,.review-author,.cta-text,.feature-item,li,td,th,figcaption,blockquote,label';
+
+      const style=document.createElement('style');
+      style.textContent=`
+        ._edt-hover{outline:2px dashed rgba(200,255,0,.6)!important;outline-offset:2px;cursor:pointer!important;position:relative;z-index:100}
+        ._edt-hover::after{content:'✏ Редагувати';position:absolute;top:-22px;left:0;background:#c8ff00;color:#000;font-size:10px;padding:1px 8px;border-radius:3px;font-family:Inter,system-ui,sans-serif;pointer-events:none;z-index:9999;white-space:nowrap;line-height:18px}
+        ._edt-sel{outline:2px solid #c8ff00!important;outline-offset:2px;z-index:100}
+        body._edt *{transition:outline .12s ease!important}
+        body._edt{cursor:crosshair}
+      `;
+      document.head.appendChild(style);
+      document.body.classList.add('_edt');
+
+      let selected=null;
+
+      document.addEventListener('mouseover',function(e){
+        const el=e.target.closest(EDITABLE);
+        if(el&&el!==selected)el.classList.add('_edt-hover');
+      },true);
+
+      document.addEventListener('mouseout',function(e){
+        const el=e.target.closest(EDITABLE);
+        if(el)el.classList.remove('_edt-hover');
+      },true);
+
+      document.addEventListener('click',function(e){
+        e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();
+        const el=e.target.closest(EDITABLE);
+        if(!el)return;
+
+        if(selected)selected.classList.remove('_edt-sel');
+        el.classList.remove('_edt-hover');
+        el.classList.add('_edt-sel');
+        selected=el;
+
+        const section=el.closest('section,[id]');
+        const secId=section?section.id:'';
+        const tag=el.tagName.toLowerCase();
+        const cls=el.className.replace(/_edt[^ ]*/g,'').trim();
+        const computed=getComputedStyle(el);
+
+        const path=[];let cur=el;
+        while(cur&&cur!==document.body){
+          let s=cur.tagName.toLowerCase();
+          if(cur.id)s+='#'+cur.id;
+          else{const c=cur.className&&typeof cur.className==='string'?cur.className.replace(/_edt[^ ]*/g,'').trim().split(' ').filter(Boolean).slice(0,2).join('.'):'';if(c)s+='.'+c}
+          path.unshift(s);cur=cur.parentElement;
+        }
+
+        window.parent.postMessage({
+          type:'_edt_select',
+          data:{
+            text:el.textContent||'',
+            html:el.innerHTML||'',
+            tag:tag,
+            cls:cls,
+            sectionId:secId,
+            sectionClass:section?section.className.replace(/_edt[^ ]*/g,'').trim():'',
+            path:path.slice(-4).join(' > '),
+            isLink:tag==='a'||!!el.closest('a'),
+            href:tag==='a'?el.href:(el.closest('a')?el.closest('a').href:''),
+            isImg:tag==='img',
+            imgSrc:tag==='img'?el.src:'',
+            imgAlt:tag==='img'?el.alt:'',
+            color:rgb2hex(computed.color),
+            fontSize:parseInt(computed.fontSize)||16,
+            fontWeight:parseInt(computed.fontWeight)||400,
+            bgColor:rgb2hex(computed.backgroundColor),
+            rect:{x:el.getBoundingClientRect().x,y:el.getBoundingClientRect().y,w:el.offsetWidth,h:el.offsetHeight}
+          }
+        },'*');
+      },true);
+
+      // Listen for commands from admin
+      window.addEventListener('message',function(e){
+        if(!e.data||e.data.type!=='_edt_cmd')return;
+        const cmd=e.data;
+        if(cmd.action==='deselect'){
+          if(selected){selected.classList.remove('_edt-sel');selected=null;}
+          return;
+        }
+        if(!selected)return;
+        if(cmd.action==='update_text'){selected.textContent=cmd.value;}
+        else if(cmd.action==='update_color'){selected.style.color=cmd.value;}
+        else if(cmd.action==='update_fontSize'){selected.style.fontSize=cmd.value+'px';}
+        else if(cmd.action==='update_fontWeight'){selected.style.fontWeight=cmd.value;}
+        else if(cmd.action==='update_href'){if(selected.tagName==='A')selected.href=cmd.value;else{var a=selected.closest('a');if(a)a.href=cmd.value;}}
+        else if(cmd.action==='update_imgSrc'&&selected.tagName==='IMG'){selected.src=cmd.value;}
+        else if(cmd.action==='update_imgAlt'&&selected.tagName==='IMG'){selected.alt=cmd.value;}
+      });
+
+      function rgb2hex(rgb){
+        if(!rgb||rgb.indexOf('rgb')===-1)return '#ffffff';
+        var m=rgb.match(/\d+/g);
+        if(!m||m.length<3)return '#ffffff';
+        return '#'+m.slice(0,3).map(function(n){return(+n).toString(16).padStart(2,'0');}).join('');
+      }
+
+      // Signal ready to admin
+      try{window.parent.postMessage({type:'_edt_ready'},'*');}catch(e){}
+    })();
+    </script>
+</body>
+</html>
