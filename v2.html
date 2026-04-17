@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ULTERA SHAPE — шкіряні тапочки · editorial v2</title>
+<meta name="description" content="ULTERA SHAPE — анатомічні шкіряні тапочки з італійської замші. Ручна робота, Харків. Barefoot-форма, 10 кольорів, розміри 36–48.">
+<link rel="canonical" href="/v2.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ---------- Reset ---------- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-weight: 300;
+  line-height: 1.5;
+  color: #111;
+  background: #F8F8F2;
+  overflow-x: hidden;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+input, select, button { font-family: inherit; font-size: inherit; }
+
+/* ---------- Tokens ---------- */
+:root {
+  --white: #FFFFFF;
+  --black: #111111;
+  --mint: #DFF66F;
+  --pink: #FFC8A5;
+  --gray: #AA8A77;
+  --cream: #F8F8F2;
+  --radius-lg: 32px;
+  --radius-md: 20px;
+  --radius-pill: 999px;
+  --maxw: 1400px;
+}
+
+/* ---------- Typography ---------- */
+.h-display, h1, h2, h3 {
+  font-family: 'Space Grotesk', 'Helvetica Neue', sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+.eyebrow {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.body-lg { font-size: 18px; line-height: 1.55; font-weight: 300; }
+.body-md { font-size: 15px; line-height: 1.55; font-weight: 300; }
+.body-sm { font-size: 13px; line-height: 1.5; font-weight: 300; }
+
+/* ---------- Layout helpers ---------- */
+.wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 40px; }
+@media (max-width: 720px) { .wrap { padding: 0 20px; } }
+.section { padding: 140px 0; position: relative; }
+@media (max-width: 900px) { .section { padding: 90px 0; } }
+@media (max-width: 600px) { .section { padding: 70px 0; } }
+
+.bg-dark { background: var(--black); color: var(--white); }
+.bg-mint { background: var(--mint); color: var(--black); }
+.bg-cream { background: var(--cream); color: var(--black); }
+.bg-white { background: var(--white); color: var(--black); }
+
+/* ---------- Pill / badge ---------- */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: var(--radius-pill);
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--mint);
+  color: var(--black);
+  border: 1px solid transparent;
+  transition: all .25s ease;
+  white-space: nowrap;
+}
+.pill.pink { background: var(--pink); }
+.pill.ghost { background: transparent; border-color: rgba(255,255,255,0.25); color: inherit; }
+.pill.ghost-dark { background: transparent; border-color: rgba(17,17,17,0.2); color: var(--black); }
+.pill.lg {
+  padding: 18px 28px;
+  font-size: 14px;
+  letter-spacing: 0.06em;
+}
+.pill:hover {
+  background: var(--black);
+  color: var(--mint);
+}
+.pill.pink:hover { background: var(--black); color: var(--pink); }
+.pill.ghost:hover { background: var(--white); color: var(--black); border-color: var(--white); }
+.pill.ghost-dark:hover { background: var(--black); color: var(--white); border-color: var(--black); }
+
+/* Arrow icon */
+.arrow {
+  width: 14px; height: 14px;
+  display: inline-block;
+  transform: translateY(1px);
+}
+
+/* Focus */
+*:focus-visible {
+  outline: 2px solid var(--mint);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ---------- Header ---------- */
+.header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 22px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all .3s ease;
+  background: transparent;
+}
+.header.scrolled {
+  background: rgba(17,17,17,0.92);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  padding: 14px 40px;
+  color: var(--white);
+}
+.header.scrolled .logo,
+.header.scrolled .nav a { color: var(--white); }
+.logo {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: 0.02em;
+  color: var(--white);
+}
+.nav {
+  display: flex;
+  gap: 36px;
+}
+.nav a {
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  color: var(--white);
+  font-weight: 400;
+  transition: opacity .2s;
+}
+.nav a:hover { opacity: 0.6; }
+.header-cta { font-size: 12px; }
+@media (max-width: 900px) {
+  .header { padding: 18px 20px; }
+  .header.scrolled { padding: 12px 20px; }
+  .nav { display: none; }
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  min-height: 100vh;
+  background: var(--black);
+  color: var(--white);
+  position: relative;
+  padding: 140px 0 80px;
+  overflow: hidden;
+}
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+@media (max-width: 900px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 48px; }
+  .hero { padding: 120px 0 60px; }
+}
+.hero h1 {
+  font-size: clamp(56px, 12vw, 180px);
+  line-height: 0.92;
+  margin-bottom: 40px;
+}
+.hero h1 .word {
+  display: inline-block;
+}
+.hero h1 .hl {
+  background: var(--mint);
+  color: var(--black);
+  padding: 0 0.15em 0.02em;
+  border-radius: 14px;
+  display: inline-block;
+  transform: translateY(-0.02em);
+}
+.hero-sub {
+  font-size: clamp(15px, 1.3vw, 19px);
+  color: rgba(255,255,255,0.7);
+  max-width: 520px;
+  margin-bottom: 44px;
+  font-weight: 300;
+  line-height: 1.5;
+}
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: center;
+  margin-bottom: 40px;
+}
+.hero-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.hero-visual {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(145deg, #1e1e1e 0%, #2a2a2a 50%, #181818 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.hero-visual::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 30% 30%, rgba(223,246,111,0.08), transparent 50%);
+}
+.hero-visual-label {
+  position: relative;
+  text-align: center;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: clamp(18px, 2vw, 28px);
+  letter-spacing: 0.04em;
+  color: rgba(255,255,255,0.25);
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+.hero-visual-label small {
+  display: block;
+  font-weight: 400;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: rgba(255,255,255,0.2);
+  margin-top: 14px;
+  font-family: 'Inter', sans-serif;
+}
+.hero-visual .floating-pill {
+  position: absolute;
+  z-index: 2;
+}
+.hero-visual .fp-top { top: 24px; left: 24px; }
+.hero-visual .fp-bottom { bottom: 24px; right: 24px; }
+
+/* Marquee */
+.marquee {
+  background: var(--mint);
+  color: var(--black);
+  padding: 24px 0;
+  overflow: hidden;
+  white-space: nowrap;
+  border-top: 1px solid rgba(17,17,17,0.08);
+  border-bottom: 1px solid rgba(17,17,17,0.08);
+}
+.marquee-track {
+  display: inline-flex;
+  animation: marquee 36s linear infinite;
+  gap: 48px;
+  padding-right: 48px;
+}
+.marquee span {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: clamp(22px, 3.4vw, 46px);
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+.marquee .dot {
+  display: inline-flex;
+  align-items: center;
+  font-size: 20px;
+  color: var(--black);
+  opacity: 0.4;
+}
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ---------- Section headers ---------- */
+.sec-num {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: clamp(80px, 14vw, 180px);
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+  color: transparent;
+  -webkit-text-stroke: 1.5px currentColor;
+  display: inline-block;
+  margin-bottom: 28px;
+}
+.sec-title {
+  font-size: clamp(40px, 7vw, 96px);
+  margin-bottom: 24px;
+}
+.sec-lead {
+  max-width: 580px;
+  font-size: clamp(15px, 1.3vw, 18px);
+  line-height: 1.55;
+  color: rgba(17,17,17,0.7);
+  font-weight: 300;
+}
+.bg-dark .sec-lead { color: rgba(255,255,255,0.65); }
+.sec-head {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 40px;
+  align-items: end;
+  margin-bottom: 80px;
+}
+@media (max-width: 720px) {
+  .sec-head { grid-template-columns: 1fr; }
+  .sec-head .head-side { text-align: left; }
+}
+
+/* ---------- Section 02 — Чому ---------- */
+.why-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 24px;
+}
+@media (max-width: 900px) {
+  .why-grid { grid-template-columns: 1fr 1fr; }
+  .why-grid .card-a { grid-column: 1 / -1; }
+}
+@media (max-width: 600px) {
+  .why-grid { grid-template-columns: 1fr; }
+  .why-grid .card-a { grid-column: auto; }
+}
+.why-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 40px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-height: 340px;
+  transition: transform .4s ease;
+}
+.why-card.card-a {
+  background: var(--black);
+  color: var(--white);
+  grid-row: span 1;
+}
+.why-card.card-b { background: var(--pink); }
+.why-card.card-c { background: var(--white); }
+.why-icon {
+  width: 64px; height: 64px;
+  border-radius: var(--radius-pill);
+  background: var(--mint);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--black);
+}
+.why-card.card-a .why-icon { background: var(--mint); }
+.why-card h3 {
+  font-size: clamp(22px, 2.4vw, 32px);
+  line-height: 0.95;
+}
+.why-card p {
+  font-size: 15px;
+  color: rgba(17,17,17,0.72);
+  line-height: 1.55;
+}
+.why-card.card-a p { color: rgba(255,255,255,0.7); }
+.why-meta {
+  margin-top: auto;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.5;
+}
+
+/* ---------- Section 03 — Палітра ---------- */
+.colors-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+}
+@media (max-width: 1000px) { .colors-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 600px) { .colors-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; } }
+.swatch {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: transform .3s ease;
+}
+.swatch:hover { transform: scale(1.03); }
+.swatch-chip {
+  aspect-ratio: 1;
+  border-radius: var(--radius-md);
+  position: relative;
+  box-shadow: inset 0 3px 18px rgba(0,0,0,0.2), inset 0 -3px 18px rgba(255,255,255,0.06);
+  overflow: hidden;
+}
+.swatch-chip::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 30% 20%, rgba(255,255,255,0.08), transparent 60%);
+  pointer-events: none;
+}
+.swatch-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.swatch-label small {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  opacity: 0.5;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  font-weight: 300;
+}
+
+/* ---------- Section 04 — Деталі (mint) ---------- */
+.details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border-top: 1px solid rgba(17,17,17,0.18);
+}
+@media (max-width: 720px) { .details-grid { grid-template-columns: 1fr; } }
+.detail-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 32px;
+  align-items: start;
+  padding: 36px 0;
+  border-bottom: 1px solid rgba(17,17,17,0.18);
+  border-right: 1px solid rgba(17,17,17,0.18);
+  padding-right: 40px;
+  padding-left: 4px;
+}
+.detail-row:nth-child(2n) {
+  border-right: none;
+  padding-right: 4px;
+  padding-left: 40px;
+}
+@media (max-width: 720px) {
+  .detail-row { border-right: none; padding-right: 4px; padding-left: 4px; }
+  .detail-row:nth-child(2n) { padding-left: 4px; }
+}
+.detail-num {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  opacity: 0.45;
+}
+.detail-body h4 {
+  font-size: clamp(22px, 2.6vw, 34px);
+  margin-bottom: 10px;
+  line-height: 1;
+}
+.detail-body p {
+  font-size: 14px;
+  line-height: 1.55;
+  color: rgba(17,17,17,0.72);
+  font-weight: 300;
+}
+
+/* ---------- Section 05 — Відгуки ---------- */
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+@media (max-width: 900px) { .reviews-grid { grid-template-columns: 1fr; } }
+.review {
+  background: #1a1a1a;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: var(--radius-lg);
+  padding: 40px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-height: 340px;
+}
+.review .quote-mark {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 72px;
+  line-height: 0.8;
+  color: var(--mint);
+  font-weight: 700;
+}
+.review p {
+  font-size: 16px;
+  line-height: 1.55;
+  color: rgba(255,255,255,0.88);
+  font-weight: 300;
+  flex: 1;
+}
+.review-who {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+.review-name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.review-city {
+  font-size: 12px;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* ---------- Section 06 — Замовити ---------- */
+.order-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+@media (max-width: 900px) { .order-grid { grid-template-columns: 1fr; gap: 40px; } }
+.order-head h2 {
+  font-size: clamp(48px, 8vw, 120px);
+  line-height: 0.92;
+  margin-bottom: 32px;
+}
+.order-head .price-block {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+.order-head .price-now {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: clamp(36px, 4.5vw, 56px);
+  letter-spacing: -0.02em;
+}
+.order-head .price-old {
+  font-size: 20px;
+  text-decoration: line-through;
+  color: rgba(17,17,17,0.4);
+  font-weight: 300;
+}
+.order-head .price-badge {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  background: var(--black);
+  color: var(--mint);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  font-weight: 500;
+}
+.order-head ul {
+  list-style: none;
+  display: grid;
+  gap: 12px;
+  margin-top: 8px;
+}
+.order-head li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  color: rgba(17,17,17,0.72);
+}
+.order-head li::before {
+  content: '';
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--black);
+  flex-shrink: 0;
+}
+.order-form {
+  background: var(--black);
+  color: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+@media (max-width: 600px) { .order-form { padding: 32px 24px; } }
+.order-form label {
+  display: block;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 10px;
+}
+.order-form input,
+.order-form select {
+  width: 100%;
+  padding: 16px 18px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 14px;
+  color: var(--white);
+  font-size: 15px;
+  font-weight: 300;
+  transition: border-color .2s;
+}
+.order-form input:focus,
+.order-form select:focus {
+  outline: none;
+  border-color: var(--mint);
+}
+.order-form select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='%23dff66f' height='14' viewBox='0 0 24 24' width='14' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 18px center;
+}
+.order-form option { background: var(--black); color: var(--white); }
+.order-form .row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+@media (max-width: 600px) { .order-form .row-2 { grid-template-columns: 1fr; } }
+.submit-pill {
+  margin-top: 12px;
+  padding: 20px 28px;
+  background: var(--mint);
+  color: var(--black);
+  border-radius: var(--radius-pill);
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all .25s;
+}
+.submit-pill:hover { background: var(--white); color: var(--black); }
+.order-form .note {
+  font-size: 12px;
+  color: rgba(255,255,255,0.45);
+  line-height: 1.5;
+  margin-top: 6px;
+}
+
+/* ---------- Footer ---------- */
+.footer {
+  background: var(--black);
+  color: var(--white);
+  padding: 100px 0 40px;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr;
+  gap: 60px;
+  margin-bottom: 80px;
+}
+@media (max-width: 720px) {
+  .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+}
+.footer-logo {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: clamp(60px, 12vw, 160px);
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+}
+.footer-col h5 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 18px;
+}
+.footer-col a, .footer-col p {
+  display: block;
+  font-size: 15px;
+  color: var(--white);
+  font-weight: 300;
+  margin-bottom: 10px;
+  transition: color .2s;
+}
+.footer-col a:hover { color: var(--mint); }
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 36px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  font-size: 12px;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 0.04em;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.footer-bottom a { color: var(--mint); }
+.footer-bottom a:hover { text-decoration: underline; }
+
+/* ---------- Reveal ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity .9s ease, transform .9s ease;
+}
+.reveal.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .marquee-track { animation: none; }
+  html { scroll-behavior: auto; }
+}
+
+/* ---------- Small utility ---------- */
+.spacer-sm { height: 28px; }
+.spacer-md { height: 56px; }
+.spacer-lg { height: 100px; }
+.inline-badges { display: flex; gap: 10px; flex-wrap: wrap; }
+
+/* Large hero visual on mobile shrink */
+@media (max-width: 600px) {
+  .hero-visual { aspect-ratio: 1 / 1; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============== HEADER ============== -->
+<header class="header" id="header">
+  <a href="#top" class="logo" aria-label="ULTERA">ULTERA</a>
+  <nav class="nav" aria-label="Головна навігація">
+    <a href="#model">Модель</a>
+    <a href="#materials">Матеріали</a>
+    <a href="#reviews">Відгуки</a>
+    <a href="#contacts">Контакти</a>
+  </nav>
+  <a href="#order" class="pill header-cta">Замовити
+    <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+  </a>
+</header>
+
+<!-- ============== HERO ============== -->
+<section class="hero" id="top">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <span class="pill ghost" style="margin-bottom: 28px;">
+          <span style="width:6px;height:6px;background:#DFF66F;border-radius:50%;display:inline-block;"></span>
+          ULTERA · Shape · Summer 26
+        </span>
+        <h1>
+          <span class="word">Шкіряні</span><br>
+          <span class="word hl">Тапочки</span><br>
+          <span class="word">Для&nbsp;Літа</span>
+        </h1>
+        <p class="hero-sub">
+          Італійська замша. Barefoot-форма. Анатомічна устілка. Ручна робота у Харкові — пара, що створена під форму твоєї стопи.
+        </p>
+        <div class="hero-actions">
+          <a href="#order" class="pill lg">
+            Замовити — 2 890 грн
+            <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a href="#model" class="pill ghost lg">Подивитись модель</a>
+        </div>
+        <div class="hero-badges">
+          <span class="pill pink">Handmade</span>
+          <span class="pill ghost">10 кольорів</span>
+          <span class="pill ghost">EU 36–48</span>
+          <span class="pill ghost">Гарантія рік</span>
+        </div>
+      </div>
+      <div class="hero-visual reveal">
+        <span class="pill pink floating-pill fp-top">New · 2026</span>
+        <span class="pill floating-pill fp-bottom">Italian Suede</span>
+        <div class="hero-visual-label">
+          Фото<br>ULTERA SHAPE
+          <small>studio / kharkiv / 2026</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Marquee -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>HANDMADE</span><span class="dot">●</span>
+    <span>KHARKIV</span><span class="dot">●</span>
+    <span>ITALIAN LEATHER</span><span class="dot">●</span>
+    <span>BAREFOOT</span><span class="dot">●</span>
+    <span>ULTERA SHAPE</span><span class="dot">●</span>
+    <span>HANDMADE</span><span class="dot">●</span>
+    <span>KHARKIV</span><span class="dot">●</span>
+    <span>ITALIAN LEATHER</span><span class="dot">●</span>
+    <span>BAREFOOT</span><span class="dot">●</span>
+    <span>ULTERA SHAPE</span><span class="dot">●</span>
+  </div>
+</div>
+
+<!-- ============== SECTION 02 — ЧОМУ ULTERA ============== -->
+<section class="section bg-cream" id="model">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="sec-num">02</span>
+        <h2 class="sec-title">Чому<br>ULTERA<br>Shape</h2>
+      </div>
+      <div class="head-side">
+        <p class="sec-lead">
+          Пара, яку приємно носити щодня. Замша дихає, устілка тримає склепіння, підошва м'яка — нога не втомлюється.
+        </p>
+      </div>
+    </div>
+    <div class="why-grid">
+      <article class="why-card card-a reveal">
+        <div class="why-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 14c1-5 3-8 8-8s7 3 8 8c0 2-1 4-3 4H7c-2 0-3-2-3-4z"/>
+            <path d="M8 18v2M16 18v2"/>
+          </svg>
+        </div>
+        <h3>Анатомічна<br>Устілка</h3>
+        <p>Профільована база підтримує склепіння стопи. П'ята стабілізована, пальці лишаються вільними — як у barefoot-формі.</p>
+        <div class="why-meta">01 — Комфорт</div>
+      </article>
+      <article class="why-card card-b reveal">
+        <div class="why-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="7" width="18" height="12" rx="2"/>
+            <path d="M3 11h18M8 7V5M16 7V5"/>
+          </svg>
+        </div>
+        <h3>Італійська<br>Замша</h3>
+        <p>Натуральна замша з перевірених фабрик Тоскани. М'яка, дихає, з часом набуває патини — тільки кращає.</p>
+        <div class="why-meta">02 — Матеріал</div>
+      </article>
+      <article class="why-card card-c reveal">
+        <div class="why-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3l2 4 4 1-3 3 1 5-4-2-4 2 1-5-3-3 4-1z"/>
+          </svg>
+        </div>
+        <h3>Ручна<br>Робота</h3>
+        <p>Кожна пара збирається вручну у харківській майстерні. Малі партії, контроль кожного шва, жодних компромісів.</p>
+        <div class="why-meta">03 — Виготовлення</div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============== SECTION 03 — ПАЛІТРА ============== -->
+<section class="section bg-dark" id="materials">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="sec-num">03</span>
+        <h2 class="sec-title">10 Кольорів.<br>Одна Форма.</h2>
+      </div>
+      <div class="head-side">
+        <p class="sec-lead">
+          Палітра дібрана з урахуванням натуральних відтінків замші — від теплих пісочних до глибоких графітових. Обирайте свій.
+        </p>
+      </div>
+    </div>
+    <div class="colors-grid">
+      <div class="swatch reveal">
+        <div class="swatch-chip" style="background:#D2691E"></div>
+        <div class="swatch-label">Помаранчевий <small>01</small></div>
+      </div>
+      <div class="swatch reveal">
+        <div class="swatch-chip" style="background:#C9B59A"></div>
+        <div class="swatch-label">Бежевий <small>02</small></div>
+      </div>
+      <div class="swatch reveal">
+        <div class="swatch-chip" style="background:#6E1E2A"></div>
+        <div class="swatch-label">Бордо <small>03</small></div>
+      </div>
+      <div class="swatch reveal">
+        <div class="swatch-chip" style="background:#B5C68A"></div>
+        <div class="swatch-label">Фісташка <small>04</small></div>
+      </div>
+      <div class="swatch reveal">
+        <div class="swatch-chip" style="background:#F2EFE8"></div>
+        <div class="swatch-label">Білий <small>05</small></div>
+      </div>
+      <div class="swatch reveal">
+        <div class="swatch-chip" style="background:#9BB8C9"></div>
+        <div class="swatch-label">Блакитний <small>06</small></div>
+      </div>
+      <div class="swatch reveal">
+        <div class="swatch-chip" style="background:#2A2A2D"></div>
+        <div class="swatch-label">Графіт <small>07</small></div>
+      </div>
+      <div class="swatch reveal">
+        <div class="swatch-chip" style="background:#A0202A"></div>
+        <div class="swatch-label">Червоний <small>08</small></div>
+      </div>
+      <div class="swatch reveal">
+        <div class="swatch-chip" style="background:#8C8C8C"></div>
+        <div class="swatch-label">Сірий <small>09</small></div>
+      </div>
+      <div class="swatch reveal">
+        <div class="swatch-chip" style="background:#111111;border:1px solid rgba(255,255,255,0.08)"></div>
+        <div class="swatch-label">Чорний <small>10</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== SECTION 04 — ДЕТАЛІ (mint) ============== -->
+<section class="section bg-mint">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="sec-num">04</span>
+        <h2 class="sec-title">Деталі,<br>Що Мають Значення</h2>
+      </div>
+      <div class="head-side">
+        <p class="sec-lead" style="color:rgba(17,17,17,0.72)">
+          Усе, що треба знати перед замовленням. Без маркетингової води — лише характеристики пари.
+        </p>
+      </div>
+    </div>
+    <div class="details-grid">
+      <div class="detail-row reveal">
+        <span class="detail-num">01</span>
+        <div class="detail-body">
+          <h4>Матеріал</h4>
+          <p>Натуральна італійська замша, підкладка зі шкіри. Дихає, приймає форму стопи.</p>
+        </div>
+      </div>
+      <div class="detail-row reveal">
+        <span class="detail-num">02</span>
+        <div class="detail-body">
+          <h4>Форма</h4>
+          <p>Barefoot: широка носкова частина, пряме склепіння. Регульований ремінець на липучці.</p>
+        </div>
+      </div>
+      <div class="detail-row reveal">
+        <span class="detail-num">03</span>
+        <div class="detail-body">
+          <h4>Підошва</h4>
+          <p>Поліуретан. Легка, еластична, тиха. Тримає зчеплення на гладких поверхнях.</p>
+        </div>
+      </div>
+      <div class="detail-row reveal">
+        <span class="detail-num">04</span>
+        <div class="detail-body">
+          <h4>Гарантія</h4>
+          <p>Один рік на всі виробничі дефекти. Виявимо проблему — замінимо пару.</p>
+        </div>
+      </div>
+      <div class="detail-row reveal">
+        <span class="detail-num">05</span>
+        <div class="detail-body">
+          <h4>Обмін розміру</h4>
+          <p>Безкоштовний обмін, якщо не підійде розмір. Відправляєте нам, ми відправляємо нову пару.</p>
+        </div>
+      </div>
+      <div class="detail-row reveal">
+        <span class="detail-num">06</span>
+        <div class="detail-body">
+          <h4>Доставка</h4>
+          <p>Нова Пошта по Україні. Оплата при отриманні. Повернення без зайвих питань протягом 14 днів.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== SECTION 05 — ВІДГУКИ ============== -->
+<section class="section bg-dark" id="reviews">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="sec-num">05</span>
+        <h2 class="sec-title">Що Кажуть<br>Власники</h2>
+      </div>
+      <div class="head-side">
+        <p class="sec-lead">
+          Відгуки, надіслані покупцями після кількох тижнів носіння. Без редагування, без постановки.
+        </p>
+      </div>
+    </div>
+    <div class="reviews-grid">
+      <article class="review reveal">
+        <div class="quote-mark">&ldquo;</div>
+        <p>Замовляла бежеві. Замша м'яка з першого дня, нога не потіє навіть у спеку. Сіла по формі за тиждень, тепер це мої улюблені хатні.</p>
+        <div class="review-who">
+          <span class="review-name">Ольга</span>
+          <span class="review-city">Львів</span>
+        </div>
+      </article>
+      <article class="review reveal">
+        <div class="quote-mark">&ldquo;</div>
+        <p>Купував графіт у подарунок дружині. Пакування якісне, пошив охайний. Перевірив на собі теж — беру собі чорні. Підошва тиха, склепіння тримає.</p>
+        <div class="review-who">
+          <span class="review-name">Андрій</span>
+          <span class="review-city">Київ</span>
+        </div>
+      </article>
+      <article class="review reveal">
+        <div class="quote-mark">&ldquo;</div>
+        <p>Розмір підійшов ідеально з першого разу. Замовляла фісташку — колір саме той, що на фото. Приємно, що пара зібрана тут, у Харкові.</p>
+        <div class="review-who">
+          <span class="review-name">Марія</span>
+          <span class="review-city">Одеса</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============== SECTION 06 — ЗАМОВИТИ ============== -->
+<section class="section bg-cream" id="order">
+  <div class="wrap">
+    <div class="order-grid">
+      <div class="order-head reveal">
+        <span class="sec-num">06</span>
+        <h2>Замовити<br>Пару</h2>
+        <div class="price-block">
+          <span class="price-now">2 890 грн</span>
+          <span class="price-old">3 612 грн</span>
+          <span class="price-badge">−20%</span>
+        </div>
+        <ul>
+          <li>Оплата при отриманні — Нова Пошта</li>
+          <li>Безкоштовний обмін розміру</li>
+          <li>Повернення без зайвих питань</li>
+          <li>Гарантія 1 рік на виробничі дефекти</li>
+        </ul>
+      </div>
+
+      <form class="order-form reveal" id="orderForm" novalidate>
+        <div>
+          <label for="fname">Ім'я</label>
+          <input type="text" id="fname" name="fname" placeholder="Ваше ім'я" required>
+        </div>
+        <div>
+          <label for="phone">Телефон</label>
+          <input type="tel" id="phone" name="phone" placeholder="+380" required>
+        </div>
+        <div class="row-2">
+          <div>
+            <label for="size">Розмір EU</label>
+            <select id="size" name="size" required>
+              <option value="">Оберіть</option>
+              <option>36</option><option>37</option><option>38</option><option>39</option>
+              <option>40</option><option>41</option><option>42</option><option>43</option>
+              <option>44</option><option>45</option><option>46</option><option>47</option>
+              <option>48</option>
+            </select>
+          </div>
+          <div>
+            <label for="color">Колір</label>
+            <select id="color" name="color" required>
+              <option value="">Оберіть</option>
+              <option>Помаранчевий</option>
+              <option>Бежевий</option>
+              <option>Бордо</option>
+              <option>Фісташка</option>
+              <option>Білий</option>
+              <option>Блакитний</option>
+              <option>Графіт</option>
+              <option>Червоний</option>
+              <option>Сірий</option>
+              <option>Чорний</option>
+            </select>
+          </div>
+        </div>
+        <button type="submit" class="submit-pill">
+          Оформити замовлення
+          <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+        <p class="note">Надсилаючи форму, ви погоджуєтесь на обробку даних для зв'язку щодо замовлення. Ми не передаємо інформацію третім сторонам.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ============== FOOTER ============== -->
+<footer class="footer" id="contacts">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-logo">ULTERA<br>SHAPE</div>
+      <div class="footer-col">
+        <h5>Контакти</h5>
+        <a href="https://instagram.com/ultera.shape" target="_blank" rel="noopener">instagram · @ultera.shape</a>
+        <a href="tel:+380000000000">+380 XX XXX XX XX</a>
+        <p>Харків, Україна</p>
+      </div>
+      <div class="footer-col">
+        <h5>Розділи</h5>
+        <a href="#model">Модель</a>
+        <a href="#materials">Матеріали</a>
+        <a href="#reviews">Відгуки</a>
+        <a href="#order">Замовити</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 ULTERA. Харків, Україна. Технологічне взуття з преміум матеріалів виготовленно вручну.</span>
+      <a href="/">Основна версія сайту →</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  // Sticky header
+  var header = document.getElementById('header');
+  function onScroll(){
+    if (window.scrollY > 40) header.classList.add('scrolled');
+    else header.classList.remove('scrolled');
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // Reveal on scroll
+  var els = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting) {
+          e.target.classList.add('in');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    els.forEach(function(el){ io.observe(el); });
+  } else {
+    els.forEach(function(el){ el.classList.add('in'); });
+  }
+
+  // Smooth anchor scroll for browsers without CSS support
+  document.querySelectorAll('a[href^="#"]').forEach(function(a){
+    a.addEventListener('click', function(ev){
+      var id = a.getAttribute('href');
+      if (id.length > 1) {
+        var target = document.querySelector(id);
+        if (target) {
+          ev.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    });
+  });
+
+  // Form
+  var form = document.getElementById('orderForm');
+  if (form) {
+    form.addEventListener('submit', function(ev){
+      ev.preventDefault();
+      var name = form.fname.value.trim();
+      var phone = form.phone.value.trim();
+      var size = form.size.value;
+      var color = form.color.value;
+      if (!name || !phone || !size || !color) {
+        alert('Будь ласка, заповніть усі поля форми.');
+        return;
+      }
+      alert('Дякуємо! Ми зв\u02BCяжемося з вами найближчим часом');
+      form.reset();
+    });
+  }
+})();
+</script>
+</body>
+</html>
