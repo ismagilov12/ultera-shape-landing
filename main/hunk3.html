@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>ULTERA HUNK3 — Кросівки з амортизаційною технологією Bounce</title>
+<meta name="description" content="ULTERA HUNK3 — нова генерація флагмана. Революційна підошва Bounce з посиленою амортизацією. Італійська шкіра Nappa, вологостійка Cordura, ручна робота в Харкові.">
+
+<link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj4KPGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iNDgiIGZpbGw9IiNjOGZmMDAiLz4KPC9zdmc+Cg==" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#ffffff;
+  --bg-card:#f7f6f3;
+  --bg-elev:#ececea;
+  --bg-elev-2:#e4e1d8;
+  --text:#0a0a0a;
+  --text-sec:#555;
+  --text-muted:#888;
+  --accent:#c8ff00;
+  --accent-dim:rgba(158,204,0,0.18);
+  --accent-mint:#dff6cf;
+  --accent-pink:#ffc8a5;
+  --warm-grey:#aa8a77;
+  --border:#e4e1d8;
+  --radius:16px;
+  --radius-sm:10px;
+  --tr:.3s cubic-bezier(.4,0,.2,1);
+}
+html{scroll-behavior:smooth;-webkit-tap-highlight-color:transparent}
+body{
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+  background:var(--bg);color:var(--text);
+  line-height:1.6;font-weight:300;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;height:auto;display:block}
+button{cursor:pointer;font-family:inherit;border:none;background:none;color:inherit}
+.container{max-width:1200px;margin:0 auto;padding:0 20px}
+
+/* ============ HEADER ============ */
+.header{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:16px 0;
+  background:rgba(255,255,255,.85);
+  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  border-bottom:1px solid transparent;
+  transition:border-bottom-color .3s ease;
+}
+.header.scrolled{border-bottom-color:var(--border)}
+.header .container{display:flex;justify-content:space-between;align-items:center}
+.logo{display:flex;align-items:center;height:30px}
+.logo img{height:24px;width:auto;transition:filter var(--tr)}
+.logo:hover img{filter:brightness(1.2)}
+.header-nav{display:flex;gap:28px;list-style:none}
+.header-nav a{font-size:13px;font-weight:400;color:var(--text-sec);transition:color var(--tr);letter-spacing:.5px}
+.header-nav a:hover{color:var(--accent)}
+.header-cta{
+  padding:9px 18px;border:1px solid var(--accent);color:var(--accent);
+  border-radius:999px;font-size:12px;font-weight:500;letter-spacing:.06em;
+  text-transform:uppercase;transition:all var(--tr);
+}
+.header-cta:hover{background:var(--accent);color:#0a0a0a}
+.burger{display:none;width:44px;height:44px;align-items:center;justify-content:center;flex-direction:column;gap:5px}
+.burger span{display:block;width:22px;height:2px;background:var(--text);border-radius:2px;transition:var(--tr)}
+.burger.active span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.burger.active span:nth-child(2){opacity:0}
+.burger.active span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mobile-menu{
+  display:none;position:fixed;inset:0;top:72px;
+  background:rgba(255,255,255,.98);backdrop-filter:blur(24px);
+  z-index:99;flex-direction:column;padding:40px 24px;gap:8px;
+}
+.mobile-menu.show{display:flex}
+.mobile-menu a{font-size:20px;font-weight:500;color:var(--text-sec);padding:16px 0;border-bottom:1px solid var(--border)}
+.mobile-menu a:hover{color:var(--accent)}
+
+/* ============ KEYFRAMES ============ */
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes scaleIn{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
+@keyframes glow{0%,100%{opacity:.5;transform:translate(-50%,-50%) scale(1)}50%{opacity:.85;transform:translate(-50%,-50%) scale(1.15)}}
+@keyframes line{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes bounce{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-14px)}
+}
+@keyframes pulseRing{
+  0%{transform:scale(.85);opacity:.7}
+  70%{transform:scale(1.4);opacity:0}
+  100%{transform:scale(1.4);opacity:0}
+}
+@keyframes stripe{
+  from{background-position:0 0}
+  to  {background-position:60px 0}
+}
+
+/* ============ HERO ============ */
+.hero{
+  min-height:100svh;
+  display:flex;align-items:center;
+  padding:130px 0 60px;
+  overflow:hidden;position:relative;
+}
+.hero::before{
+  content:'';position:absolute;top:48%;left:50%;
+  width:720px;height:520px;
+  background:radial-gradient(ellipse,rgba(200,255,0,0.22) 0%,transparent 70%);
+  transform:translate(-50%,-50%);
+  animation:glow 6s ease-in-out infinite;
+  pointer-events:none;z-index:0;
+}
+.hero .container{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;text-align:center}
+
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:6px 14px;border-radius:999px;
+  background:var(--accent-dim);border:1px solid rgba(200,255,0,.3);
+  color:var(--accent);font-size:11px;font-weight:600;
+  letter-spacing:.16em;text-transform:uppercase;
+  margin-bottom:20px;opacity:0;
+  animation:fadeUp .6s cubic-bezier(.16,1,.3,1) 0s forwards;
+}
+.hero-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent)}
+
+.hero-model{
+  font-size:clamp(56px,14vw,140px);
+  font-weight:800;letter-spacing:clamp(6px,2vw,18px);
+  line-height:.95;color:var(--accent);
+  margin-bottom:8px;opacity:0;
+  animation:fadeUp .8s cubic-bezier(.16,1,.3,1) .15s forwards;
+  text-shadow:0 0 50px rgba(200,255,0,.25);
+}
+.hero-line{width:60px;height:1px;background:var(--accent);margin:8px auto 18px;transform-origin:center;transform:scaleX(0);animation:line .6s .5s forwards}
+
+.hero-tagline{
+  font-size:clamp(13px,2.5vw,16px);color:var(--text-sec);
+  font-weight:300;letter-spacing:3px;text-transform:uppercase;
+  margin-bottom:20px;opacity:0;
+  animation:fadeUp .8s .4s forwards;
+}
+.hero-title{
+  font-size:clamp(26px,5vw,48px);font-weight:700;
+  letter-spacing:-.02em;line-height:1.08;max-width:880px;
+  margin-bottom:20px;opacity:0;
+  animation:fadeUp .8s .55s forwards;
+}
+.hero-title em{font-style:italic;color:var(--accent);font-weight:500}
+.hero-sub{
+  font-size:16px;color:var(--text-sec);max-width:640px;
+  margin-bottom:38px;opacity:0;
+  animation:fadeUp .8s .7s forwards;
+}
+
+.hero-photo-wrap{
+  width:100%;max-width:820px;aspect-ratio:4/5;
+  position:relative;margin:0 auto 28px;
+  border-radius:var(--radius);overflow:hidden;
+  background:linear-gradient(180deg,#111 0%,#0a0a0a 100%);
+  opacity:0;animation:scaleIn 1s .55s forwards;
+}
+.hero-photo-wrap img{
+  width:100%;height:100%;object-fit:cover;object-position:center;
+  transition:opacity .45s ease;
+}
+.hero-photo-wrap img:not(.active){position:absolute;inset:0;opacity:0}
+.hero-photo-wrap img.active{opacity:1;position:relative}
+
+.hero-photo-label{
+  position:absolute;left:20px;bottom:20px;
+  background:rgba(255,255,255,.9);backdrop-filter:blur(16px);
+  border:1px solid var(--border);border-radius:999px;
+  padding:8px 16px;font-size:12px;letter-spacing:.08em;
+  color:var(--text-sec);text-transform:uppercase;
+}
+.hero-photo-label strong{color:var(--accent);font-weight:600;margin-left:6px}
+
+.color-picker{
+  display:flex;gap:10px;flex-wrap:wrap;justify-content:center;
+  opacity:0;animation:fadeUp .8s .85s forwards;
+}
+.color-swatch{
+  width:48px;height:48px;border-radius:50%;
+  border:2px solid var(--border);cursor:pointer;
+  transition:all var(--tr);position:relative;overflow:hidden;
+}
+.color-swatch::after{
+  content:'';position:absolute;inset:4px;border-radius:50%;
+}
+.color-swatch.active{border-color:var(--accent);transform:scale(1.1)}
+.color-swatch:hover{border-color:var(--accent);transform:scale(1.05)}
+.color-swatch .cname{
+  position:absolute;bottom:-28px;left:50%;transform:translateX(-50%);
+  font-size:10px;color:var(--text-muted);white-space:nowrap;
+  letter-spacing:.05em;text-transform:uppercase;opacity:0;
+  transition:opacity var(--tr);
+}
+.color-swatch:hover .cname{opacity:1}
+
+.hero-stats{
+  display:flex;gap:28px;justify-content:center;
+  margin-top:48px;flex-wrap:wrap;
+  opacity:0;animation:fadeUp .8s 1s forwards;
+}
+.hero-stat{text-align:center}
+.hero-stat .v{font-size:28px;font-weight:700;color:var(--accent);line-height:1}
+.hero-stat .l{font-size:11px;color:var(--text-muted);letter-spacing:.12em;text-transform:uppercase;margin-top:4px}
+
+/* ============ SECTION COMMON ============ */
+.section{padding:90px 0;position:relative}
+.section-header{margin-bottom:56px}
+.section-header.center{text-align:center}
+.section-label{
+  display:inline-block;padding:6px 14px;border-radius:999px;
+  background:var(--accent-dim);color:var(--accent);
+  font-size:11px;font-weight:600;letter-spacing:.2em;
+  text-transform:uppercase;margin-bottom:14px;
+}
+.section-title{
+  font-size:clamp(32px,5vw,54px);font-weight:700;
+  letter-spacing:-.02em;line-height:1.05;
+}
+.section-title em{color:var(--accent);font-style:normal;font-weight:800}
+.section-sub{font-size:17px;color:var(--text-sec);max-width:720px;margin:16px auto 0;line-height:1.6}
+.section-header.center .section-sub{margin:16px auto 0}
+
+/* ============ BOUNCE (MAIN FEATURE) ============ */
+.bounce-sec{background:linear-gradient(180deg,#ffffff 0%,#f5f8e8 60%,#ffffff 100%)}
+.bounce-visual{
+  position:relative;max-width:960px;margin:0 auto;
+  border-radius:var(--radius);overflow:hidden;
+  background:radial-gradient(ellipse at center,rgba(200,255,0,.28) 0%,transparent 65%),linear-gradient(135deg,#fafaf7 0%,#f2f3ea 100%);
+  aspect-ratio:16/9;
+  display:flex;align-items:center;justify-content:center;
+  border:1px solid rgba(200,255,0,.15);
+}
+.bounce-ball{
+  width:110px;height:110px;position:relative;
+  animation:bounce 1.4s cubic-bezier(.5,0,.5,1) infinite;
+}
+.bounce-ball .sneaker{
+  width:100%;height:100%;border-radius:50%;
+  background:radial-gradient(circle at 30% 30%,#2c2c2c,#0a0a0a 70%);
+  border:2px solid rgba(200,255,0,.4);
+  box-shadow:0 0 80px rgba(200,255,0,.55),inset 0 -8px 20px rgba(200,255,0,.3);
+  display:flex;align-items:center;justify-content:center;
+  font-size:40px;color:var(--accent);font-weight:900;font-style:italic;
+}
+.bounce-ball::after{
+  content:'';position:absolute;left:50%;bottom:-40px;
+  width:80px;height:12px;background:rgba(200,255,0,.4);
+  border-radius:50%;transform:translateX(-50%);
+  filter:blur(8px);
+}
+
+.bounce-ring{
+  position:absolute;left:50%;top:50%;
+  width:110px;height:110px;border-radius:50%;
+  border:2px solid var(--accent);
+  transform:translate(-50%,-50%);
+  animation:pulseRing 2s ease-out infinite;
+}
+.bounce-ring.r2{animation-delay:.7s}
+
+.bounce-caption{
+  position:absolute;top:22px;left:22px;
+  font-size:11px;color:var(--accent);letter-spacing:.3em;
+  text-transform:uppercase;font-weight:600;
+}
+.bounce-caption .tech{margin-left:8px;color:var(--text-sec)}
+
+.bounce-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:20px;
+  max-width:960px;margin:48px auto 0;
+}
+.bounce-card{
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:28px 24px;
+  transition:border-color var(--tr),transform var(--tr);
+}
+.bounce-card:hover{border-color:rgba(200,255,0,.4);transform:translateY(-4px)}
+.bounce-card .num{
+  font-size:44px;font-weight:800;color:var(--accent);
+  line-height:1;letter-spacing:-.02em;margin-bottom:8px;
+  font-family:'Inter',sans-serif;
+}
+.bounce-card .num sup{font-size:18px;margin-left:4px;font-weight:600;color:var(--text-sec)}
+.bounce-card .lbl{font-size:14px;font-weight:600;color:var(--text);margin-bottom:6px;letter-spacing:.01em}
+.bounce-card .desc{font-size:13px;color:var(--text-sec);line-height:1.6}
+
+/* energy stripes */
+.energy-strip{
+  height:40px;margin:40px 0 0;
+  background:repeating-linear-gradient(
+    -45deg,
+    var(--accent) 0, var(--accent) 2px,
+    transparent 2px, transparent 30px
+  );
+  animation:stripe 3s linear infinite;
+  opacity:.4;mask-image:linear-gradient(90deg,transparent 0%,black 10%,black 90%,transparent 100%);
+}
+
+/* ============ SPECS GALLERY ============ */
+.spec-row{
+  display:grid;grid-template-columns:1fr 1fr;gap:56px;
+  align-items:center;margin-bottom:100px;
+}
+.spec-row:last-child{margin-bottom:0}
+.spec-row.reverse{grid-template-columns:1fr 1fr}
+.spec-row.reverse .spec-text{order:2}
+.spec-row.reverse .spec-img{order:1}
+.spec-img{
+  aspect-ratio:4/5;border-radius:var(--radius);
+  overflow:hidden;background:var(--bg-card);
+  border:1px solid var(--border);position:relative;
+}
+.spec-img img{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.2,.8,.2,1)}
+.spec-img:hover img{transform:scale(1.04)}
+.spec-img .chip{
+  position:absolute;top:16px;left:16px;
+  background:rgba(10,10,10,.8);color:var(--accent);
+  padding:6px 12px;border-radius:999px;font-size:11px;
+  letter-spacing:.1em;text-transform:uppercase;
+  border:1px solid rgba(200,255,0,.3);backdrop-filter:blur(12px);
+}
+.spec-text h3{
+  font-size:clamp(24px,3.5vw,36px);font-weight:700;
+  letter-spacing:-.01em;margin-bottom:16px;line-height:1.15;
+}
+.spec-text p{color:var(--text-sec);font-size:16px;line-height:1.7;margin-bottom:14px}
+.spec-features{list-style:none;margin-top:22px}
+.spec-features li{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:12px 0;border-top:1px solid var(--border);
+  font-size:14px;color:var(--text);
+}
+.spec-features li::before{
+  content:'';width:8px;height:8px;border-radius:50%;
+  background:var(--accent);flex-shrink:0;margin-top:7px;
+  box-shadow:0 0 8px rgba(200,255,0,.5);
+}
+.spec-features li:last-child{border-bottom:1px solid var(--border)}
+
+/* ============ ADVANTAGES ============ */
+.advantages-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:20px;
+}
+.adv-card{
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:32px 24px;
+  transition:all var(--tr);
+}
+.adv-card:hover{border-color:rgba(200,255,0,.35);transform:translateY(-4px)}
+.adv-icon{
+  width:48px;height:48px;border-radius:12px;
+  background:var(--accent-dim);color:var(--accent);
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;font-weight:800;margin-bottom:20px;
+}
+.adv-card h3{font-size:18px;font-weight:600;margin-bottom:8px;letter-spacing:-.01em}
+.adv-card p{font-size:14px;color:var(--text-sec);line-height:1.6}
+
+/* ============ ORDER / PRODUCT CARD ============ */
+.order-sec{background:#fafaf7}
+.product-card{
+  max-width:1100px;margin:0 auto;
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:calc(var(--radius) * 1.25);overflow:hidden;
+  display:grid;grid-template-columns:1.15fr 1fr;
+}
+.pc-gallery{background:#f5f5f2;padding:36px}
+.pc-main-img{
+  width:100%;aspect-ratio:1/1;border-radius:var(--radius);
+  overflow:hidden;background:#ebebe7;position:relative;
+  margin-bottom:16px;
+}
+.pc-main-img img{
+  width:100%;height:100%;object-fit:cover;
+  transition:opacity .3s;
+}
+.pc-thumbs{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.pc-thumb{
+  aspect-ratio:1/1;border-radius:8px;overflow:hidden;
+  cursor:pointer;border:1.5px solid transparent;
+  transition:border-color var(--tr);background:#ebebe7;
+}
+.pc-thumb.active{border-color:var(--accent)}
+.pc-thumb img{width:100%;height:100%;object-fit:cover}
+.pc-info{padding:44px 36px;display:flex;flex-direction:column}
+.pc-brand{font-size:12px;color:var(--text-muted);letter-spacing:.2em;text-transform:uppercase;margin-bottom:6px}
+.pc-title{font-size:28px;font-weight:700;margin-bottom:10px;letter-spacing:-.01em}
+.pc-title span{color:var(--accent)}
+.pc-desc{color:var(--text-sec);font-size:15px;line-height:1.65;margin-bottom:22px}
+.pc-price{
+  display:flex;align-items:baseline;gap:12px;
+  margin-bottom:22px;padding:18px 20px;
+  background:#f5f5f2;border-radius:var(--radius-sm);
+  border:1px solid var(--border);
+}
+.pc-price .cur{font-size:30px;font-weight:700;color:var(--accent)}
+.pc-price .was{font-size:15px;color:var(--text-muted);text-decoration:line-through}
+.pc-price .save{
+  margin-left:auto;font-size:11px;padding:4px 10px;
+  background:var(--accent);color:#0a0a0a;border-radius:999px;
+  font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+}
+.pc-section{margin-bottom:22px}
+.pc-section-lbl{font-size:11px;color:var(--text-muted);letter-spacing:.15em;text-transform:uppercase;margin-bottom:10px;font-weight:600}
+.pc-colors{display:flex;gap:10px;flex-wrap:wrap}
+.pc-colors .color-swatch{width:42px;height:42px}
+.pc-sizes{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.pc-size{
+  padding:12px 0;border:1px solid var(--border);
+  border-radius:8px;text-align:center;font-size:13px;
+  font-weight:600;transition:all var(--tr);background:transparent;
+}
+.pc-size:hover{border-color:var(--accent);color:var(--accent)}
+.pc-size.selected{background:var(--accent);color:#0a0a0a;border-color:var(--accent)}
+.pc-size.out{opacity:.3;text-decoration:line-through;cursor:not-allowed}
+.pc-size:disabled{cursor:not-allowed}
+
+.btn-primary{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  padding:16px 24px;background:var(--accent);color:#0a0a0a;
+  border-radius:var(--radius-sm);font-weight:700;
+  font-size:14px;letter-spacing:.08em;text-transform:uppercase;
+  transition:all var(--tr);width:100%;margin-top:auto;
+}
+.btn-primary:hover{background:#dbff3f;transform:translateY(-2px);box-shadow:0 12px 30px rgba(200,255,0,.25)}
+.btn-secondary{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  padding:14px 22px;background:transparent;color:var(--text);
+  border:1px solid var(--border);border-radius:var(--radius-sm);
+  font-weight:500;font-size:14px;transition:all var(--tr);
+  margin-top:10px;
+}
+.btn-secondary:hover{border-color:var(--accent);color:var(--accent)}
+
+/* ============ COMPARISON ============ */
+.cmp{
+  max-width:960px;margin:0 auto;
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:var(--radius);overflow:hidden;
+}
+.cmp-row{
+  display:grid;grid-template-columns:1.5fr 1fr 1fr;
+  align-items:center;padding:18px 24px;
+  border-bottom:1px solid var(--border);
+}
+.cmp-row:last-child{border-bottom:none}
+.cmp-row.head{
+  background:#f5f5f2;font-size:12px;color:var(--text-muted);
+  letter-spacing:.1em;text-transform:uppercase;font-weight:600;
+}
+.cmp-row .lbl{font-size:15px;font-weight:500}
+.cmp-row .cell{text-align:center;font-size:14px}
+.cmp-row .u{color:var(--accent);font-weight:600}
+.cmp-row .m{color:var(--text-muted)}
+
+/* ============ FAQ ============ */
+.faq-list{max-width:820px;margin:0 auto}
+.faq-item{
+  border:1px solid var(--border);border-radius:var(--radius-sm);
+  margin-bottom:10px;background:var(--bg-card);overflow:hidden;
+}
+.faq-q{
+  display:flex;justify-content:space-between;align-items:center;
+  width:100%;padding:20px 22px;font-size:15px;font-weight:500;
+  text-align:left;transition:color var(--tr);
+}
+.faq-q:hover{color:var(--accent)}
+.faq-q .plus{color:var(--accent);font-size:22px;transition:transform var(--tr);flex-shrink:0;margin-left:16px}
+.faq-item.open .faq-q .plus{transform:rotate(45deg)}
+.faq-a{
+  max-height:0;overflow:hidden;
+  transition:max-height .4s ease;
+  color:var(--text-sec);font-size:14px;line-height:1.7;
+}
+.faq-item.open .faq-a{max-height:500px}
+.faq-a-inner{padding:0 22px 20px}
+
+/* ============ KHARKIV ============ */
+.kharkiv-sec{
+  background:linear-gradient(135deg,#ffffff 0%,#f5f5f0 100%);
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+}
+.kharkiv-wrap{
+  display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;
+}
+.kharkiv-flag{
+  display:inline-block;width:52px;height:34px;border-radius:4px;
+  background:linear-gradient(to bottom,#0057b7 50%,#ffd700 50%);
+  margin-bottom:20px;
+}
+.kharkiv-wrap h2{font-size:clamp(32px,5vw,48px);font-weight:700;margin-bottom:18px;letter-spacing:-.01em;line-height:1.08}
+.kharkiv-wrap p{color:var(--text-sec);font-size:16px;line-height:1.7;margin-bottom:14px}
+.kharkiv-img{
+  aspect-ratio:4/5;border-radius:var(--radius);overflow:hidden;background:var(--bg-card);border:1px solid var(--border);
+}
+.kharkiv-img img{width:100%;height:100%;object-fit:cover}
+
+/* ============ STICKY CTA ============ */
+.sticky-cta{
+  position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+  background:var(--accent);color:#0a0a0a;
+  padding:14px 28px;border-radius:999px;font-weight:700;
+  font-size:13px;letter-spacing:.08em;text-transform:uppercase;
+  z-index:50;box-shadow:0 12px 30px rgba(200,255,0,.3);
+  display:none;align-items:center;gap:10px;
+  animation:fadeUp .5s forwards;
+}
+.sticky-cta.show{display:inline-flex}
+.sticky-cta:hover{transform:translateX(-50%) translateY(-3px)}
+
+/* ============ FOOTER ============ */
+footer{
+  background:#0a0a0a;padding:60px 0 30px;
+  border-top:1px solid var(--border);margin-top:60px;
+}
+.foot{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:56px}
+.foot .big{font-size:28px;font-weight:800;color:var(--accent);margin-bottom:12px;font-style:italic}
+.foot p{font-size:13px;color:var(--text-muted);line-height:1.6}
+.foot h4{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--text);margin-bottom:14px;font-weight:600}
+.foot a{display:block;font-size:13px;color:var(--text-sec);padding:4px 0;transition:color var(--tr)}
+.foot a:hover{color:var(--accent)}
+.foot-bottom{
+  max-width:1200px;margin:40px auto 0;padding-top:24px;
+  border-top:1px solid var(--border);font-size:12px;color:var(--text-muted);
+  display:flex;justify-content:space-between;
+}
+
+/* ============ TOAST ============ */
+.toast{
+  position:fixed;bottom:90px;left:50%;
+  transform:translateX(-50%) translateY(40px);
+  background:var(--accent);color:#0a0a0a;
+  padding:14px 22px;border-radius:999px;
+  font-size:13px;font-weight:600;letter-spacing:.04em;
+  opacity:0;transition:all .35s;z-index:200;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ============ MOBILE ============ */
+@media (max-width:960px){
+  .header-nav,.header-cta{display:none}
+  .burger{display:flex}
+  .hero{padding:110px 0 40px}
+  .hero-photo-wrap{max-width:100%}
+  .bounce-grid{grid-template-columns:1fr;gap:12px}
+  .advantages-grid{grid-template-columns:repeat(2,1fr)}
+  .spec-row,.spec-row.reverse{grid-template-columns:1fr;gap:24px}
+  .spec-row.reverse .spec-text{order:2}
+  .spec-row.reverse .spec-img{order:1}
+  .product-card{grid-template-columns:1fr}
+  .pc-info{padding:28px 22px}
+  .pc-gallery{padding:22px}
+  .kharkiv-wrap{grid-template-columns:1fr;gap:28px}
+  .foot{grid-template-columns:1fr 1fr;gap:30px}
+  .foot-bottom{flex-direction:column;gap:6px}
+  .section{padding:64px 0}
+  .cmp-row{grid-template-columns:1.3fr 1fr 1fr;padding:14px 16px}
+  .cmp-row .lbl{font-size:13px}
+  .cmp-row .cell{font-size:12px}
+}
+@media (max-width:540px){
+  .advantages-grid{grid-template-columns:1fr}
+  .pc-thumbs{grid-template-columns:repeat(4,1fr)}
+  .pc-sizes{grid-template-columns:repeat(3,1fr)}
+  .hero-stats{gap:18px}
+  .hero-stat .v{font-size:22px}
+}
+</style>
+</head>
+<body>
+
+<header class="header" id="header">
+  <div class="container">
+    <a href="#" class="logo"><img src="data:image/png;base64,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Y0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAQnAAAEJwBJs06NAAABr9pVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDkuMS1jMDAyIDc5LmE2YTYzOTYsIDIwMjQvMDMvMTItMDc6NDg6MjMgICAgICAgICI+IDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+IDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIgeG1sbnM6ZGM9Imh0dHA6Ly9wdXJsLm9yZy9kYy9lbGVtZW50cy8xLjEvIiB4bWxuczpwaG90b3Nob3A9Imh0dHA6Ly9ucy5hZG9iZS5jb20vcGhvdG9zaG9wLzEuMC8iIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIiB4bWxuczpzdEV2dD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlRXZlbnQjIiB4bXA6Q3JlYXRvclRvb2w9IkFkb2JlIFBob3Rvc2hvcCAyNS45IChXaW5kb3dzKSIgeG1wOkNyZWF0ZURhdGU9IjIwMjQtMDgtMThUMTc6MzQ6MTArMDM6MDAiIHhtcDpNb2RpZnlEYXRlPSIyMDI1LTEwLTA2VDIxOjIzOjU3KzAzOjAwIiB4bXA6TWV0YWRhdGFEYXRlPSIyMDI1LTEwLTA2VDIxOjIzOjU3KzAzOjAwIiBkYzpmb3JtYXQ9ImltYWdlL3BuZyIgcGhvdG9zaG9wOkNvbG9yTW9kZT0iMyIgcGhvdG9zaG9wOklDQ1Byb2ZpbGU9InNSR0IgSUVDNjE5NjYtMi4xIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjdmMmY4YjI3LWJhNDMtNTU0MC1iN2U5LWVhYzM2ZWUwMTAyOCIgeG1wTU06RG9jdW1lbnRJRD0iYWRvYmU6ZG9jaWQ6cGhvdG9zaG9wOmM0YjEzZGEwLTFiOGQtOWI0MS1iMDcyLTNlYzMxZDZjN2U5YiIgeG1wTU06T3JpZ2luYWxEb2N1bWVudElEPSJ4bXAuZGlkOjYzMGM1M2Q0LTAwNzEtZWU0Yi05YjUyLTA5MTNmN2UwZjRjOCI+IDx4bXBNTTpIaXN0b3J5PiA8cmRmOlNlcT4gPHJkZjpsaSBzdEV2dDphY3Rpb249ImNyZWF0ZWQiIHN0RXZ0Omluc3RhbmNlSUQ9InhtcC5paWQ6NjMwYzUzZDQtMDA3MS1lZTRiLTliNTItMDkxM2Y3ZTBmNGM4IiBzdEV2dDp3aGVuPSIyMDI0LTA4LTE4VDE3OjM0OjEwKzAzOjAwIiBzdEV2dDpzb2Z0d2FyZUFnZW50PSJBZG9iZSBQaG90b3Nob3AgMjUuOSAoV2luZG93cykiLz4gPHJkZjpsaSBzdEV2dDphY3Rpb249InNhdmVkIiBzdEV2dDppbnN0YW5jZUlEPSJ4bXAuaWlkOmVkMWEwMGI1LWQ4M2EtZTA0NS1iNTU0LThmYjA5YWE1MjRjNiIgc3RFdnQ6d2hlbj0iMjAyNC0xMS0wM1QxNzoyOTowNSswMjowMCIgc3RFdnQ6c29mdHdhcmVBZ2VudD0iQWRvYmUgUGhvdG9zaG9wIDI1LjkgKFdpbmRvd3MpIiBzdEV2dDpjaGFuZ2VkPSIvIi8+IDxyZGY6bGkgc3RFdnQ6YWN0aW9uPSJzYXZlZCIgc3RFdnQ6aW5zdGFuY2VJRD0ieG1wLmlpZDo3ZjJmOGIyNy1iYTQzLTU1NDAtYjdlOS1lYWMzNmVlMDEwMjgiIHN0RXZ0OndoZW49IjIwMjUtMTAtMDZUMjE6MjM6NTcrMDM6MDAiIHN0RXZ0OnNvZnR3YXJlQWdlbnQ9IkFkb2JlIFBob3Rvc2hvcCAyNS45IChXaW5kb3dzKSIgc3RFdnQ6Y2hhbmdlZD0iLyIvPiA8L3JkZjpTZXE+IDwveG1wTU06SGlzdG9yeT4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz4dWp7f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" alt="ULTERA"></a>
+    <ul class="header-nav">
+      <li><a href="#bounce">Bounce</a></li>
+      <li><a href="#materials">Матеріали</a></li>
+      <li><a href="#advantages">Переваги</a></li>
+      <li><a href="#order">Замовити</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <a href="#order" class="header-cta">Купити · 3790 ₴</a>
+    <button class="burger" id="burger" aria-label="Меню" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#bounce" onclick="closeMenu()">Bounce технологія</a>
+  <a href="#materials" onclick="closeMenu()">Матеріали</a>
+  <a href="#advantages" onclick="closeMenu()">Переваги</a>
+  <a href="#order" onclick="closeMenu()">Замовити</a>
+  <a href="#faq" onclick="closeMenu()">FAQ</a>
+</div>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-badge"><span class="dot"></span>Нова генерація · Весна 2026</div>
+    <h1 class="hero-model">HUNK3</h1>
+    <div class="hero-line"></div>
+    <div class="hero-tagline">Стрибок у майбутнє</div>
+    <h2 class="hero-title">Підошва, яка повертає <em>енергію</em> кожного кроку.</h2>
+    <p class="hero-sub">Третя генерація флагмана ULTERA з революційною технологією амортизації <strong style="color:var(--accent)">Bounce</strong>. Легше, мʼякше, пружніше — ще довговічніше.</p>
+
+    <div class="hero-photo-wrap" id="heroPhotoWrap">
+      <img src="https://static.tildacdn.com/stor6164-3161-4431-a339-333731373864/36364413.png" alt="HUNK3 allBlack" data-color="allBlack" class="active">
+      <img src="https://static.tildacdn.com/stor6565-3864-4836-a433-353636376432/83729055.jpg" alt="HUNK3 Wine" data-color="Wine">
+      <img src="https://static.tildacdn.com/stor3333-3137-4461-a165-393531366130/62232281.jpg" alt="HUNK3 Asphalt" data-color="Asphalt">
+      <img src="https://static.tildacdn.com/stor6265-3532-4263-b730-343731613066/43b40c2a94e79b6ecba41a12c453f5f8.jpg" alt="HUNK3 Brauni" data-color="Brauni">
+      <img src="https://static.tildacdn.com/stor6666-3739-4466-b665-383635646432/c338d13a62d2bc1a02782ebf9fbb0fbe.jpg" alt="HUNK3 White" data-color="White">
+      <img src="https://static.tildacdn.com/stor3235-6236-4363-a634-393066376339/d2e9f6ee162c4edb26ddb6ad1af3291c.jpg" alt="HUNK3 Brauni White" data-color="BrauniWhite">
+      <div class="hero-photo-label">Колір · <strong id="heroColorName">All Black</strong></div>
+    </div>
+
+    <div class="color-picker" id="heroColorPicker">
+      <button class="color-swatch active" data-color="allBlack" style="background:#0a0a0a" aria-label="All Black"><span class="cname">All Black</span></button>
+      <button class="color-swatch" data-color="Wine" style="background:#5b1422" aria-label="Wine"><span class="cname">Wine</span></button>
+      <button class="color-swatch" data-color="Asphalt" style="background:#4a4d52" aria-label="Asphalt"><span class="cname">Asphalt</span></button>
+      <button class="color-swatch" data-color="Brauni" style="background:#6b4428" aria-label="Brauni"><span class="cname">Brauni</span></button>
+      <button class="color-swatch" data-color="White" style="background:#f2f2f0" aria-label="White"><span class="cname">White</span></button>
+      <button class="color-swatch" data-color="BrauniWhite" style="background:linear-gradient(135deg,#6b4428 50%,#f2f2f0 50%)" aria-label="Brauni White"><span class="cname">Brauni/White</span></button>
+    </div>
+
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="v">+32%</div><div class="l">Амортизація</div></div>
+      <div class="hero-stat"><div class="v">-18%</div><div class="l">Вага</div></div>
+      <div class="hero-stat"><div class="v">6</div><div class="l">Кольорів</div></div>
+      <div class="hero-stat"><div class="v">1 рік</div><div class="l">Гарантія</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BOUNCE (MAIN FEATURE) ============ -->
+<section class="section bounce-sec" id="bounce">
+  <div class="container">
+    <div class="section-header center">
+      <div class="section-label">Головна фіча</div>
+      <h2 class="section-title">Технологія <em>Bounce</em><br>— амортизація нового покоління</h2>
+      <p class="section-sub">Ми переробили підошву з нуля. Нова формула EVA з реактивними зонами повертає до <strong style="color:var(--accent)">32% енергії</strong> назад у кожен крок. Ти рухаєшся далі — з меншими зусиллями.</p>
+    </div>
+
+    <div class="bounce-visual">
+      <div class="bounce-caption">BOUNCE<span class="tech">· reactive EVA v3</span></div>
+      <div class="bounce-ball">
+        <div class="sneaker">B</div>
+        <div class="bounce-ring"></div>
+        <div class="bounce-ring r2"></div>
+      </div>
+    </div>
+
+    <div class="bounce-grid">
+      <div class="bounce-card">
+        <div class="num">32<sup>%</sup></div>
+        <div class="lbl">Повернення енергії</div>
+        <div class="desc">Пружна структура підошви віддає імпульс назад у крок — менше втоми на дальніх дистанціях.</div>
+      </div>
+      <div class="bounce-card">
+        <div class="num">-18<sup>%</sup></div>
+        <div class="lbl">Легше за Hunk2</div>
+        <div class="desc">Нова формула EVA та оптимізована геометрія роблять пару майже невагомою.</div>
+      </div>
+      <div class="bounce-card">
+        <div class="num">24<sup>мм</sup></div>
+        <div class="lbl">Товщина підошви</div>
+        <div class="desc">Оптимальна висота для комфорту у місті та м'якої посадки стопи без «гойдання».</div>
+      </div>
+    </div>
+
+    <div class="energy-strip"></div>
+  </div>
+</section>
+
+<!-- ============ SPECS / MATERIALS ============ -->
+<section class="section" id="materials">
+  <div class="container">
+    <div class="section-header center">
+      <div class="section-label">Матеріали</div>
+      <h2 class="section-title">Преміум з першого дотику.</h2>
+      <p class="section-sub">Кожна пара зшита з італійської шкіри Nappa, дихаючої сітки та вологостійкої Cordura. Без компромісів.</p>
+    </div>
+
+    <div class="spec-row">
+      <div class="spec-img">
+        <span class="chip">NAPPA · Italy</span>
+        <img src="https://static.tildacdn.com/stor6164-3161-4431-a339-333731373864/36364413.png" alt="Натуральна шкіра Nappa">
+      </div>
+      <div class="spec-text">
+        <h3>Італійська шкіра Nappa</h3>
+        <p>Мʼяка, еластична, благородно старіє. Чим більше носиш — тим краща посадка. Шкіра приймає форму твоєї стопи за 2–3 тижні.</p>
+        <ul class="spec-features">
+          <li>Вирощено та оброблено в Італії</li>
+          <li>Стійкість до вологи та подряпин</li>
+          <li>Натуральне старіння — пара виглядає дорожче з часом</li>
+          <li>Легкий догляд: звичайний віск для шкіри</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="spec-row reverse">
+      <div class="spec-img">
+        <span class="chip">Cordura · 1000D</span>
+        <img src="https://static.tildacdn.com/stor3333-3137-4461-a165-393531366130/62232281.jpg" alt="Cordura 1000D">
+      </div>
+      <div class="spec-text">
+        <h3>Cordura 1000D та дихаюча сітка</h3>
+        <p>Дві версії під погоду — обирай під сезон. Cordura тримає воду назовні, сітка тримає температуру знизу навіть у спеку.</p>
+        <ul class="spec-features">
+          <li><strong style="color:var(--accent)">Весняна версія:</strong> вологостійка Cordura 1000D — до +18°C</li>
+          <li><strong style="color:var(--accent)">Літня версія:</strong> дихаюча сітка — від +12°C</li>
+          <li>Стопа не пітніє навіть при +30°C</li>
+          <li>Cordura в 3× міцніша за звичайний нейлон</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="spec-row">
+      <div class="spec-img">
+        <span class="chip">EVA · Bounce</span>
+        <img src="https://static.tildacdn.com/stor6565-3864-4836-a433-353636376432/83729055.jpg" alt="EVA підошва">
+      </div>
+      <div class="spec-text">
+        <h3>Підошва EVA з Bounce-зонами</h3>
+        <p>Серце моделі — переосмислена підошва з реактивними зонами. Легше, м'якше, амортизує краще за попередників.</p>
+        <ul class="spec-features">
+          <li>Bounce-зони у пʼятці та передній частині</li>
+          <li>Рефлективні шнурки — видно у темряві</li>
+          <li>Устілка з боковою підтримкою зводу стопи</li>
+          <li>Протектор для асфальту та легкого бездорожжя</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ADVANTAGES ============ -->
+<section class="section" id="advantages">
+  <div class="container">
+    <div class="section-header center">
+      <div class="section-label">Чому HUNK3</div>
+      <h2 class="section-title">4 причини, які<br>відчуваєш з першого кроку</h2>
+    </div>
+    <div class="advantages-grid">
+      <div class="adv-card">
+        <div class="adv-icon">B</div>
+        <h3>Bounce-амортизація</h3>
+        <p>Повернення енергії 32%. Рухаєшся далі, стомлюєшся менше.</p>
+      </div>
+      <div class="adv-card">
+        <div class="adv-icon">★</div>
+        <h3>Італійська Nappa</h3>
+        <p>Шкіра, яка роками тримає форму і стає лише кращою.</p>
+      </div>
+      <div class="adv-card">
+        <div class="adv-icon">✶</div>
+        <h3>Ручна робота</h3>
+        <p>Кожна пара зшита в Харкові майстрами з 10+ роками досвіду.</p>
+      </div>
+      <div class="adv-card">
+        <div class="adv-icon">✓</div>
+        <h3>Гарантія 1 рік</h3>
+        <p>Впевнені у якості — міняємо або повертаємо без зайвих питань.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ORDER ============ -->
+<section class="section order-sec" id="order">
+  <div class="container">
+    <div class="section-header center">
+      <div class="section-label">Замовлення</div>
+      <h2 class="section-title">Обери свій <em>HUNK3</em></h2>
+      <p class="section-sub">Виготовлення 4–10 днів. Доставка Новою Поштою по всій Україні. Безкоштовний обмін розміру.</p>
+    </div>
+
+    <div class="product-card">
+      <div class="pc-gallery">
+        <div class="pc-main-img">
+          <img id="pcMainImg" src="https://static.tildacdn.com/stor6164-3161-4431-a339-333731373864/36364413.png" alt="HUNK3 All Black">
+        </div>
+        <div class="pc-thumbs" id="pcThumbs"></div>
+      </div>
+      <div class="pc-info">
+        <div class="pc-brand">ULTERA</div>
+        <div class="pc-title">HUNK3 — <span id="pcColorName">All Black</span></div>
+        <p class="pc-desc">Третя генерація флагмана. Підошва Bounce з реактивною амортизацією, шкіра Nappa, дихаюча сітка. Ручна робота в Харкові, гарантія 1 рік.</p>
+
+        <div class="pc-price">
+          <span class="cur" id="pcPrice">3 790 ₴</span>
+          <span class="was" id="pcWas">4 190 ₴</span>
+          <span class="save" id="pcSave">−10%</span>
+        </div>
+
+        <div class="pc-section">
+          <div class="pc-section-lbl">Колір · <span id="pcColorLbl">All Black</span></div>
+          <div class="pc-colors" id="pcColors"></div>
+        </div>
+
+        <div class="pc-section">
+          <div class="pc-section-lbl">Розмір (EU / см)</div>
+          <div class="pc-sizes" id="pcSizes"></div>
+        </div>
+
+        <button class="btn-primary" onclick="addToCart()">
+          <span>В кошик</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+        <button class="btn-secondary" onclick="toast('Додано в обране ♥')">♡ В обране</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COMPARISON ============ -->
+<section class="section" id="comparison">
+  <div class="container">
+    <div class="section-header center">
+      <div class="section-label">Порівняння</div>
+      <h2 class="section-title">HUNK3 <em>vs</em> масмаркет</h2>
+    </div>
+    <div class="cmp">
+      <div class="cmp-row head">
+        <div>Параметр</div>
+        <div class="cell">ULTERA HUNK3</div>
+        <div class="cell">Масмаркет</div>
+      </div>
+      <div class="cmp-row">
+        <div class="lbl">Амортизація</div>
+        <div class="cell u">Bounce · 32% повернення</div>
+        <div class="cell m">Стандартна EVA</div>
+      </div>
+      <div class="cmp-row">
+        <div class="lbl">Матеріал верху</div>
+        <div class="cell u">Nappa Italy + Cordura</div>
+        <div class="cell m">Еко-шкіра, сітка</div>
+      </div>
+      <div class="cmp-row">
+        <div class="lbl">Виробництво</div>
+        <div class="cell u">Харків, ручна робота</div>
+        <div class="cell m">Масовий конвеєр</div>
+      </div>
+      <div class="cmp-row">
+        <div class="lbl">Гарантія</div>
+        <div class="cell u">1 рік</div>
+        <div class="cell m">14–30 днів</div>
+      </div>
+      <div class="cmp-row">
+        <div class="lbl">Обмін розміру</div>
+        <div class="cell u">Безкоштовно</div>
+        <div class="cell m">За твій рахунок</div>
+      </div>
+      <div class="cmp-row">
+        <div class="lbl">Ресурс пари</div>
+        <div class="cell u">2–4 роки</div>
+        <div class="cell m">6–12 місяців</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ KHARKIV ============ -->
+<section class="section kharkiv-sec">
+  <div class="container">
+    <div class="kharkiv-wrap">
+      <div>
+        <div class="kharkiv-flag"></div>
+        <div class="section-label">Наша історія</div>
+        <h2>Зроблено в <em style="color:var(--accent);font-style:normal;font-weight:800">Харкові</em>.</h2>
+        <p>ULTERA — український бренд, який робить взуття, яке сам носить щодня. Ми починали з одного флагмана Hunk — і за 3 роки виготовили понад 1000 пар, які служать своїм власникам по 2–4 роки.</p>
+        <p>HUNK3 — це все, чого ми навчилися. Нова підошва, нова геометрія, новий рівень комфорту. Але все та ж ручна робота, той самий контроль кожного шва, той самий Харків.</p>
+        <a href="#order" class="btn-primary" style="max-width:280px;margin-top:14px">Замовити свою пару</a>
+      </div>
+      <div class="kharkiv-img">
+        <img src="https://static.tildacdn.com/stor6666-3739-4466-b665-383635646432/c338d13a62d2bc1a02782ebf9fbb0fbe.jpg" alt="ULTERA Kharkiv">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="section" id="faq">
+  <div class="container">
+    <div class="section-header center">
+      <div class="section-label">Часті питання</div>
+      <h2 class="section-title">FAQ</h2>
+    </div>
+    <div class="faq-list" id="faqList"></div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="container">
+    <div class="foot">
+      <div>
+        <div class="big">ULTERA</div>
+        <p>Кросівки ручної роботи з Харкова. Створюємо взуття, яке служить роками.</p>
+      </div>
+      <div>
+        <h4>Модель</h4>
+        <a href="#bounce">Bounce технологія</a>
+        <a href="#materials">Матеріали</a>
+        <a href="#advantages">Переваги</a>
+        <a href="#order">Замовити</a>
+      </div>
+      <div>
+        <h4>Магазин</h4>
+        <a href="https://ultera.in.ua/" target="_blank" rel="noopener">Головний магазин</a>
+        <a href="https://ultera-shape-landing.vercel.app/" target="_blank" rel="noopener">SHAPE тапочки</a>
+        <a href="#">Доставка</a>
+        <a href="#">Обмін та повернення</a>
+      </div>
+      <div>
+        <h4>Контакти</h4>
+        <a href="tel:+380">+38 (0xx) xxx-xx-xx</a>
+        <a href="mailto:hello@ultera.in.ua">hello@ultera.in.ua</a>
+        <a href="#">Instagram</a>
+        <a href="#">Telegram</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div>© 2026 ULTERA. Всі права захищені.</div>
+      <div>Зроблено з ♥ у Харкові</div>
+    </div>
+  </div>
+</footer>
+
+<button class="sticky-cta" id="stickyCta" onclick="document.getElementById('order').scrollIntoView({behavior:'smooth'})">
+  Замовити HUNK3 · 3790 ₴ →
+</button>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ---------- DATA ----------
+const COLORS = [
+  {id:'allBlack',    name:'All Black',    swatch:'#0a0a0a',    photo:'https://static.tildacdn.com/stor6164-3161-4431-a339-333731373864/36364413.png',                            price:3790, was:4190},
+  {id:'Wine',        name:'Wine',         swatch:'#5b1422',    photo:'https://static.tildacdn.com/stor6565-3864-4836-a433-353636376432/83729055.jpg',                            price:3990, was:null},
+  {id:'Asphalt',     name:'Asphalt',      swatch:'#4a4d52',    photo:'https://static.tildacdn.com/stor3333-3137-4461-a165-393531366130/62232281.jpg',                            price:3990, was:null},
+  {id:'Brauni',      name:'Brauni',       swatch:'#6b4428',    photo:'https://static.tildacdn.com/stor6265-3532-4263-b730-343731613066/43b40c2a94e79b6ecba41a12c453f5f8.jpg', price:3990, was:null},
+  {id:'White',       name:'White',        swatch:'#f2f2f0',    photo:'https://static.tildacdn.com/stor6666-3739-4466-b665-383635646432/c338d13a62d2bc1a02782ebf9fbb0fbe.jpg', price:3990, was:null},
+  {id:'BrauniWhite', name:'Brauni/White', swatch:'linear-gradient(135deg,#6b4428 50%,#f2f2f0 50%)', photo:'https://static.tildacdn.com/stor3235-6236-4363-a634-393066376339/d2e9f6ee162c4edb26ddb6ad1af3291c.jpg', price:3990, was:null},
+];
+
+const SIZES = [
+  {eu:40, cm:'26',   stock:3},
+  {eu:41, cm:'27',   stock:4},
+  {eu:42, cm:'28',   stock:2},
+  {eu:43, cm:'28.5', stock:5},
+  {eu:44, cm:'29',   stock:2},
+  {eu:45, cm:'30',   stock:0},
+];
+
+const FAQS = [
+  {q:'Що таке Bounce і чим вона відрізняється від звичайної EVA?',
+   a:'Bounce — це наша власна формула EVA з реактивними зонами в п\u0027ятці та носку. Вона повертає до 32% енергії кожного кроку назад — ти менше втомлюєшся на довгих дистанціях і відчуваєш «пружність» з першого кроку.'},
+  {q:'Скільки служить пара HUNK3?',
+   a:'Перші пари Hunk ми робили 3 роки тому — вони досі в лаві у багатьох клієнтів. HUNK3 зроблений з тих самих матеріалів плюс новою підошвою — ресурс 2–4 роки щоденного носіння.'},
+  {q:'Як обрати розмір?',
+   a:'Розміри повномірні. Виміряй довжину стопи від великого пальця до п\u0027ятки і підбери за нашою сіткою 40=26см, 41=27см і т.д. Якщо між двома — бери більший. Безкоштовний обмін розміру протягом 14 днів.'},
+  {q:'Весна чи літо — яку версію обрати?',
+   a:'Весняна версія з Cordura тримає воду до +18°C — для міжсезоння та дощу. Літня з дихаючою сіткою — від +12°C і вище, без пітніння стопи навіть у +30°C.'},
+  {q:'Скільки чекати замовлення?',
+   a:'Виготовлення пари — 4–10 робочих днів. Далі Нова Пошта по Україні 1–3 дні. Відстеження відправимо у SMS/Telegram.'},
+  {q:'Чи є гарантія?',
+   a:'Так, 1 рік на шви, матеріали та підошву. Якщо щось не так — міняємо або повертаємо гроші без зайвих питань.'},
+  {q:'Що робити, якщо розмір не підійшов?',
+   a:'Безкоштовний обмін або повернення протягом 14 днів. Пара має бути в оригінальному стані та коробці.'},
+];
+
+// ---------- HERO COLOR PICKER ----------
+let currentColor = COLORS[0];
+const heroImgs = document.querySelectorAll('#heroPhotoWrap img');
+const heroColorName = document.getElementById('heroColorName');
+
+document.querySelectorAll('#heroColorPicker .color-swatch').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const id = btn.dataset.color;
+    document.querySelectorAll('#heroColorPicker .color-swatch').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    heroImgs.forEach(img=>img.classList.toggle('active', img.dataset.color===id));
+    const c = COLORS.find(x=>x.id===id);
+    heroColorName.textContent = c.name;
+    // also sync product card
+    selectColor(id);
+  });
+});
+
+// ---------- PRODUCT CARD ----------
+function renderPCColors(){
+  const el = document.getElementById('pcColors');
+  el.innerHTML = COLORS.map(c=>`
+    <button class="color-swatch ${c.id===currentColor.id?'active':''}" data-color="${c.id}" style="background:${c.swatch}" aria-label="${c.name}"></button>
+  `).join('');
+  el.querySelectorAll('.color-swatch').forEach(b=>b.addEventListener('click',()=>selectColor(b.dataset.color)));
+}
+function renderPCThumbs(){
+  const el = document.getElementById('pcThumbs');
+  el.innerHTML = COLORS.map(c=>`
+    <div class="pc-thumb ${c.id===currentColor.id?'active':''}" data-color="${c.id}"><img src="${c.photo}" alt="${c.name}"></div>
+  `).join('');
+  el.querySelectorAll('.pc-thumb').forEach(t=>t.addEventListener('click',()=>selectColor(t.dataset.color)));
+}
+function renderPCSizes(){
+  const el = document.getElementById('pcSizes');
+  el.innerHTML = SIZES.map((s,i)=>`
+    <button class="pc-size ${i===2?'selected':''} ${s.stock<1?'out':''}" ${s.stock<1?'disabled':''} data-size="${s.eu}">
+      ${s.eu}<div style="font-size:10px;color:var(--text-muted);margin-top:2px;letter-spacing:0;text-transform:none">${s.cm}см</div>
+    </button>
+  `).join('');
+  el.querySelectorAll('.pc-size:not(.out)').forEach(b=>b.addEventListener('click',()=>{
+    el.querySelectorAll('.pc-size').forEach(x=>x.classList.remove('selected'));
+    b.classList.add('selected');
+  }));
+}
+function selectColor(id){
+  currentColor = COLORS.find(c=>c.id===id) || COLORS[0];
+  document.getElementById('pcMainImg').src = currentColor.photo;
+  document.getElementById('pcColorName').textContent = currentColor.name;
+  document.getElementById('pcColorLbl').textContent = currentColor.name;
+  document.getElementById('pcPrice').textContent = currentColor.price.toLocaleString('uk-UA')+' ₴';
+  const was = document.getElementById('pcWas');
+  const save = document.getElementById('pcSave');
+  if(currentColor.was){
+    was.style.display='';save.style.display='';
+    was.textContent = currentColor.was.toLocaleString('uk-UA')+' ₴';
+    const pct = Math.round(100-(currentColor.price/currentColor.was)*100);
+    save.textContent = '−'+pct+'%';
+  } else { was.style.display='none';save.style.display='none'; }
+  // re-render swatches + thumbs with active
+  document.querySelectorAll('#pcColors .color-swatch').forEach(b=>b.classList.toggle('active', b.dataset.color===id));
+  document.querySelectorAll('#pcThumbs .pc-thumb').forEach(t=>t.classList.toggle('active', t.dataset.color===id));
+  // sync hero
+  document.querySelectorAll('#heroPhotoWrap img').forEach(img=>img.classList.toggle('active', img.dataset.color===id));
+  document.querySelectorAll('#heroColorPicker .color-swatch').forEach(b=>b.classList.toggle('active', b.dataset.color===id));
+  const c = COLORS.find(x=>x.id===id);
+  if(c) document.getElementById('heroColorName').textContent = c.name;
+}
+
+// ---------- FAQ ----------
+function renderFAQ(){
+  const el = document.getElementById('faqList');
+  el.innerHTML = FAQS.map(f=>`
+    <div class="faq-item">
+      <button class="faq-q">${f.q}<span class="plus">+</span></button>
+      <div class="faq-a"><div class="faq-a-inner">${f.a}</div></div>
+    </div>
+  `).join('');
+  el.querySelectorAll('.faq-q').forEach(q=>q.addEventListener('click',()=>{
+    q.parentElement.classList.toggle('open');
+  }));
+}
+
+// ---------- CART / TOAST ----------
+function addToCart(){
+  const sel = document.querySelector('.pc-size.selected');
+  if(!sel){ toast('Оберіть розмір'); return; }
+  toast(`HUNK3 ${currentColor.name} · EU ${sel.dataset.size} — додано в кошик`);
+}
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._to);
+  t._to = setTimeout(()=>t.classList.remove('show'), 2400);
+}
+
+// ---------- HEADER SCROLL + STICKY ----------
+const header = document.getElementById('header');
+const sticky = document.getElementById('stickyCta');
+let lastY = 0;
+window.addEventListener('scroll',()=>{
+  const y = window.scrollY;
+  header.classList.toggle('scrolled', y>20);
+  sticky.classList.toggle('show', y>600 && y<document.body.scrollHeight-1000);
+  lastY = y;
+});
+
+// ---------- MOBILE MENU ----------
+function toggleMenu(){
+  document.getElementById('burger').classList.toggle('active');
+  document.getElementById('mobileMenu').classList.toggle('show');
+}
+function closeMenu(){
+  document.getElementById('burger').classList.remove('active');
+  document.getElementById('mobileMenu').classList.remove('show');
+}
+
+// ---------- INIT ----------
+renderPCColors();
+renderPCThumbs();
+renderPCSizes();
+renderFAQ();
+</script>
+</body>
+</html>
