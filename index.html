@@ -934,37 +934,64 @@ footer{background:var(--ink);color:#a5a5a1;padding:70px 0 30px;border-top:1px so
   display:flex;align-items:flex-end;justify-content:space-between;gap:18px;flex-wrap:wrap;
 }
 .ace-bottom-panel{
-  background:rgba(10,10,10,.32);
-  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
-  border:1px solid rgba(255,255,255,.07);border-radius:4px;
-  padding:12px 16px 14px;max-width:520px;
-  display:flex;flex-direction:column;gap:10px;
+  background:
+    linear-gradient(135deg, rgba(10,10,10,.82) 0%, rgba(20,20,22,.5) 55%, rgba(173,210,125,.09) 100%);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:22px;
+  padding:18px 22px 18px;max-width:560px;
+  display:flex;flex-direction:column;gap:14px;
+  box-shadow:0 24px 60px -24px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.06);
+  position:relative;overflow:hidden;
 }
-.ace-benefits{
-  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 18px;
-  margin:0;padding:0;list-style:none;
+.ace-bottom-panel::before{
+  content:"";position:absolute;inset:-1px;border-radius:inherit;pointer-events:none;
+  background:radial-gradient(60% 80% at 100% 0%, rgba(173,210,125,.18), transparent 60%);
+  mix-blend-mode:screen;opacity:.9;
 }
-.ace-benefits li{
-  display:flex;align-items:center;gap:8px;
-  font-size:12px;color:rgba(255,255,255,.9);letter-spacing:-.005em;line-height:1.25;
-}
-.ace-benefits li .ace-check{
-  width:14px;height:14px;border-radius:50%;background:var(--mint);color:#0a0a0a;
-  display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;
-  font-size:9px;font-weight:800;
-}
-.ace-benefits li.em{
-  color:#fff;font-weight:700;grid-column:1/-1;font-size:12.5px;
-  padding-bottom:5px;border-bottom:1px dashed rgba(255,255,255,.12);margin-bottom:2px;
-}
-.ace-benefits li.em .ace-check{background:var(--pink)}
 
-.ace-cta-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-top:2px}
+/* chips row (inline benefits) */
+.ace-chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.ace-chip{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:5px 11px 5px 9px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.11);
+  border-radius:999px;
+  font-family:var(--font-mono);font-size:10.5px;letter-spacing:.02em;
+  color:rgba(255,255,255,.9);white-space:nowrap;
+}
+.ace-chip .ace-dot-m{
+  width:6px;height:6px;border-radius:50%;background:var(--mint);
+  box-shadow:0 0 0 3px rgba(173,210,125,.16);
+  flex-shrink:0;
+}
+
+/* hook (title + sub) */
+.ace-hook{position:relative;z-index:1}
+.ace-hook-title{
+  font-size:22px;font-weight:800;line-height:1.08;color:#fff;letter-spacing:-.015em;
+}
+.ace-hook-sub{
+  font-size:12.5px;color:rgba(255,255,255,.72);line-height:1.45;
+  margin-top:6px;max-width:440px;
+}
+
+.ace-cta-row{
+  display:flex;align-items:center;gap:18px;flex-wrap:wrap;
+  position:relative;z-index:1;margin-top:2px;
+}
 .ace-cta{
   display:inline-flex;align-items:center;gap:12px;
-  padding:10px 10px 10px 20px;border-radius:999px;
-  background:var(--mint);color:#0a0a0a;font-weight:700;font-size:14px;letter-spacing:-.01em;
+  padding:4px 4px 4px 22px;border-radius:999px;
+  background:var(--mint);color:#0a0a0a;font-weight:700;font-size:13px;
+  letter-spacing:.06em;text-transform:uppercase;
   transition:all .25s cubic-bezier(.2,.8,.2,1);white-space:nowrap;text-decoration:none;
+  box-shadow:
+    0 10px 24px -10px rgba(173,210,125,.6),
+    inset 0 1px 0 rgba(255,255,255,.5),
+    inset 0 -1px 0 rgba(0,0,0,.08);
+  position:relative;
 }
 
 .ace-dots{
@@ -976,13 +1003,41 @@ footer{background:var(--ink);color:#a5a5a1;padding:70px 0 30px;border-top:1px so
 }
 .ace-dot:hover{background:rgba(255,255,255,.55)}
 .ace-dot.active{background:var(--mint);width:40px}
-.ace-cta:hover{transform:translateY(-2px)}
+.ace-cta:hover{transform:translateY(-2px);box-shadow:0 14px 30px -10px rgba(173,210,125,.7),inset 0 1px 0 rgba(255,255,255,.5),inset 0 -1px 0 rgba(0,0,0,.08)}
 .ace-cta .ace-cta-arrow{
-  width:28px;height:28px;border-radius:50%;background:#0a0a0a;color:#fff;
+  width:32px;height:32px;border-radius:50%;
+  /* "утоплена" в зелений фон — темний колодязь з inset тінями */
+  background:
+    radial-gradient(circle at 50% 28%, #1d1d1d 0%, #050505 72%);
+  color:#fff;
   display:flex;align-items:center;justify-content:center;transition:transform .3s;
+  box-shadow:
+    inset 0 3px 4px rgba(0,0,0,.9),
+    inset 0 -1px 2px rgba(255,255,255,.08),
+    0 0 0 1px rgba(0,0,0,.3);
 }
 .ace-cta:hover .ace-cta-arrow{transform:rotate(-45deg)}
-.ace-cta .ace-cta-arrow svg{width:13px;height:13px;stroke:#fff;stroke-width:2;fill:none}
+.ace-cta .ace-cta-arrow svg{width:13px;height:13px;stroke:#fff;stroke-width:2.2;fill:none;filter:drop-shadow(0 1px 1px rgba(0,0,0,.6))}
+
+/* social proof — avatar stack + counter */
+.ace-proof{display:flex;align-items:center;gap:10px}
+.ace-avatars{display:flex;align-items:center}
+.ace-av{
+  width:28px;height:28px;border-radius:50%;
+  border:2px solid rgba(15,15,15,.9);
+  margin-left:-9px;flex-shrink:0;
+  background-size:cover;background-position:center;
+}
+.ace-av:first-child{margin-left:0}
+.ace-av:nth-child(1){background:radial-gradient(circle at 35% 30%, #ffb58c, #c2552a 65%, #6b2910)}
+.ace-av:nth-child(2){background:radial-gradient(circle at 35% 30%, #cfe6a8, #6d9c51 60%, #2f4a22)}
+.ace-av:nth-child(3){background:radial-gradient(circle at 35% 30%, #b8d5ea, #4a7ea1 60%, #24425a)}
+.ace-proof-text{display:flex;flex-direction:column;line-height:1.1}
+.ace-proof-text b{font-size:14px;font-weight:800;color:#fff;letter-spacing:-.005em}
+.ace-proof-text span{
+  font-family:var(--font-mono);font-size:10px;
+  color:rgba(255,255,255,.6);letter-spacing:.04em;margin-top:2px;
+}
 
 @media (max-width:760px){
   .hero-ace{min-height:100svh;margin:-64px 0 18px}
@@ -991,8 +1046,14 @@ footer{background:var(--ink);color:#a5a5a1;padding:70px 0 30px;border-top:1px so
   .ace-hud-ticks{display:none}
   .ace-top-content{padding:72px 18px 10px}
   .ace-bottom-content{padding:10px 14px 14px;margin-top:auto;flex-direction:column;align-items:stretch;gap:10px}
-  .ace-bottom-panel{padding:12px 14px 14px;max-width:none}
-  .ace-benefits{grid-template-columns:1fr;gap:5px 0}
+  .ace-bottom-panel{padding:14px 16px 16px;max-width:none;border-radius:18px;gap:12px}
+  .ace-chips{gap:5px}
+  .ace-chip{font-size:10px;padding:4px 9px 4px 8px}
+  .ace-hook-title{font-size:19px}
+  .ace-hook-sub{font-size:12px}
+  .ace-cta-row{gap:14px}
+  .ace-proof-text b{font-size:13px}
+  .ace-proof-text span{font-size:9.5px}
   .ace-headline{font-size:clamp(30px,8.6vw,44px);max-width:none}
   .ace-dots{justify-content:center;padding-bottom:2px}
 }
@@ -1108,17 +1169,32 @@ footer{background:var(--ink);color:#a5a5a1;padding:70px 0 30px;border-top:1px so
 
   <div class="ace-bottom-content">
     <div class="ace-bottom-panel">
-      <ul class="ace-benefits">
-        <li class="em"><span class="ace-check">₴</span>Оплата при отриманні</li>
-        <li><span class="ace-check">✓</span>Безкоштовний обмін розміру</li>
-        <li><span class="ace-check">✓</span>Гарантія 1 рік</li>
-        <li><span class="ace-check">✓</span>Повернення без питань</li>
-      </ul>
+      <div class="ace-chips">
+        <span class="ace-chip"><i class="ace-dot-m"></i>Оплата при отриманні</span>
+        <span class="ace-chip"><i class="ace-dot-m"></i>Безкоштовний обмін</span>
+        <span class="ace-chip"><i class="ace-dot-m"></i>Гарантія 1 рік</span>
+        <span class="ace-chip"><i class="ace-dot-m"></i>Повернення без питань</span>
+      </div>
+      <div class="ace-hook">
+        <div class="ace-hook-title">Знайди свою пару.</div>
+        <div class="ace-hook-sub">Преміум матеріали, ручна робота в Харкові з 2019. Доставка по всій Україні.</div>
+      </div>
       <div class="ace-cta-row">
         <a class="ace-cta" href="#collection">
           Обрати пару
           <span class="ace-cta-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         </a>
+        <div class="ace-proof">
+          <div class="ace-avatars" aria-hidden="true">
+            <span class="ace-av"></span>
+            <span class="ace-av"></span>
+            <span class="ace-av"></span>
+          </div>
+          <div class="ace-proof-text">
+            <b>4 800+</b>
+            <span>задоволених власників</span>
+          </div>
+        </div>
       </div>
     </div>
     <div class="ace-dots" id="aceDots" aria-label="Слайди головної">
@@ -2113,74 +2189,4 @@ document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModal(); });
 
   function go(step){
     STATE.step = step;
-    document.querySelectorAll('.sh-progress .step').forEach(s=>{
-      const n = +s.dataset.step;
-      s.classList.remove('active','done');
-      if(n<step) s.classList.add('done');
-      if(n===step) s.classList.add('active');
-    });
-    const f1 = document.getElementById('shFill');
-    const f2 = document.getElementById('shFill2');
-    if(f1) f1.style.width = step>=2 ? '100%' : '0%';
-    if(f2) f2.style.width = step>=3 ? '100%' : '0%';
-    document.querySelectorAll('.sh-panel').forEach(p=>p.classList.remove('active'));
-    const tgt = step<=3 ? document.getElementById('shStep'+step) : document.getElementById('shResult');
-    if(tgt) tgt.classList.add('active');
-  }
-
-  window.shNext = function(from){ if(from===1) go(2); };
-
-  function showResult(){
-    let fromIns = 42;
-    for(const m of INSOLE_MAP){ if(STATE.insole>=m.min && STATE.insole<=m.max){ fromIns=m.size; break; } }
-    if(STATE.insole>30.0) fromIns=46;
-    if(STATE.insole<22.5) fromIns=36;
-    const diff = Math.abs(fromIns - (STATE.usualSize || fromIns));
-    let final = fromIns, conf = 99;
-    if(STATE.usualSize){
-      if(diff===0) conf=99;
-      else if(diff===1) conf=95;
-      else { final = Math.round((fromIns+STATE.usualSize)/2); conf=86; }
-    }
-    let note = 'Повномірна колодка ULTERA. Bounce EVA додає мʼякості.';
-    if(STATE.width==='narrow') note = 'Вузька стопа — шкіра Nappa швидко прийме форму.';
-    else if(STATE.width==='wide') note = 'Широка стопа — візьми на пів-розміру більше для максимуму комфорту.';
-    document.getElementById('shResultSize').textContent = final;
-    document.getElementById('shResultCta').textContent = final;
-    document.getElementById('shResultConf').textContent = '✓ ' + conf + '% match';
-    document.getElementById('shResultNote').textContent = note;
-    go(4);
-  }
-
-  window.shApply = function(){
-    const sz = document.getElementById('shResultSize').textContent;
-    document.querySelectorAll('#m_sizes .size-btn').forEach(b=>{
-      if(b.dataset.sz === sz && !b.classList.contains('out')){
-        document.querySelectorAll('#m_sizes .size-btn').forEach(x=>x.classList.remove('selected'));
-        b.classList.add('selected');
-        b.scrollIntoView({behavior:'smooth',block:'nearest'});
-      }
-    });
-    toggleSizeHelper();
-    toast('Розмір ' + sz + ' обрано');
-  };
-
-  window.shReset = function(){
-    STATE.usualSize = 0;
-    STATE.width = 'normal';
-    document.querySelectorAll('#shSizes button,.sh-width button').forEach(b=>b.classList.remove('selected'));
-    const nm = document.querySelector('.sh-width button[onclick*="normal"]');
-    if(nm) nm.classList.add('selected');
-    go(1);
-  };
-
-  window.toggleSizeHelper = function(){
-    const box = document.getElementById('shBox');
-    const btn = document.getElementById('shOpen');
-    if(!box) return;
-    const open = box.classList.toggle('open');
-    if(open){
-      initDrum();
-      renderSizes();
-      box.scrollIntoView({behavior:'smooth',block:'nearest'});
-      if(btn) btn.innerHTML = '<svg viewBox="0 0 24 24" fill="non
+    document.querySelectorAll('.sh-progress .step').f
