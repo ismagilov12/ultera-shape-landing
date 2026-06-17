@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "destination": "https://ultera.in.ua/?p=shape-black,340180708714",
+      "permanent": true
+    }
+  ]
+}
